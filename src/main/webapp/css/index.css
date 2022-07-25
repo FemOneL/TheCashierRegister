@@ -1,5 +1,5 @@
 .welcome_div{
-    height: 100px;
+    height: 50px;
     width: 500px;
     margin: 0 auto;
     text-align: center;
@@ -7,18 +7,67 @@
 
 .welcome{
     font-size: 40px;
-    margin-top: 50px;
 }
 
 .role_div{
     text-align: center;
+    margin-top: 50px;
     height: 60px;
     width: 150px;
     margin: 0 auto;
-    border: 3px solid #25b7d3;
-
+    color: goldenrod;
 }
 
 .role{
     margin-top: 15px;
+}
+
+.language_div{
+    display: flex;
+    height: 50px;
+    width: 100%;
+    justify-content: right;
+}
+
+.lang{
+    margin-top: 20px;
+    margin-right: 10px;
+    width: 50px;
+    height: 50px;
+    border: 2px solid #25b7d3;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.lang:hover{
+    border-color: #1792aa;
+    background-color: #25b7d3;
+}
+
+.flag_img{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-left: -7px;
+    margin-top: -2px;
+}
+
+.upper_div{
+    display: flex;
+}
+
+.logout_btn{
+    border: 2px solid red;
+    background-color: white;
+    margin-top: 15px;
+    margin-left: 10px;
+    border-radius: 30px;
+    width: 150px;
+    height: 50px;
+    transition: all 0.5s;
+}
+
+.logout_btn:hover{
+    background-color: red;
+    color: white;
 }

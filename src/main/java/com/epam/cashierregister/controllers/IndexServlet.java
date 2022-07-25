@@ -18,13 +18,8 @@ public class IndexServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Properties prop = new Properties();
         try (InputStream input = getClass().getClassLoader().getResourceAsStream(language + ".properties")) {
-            if (input == null) {
-                System.out.println("Sorry, unable to find ");
-                return;
-            }
             prop.load(input);
         }catch (IOException exception){
-            System.out.println("error");
             throw new IOException();
         }
         request.setAttribute("language", prop);
