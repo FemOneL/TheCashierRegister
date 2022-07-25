@@ -1,0 +1,24 @@
+.welcome_div{
+    height: 100px;
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.welcome{
+    font-size: 40px;
+    margin-top: 50px;
+}
+
+.role_div{
+    text-align: center;
+    height: 60px;
+    width: 150px;
+    margin: 0 auto;
+    border: 3px solid #25b7d3;
+
+}
+
+.role{
+    margin-top: 15px;
+}
