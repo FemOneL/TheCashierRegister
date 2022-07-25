@@ -1,10 +1,10 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="TheCashRegister:war exploded">
-    <output-path>$PROJECT_DIR$/target/TheCashRegister-1.0-SNAPSHOT</output-path>
+  <artifact type="exploded-war" name="cashierRegister:war exploded">
+    <output-path>$PROJECT_DIR$/target/cashierRegister-1.0-SNAPSHOT</output-path>
     <properties id="maven-jee-properties">
       <options>
         <exploded>true</exploded>
-        <module>TheCashRegister</module>
+        <module>cashierRegister</module>
         <packaging>war</packaging>
         <unpackNestedArchives>false</unpackNestedArchives>
       </options>
@@ -12,13 +12,13 @@
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="TheCashRegister" />
+          <element id="module-output" name="cashierRegister" />
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/TheCashRegister-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/cashierRegister-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="TheCashRegister/web/Web" />
+      <element id="javaee-facet-resources" facet="cashierRegister/web/Web" />
     </root>
   </artifact>
 </component>
