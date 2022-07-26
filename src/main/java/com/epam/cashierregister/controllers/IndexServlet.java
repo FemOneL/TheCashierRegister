@@ -12,17 +12,11 @@ public class IndexServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        language = "ENGlanguage";
+        language = "eng";
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        Properties prop = new Properties();
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream(language + ".properties")) {
-            prop.load(input);
-        }catch (IOException exception){
-            throw new IOException();
-        }
-        request.setAttribute("language", prop);
+        request.setAttribute("loc", language);
         request.getRequestDispatcher("WEB-INF/view/index.jsp").forward(request, response);
     }
 
@@ -30,9 +24,9 @@ public class IndexServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String lang = req.getParameter("lang");
         if (lang.equals("ua")) {
-            language = "UAlanguage";
+            language = "ua";
         } else {
-            language = "ENGlanguage";
+            language = "eng";
         }
         doGet(req, resp);
     }

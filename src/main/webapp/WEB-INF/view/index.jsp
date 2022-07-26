@@ -1,6 +1,5 @@
 <%@ page import="java.util.Properties" %>
-<%@ page import="java.util.Arrays" %>
-<%@ page import="java.nio.charset.StandardCharsets" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -12,7 +11,8 @@
     <style>
         <%@include file="../../css/index.css" %>
     </style>
-    <% Properties language = (Properties)request.getAttribute("language"); %>
+    <fmt:setLocale value="${loc}"/>
+    <fmt:setBundle basename="language"/>
 </head>
 <body>
 <header class="main_header">
@@ -20,15 +20,15 @@
         <img class="logo_img" src="https://i.ibb.co/5GhXHzQ/logo.png">
     </div>
     <div class="navigator">
-        <input class="navigate_btn" type="button" value="<%= language.getProperty("cabinet.btn.text") %>">
-        <input class="navigate_btn" type="button" value="<%= language.getProperty("checks.btn.text") %>">
-        <input class="navigate_btn" type="button" value="<%= language.getProperty("goods.btn.text") %>">
+        <input class="navigate_btn" type="button" value="<fmt:message key="cabinet.btn.text"/>">
+        <input class="navigate_btn" type="button" value="<fmt:message key="checks.btn.text"/>">
+        <input class="navigate_btn" type="button" value="<fmt:message key="goods.btn.text"/>">
     </div>
 </header>
 <main>
     <section class="user_info">
         <div class="upper_div">
-            <button class="logout_btn"><%= language.getProperty("log.out") %></button>
+            <button class="logout_btn"><fmt:message key="log.out"/></button>
             <div class="language_div">
                 <form method="post">
                     <button class="lang" type="submit" value="eng" name="lang"><img class="flag_img" src="https://i.ibb.co/GHbGb1s/eng-flag.png"></button>
@@ -37,10 +37,10 @@
             </div>
         </div>
         <div class="welcome_div">
-            <h1 class="welcome"><%= language.getProperty("welcome.text") %></h1>
+            <h1 class="welcome"><fmt:message key="welcome.text"/></h1>
         </div>
         <div class="role_div">
-            <h2 class="role"><%= language.getProperty("role.text") %></h2>
+            <h2 class="role"><fmt:message key="role.text"/></h2>
         </div>
     </section>
 </main>
