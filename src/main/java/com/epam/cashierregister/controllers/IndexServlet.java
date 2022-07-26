@@ -1,22 +1,23 @@
 package com.epam.cashierregister.controllers;
 
+import com.epam.cashierregister.model.Language;
+
 import java.io.*;
-import java.util.Properties;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
 @WebServlet(name = "indexServlet", value = "/")
 public class IndexServlet extends HttpServlet {
-    private static String language;
+    public static Language language;
 
     @Override
     public void init() throws ServletException {
-        language = "eng";
+        language = Language.eng;
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        request.setAttribute("loc", language);
+        request.setAttribute("loc", language.name());
         request.getRequestDispatcher("WEB-INF/view/index.jsp").forward(request, response);
     }
 
@@ -24,9 +25,9 @@ public class IndexServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String lang = req.getParameter("lang");
         if (lang.equals("ua")) {
-            language = "ua";
+            language = Language.ua;
         } else {
-            language = "eng";
+            language = Language.eng;
         }
         doGet(req, resp);
     }

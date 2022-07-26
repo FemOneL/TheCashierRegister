@@ -1,0 +1,69 @@
+.tittle_div{
+    margin: 0 auto;
+    width: auto;
+    height: 80px;
+    text-align: center;
+    font-size: 25px;
+}
+
+.error_div{
+    height: 40px;
+    color: red;
+    text-align: center;
+    font-size: 25px;
+}
+
+.auth_div{
+    margin: 0 auto;
+    width: 450px;
+    height: 340px;
+    border: 1px solid #e8fbff;
+    background-color: #e8fbff;
+    box-shadow: 0px 5px 5px #c0bebe;
+}
+
+.inner_div{
+    background-color: #25b7d3;
+    width: auto;
+    height: 90px;
+}
+
+.submit_btn{
+    border: 2px solid #e8fbff;
+    background-color: white;
+    border-radius: 30px;
+    margin-left: 160px;
+    margin-top: 15px;
+    width: 130px;
+    height: 50px;
+}
+
+.submit_btn:hover{
+    background-color: goldenrod;
+    color: white;
+}
+
+.login_div{
+    margin-top: 25px;
+    width: auto;
+    height: 80px;
+}
+
+.inp_label{
+    font-size: 20px;
+    margin-left: 55px;
+}
+
+.inputfield{
+    border-radius: 10px;
+    margin: 0 auto;
+    display: block;
+    width: 75%;
+    height: 30px;
+}
+
+.logo_center{
+    margin: 0 auto;
+    width: 95px;
+    height: 95px;
+}
