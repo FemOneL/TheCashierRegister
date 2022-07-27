@@ -13,7 +13,8 @@
     <style>
         <%@include file="../../css/index.css" %>
     </style>
-    <jsp:useBean id="loc" scope="request" type="java.lang.String"/>
+    <jsp:useBean id="loc" scope="session" type="java.lang.String"/>
+    <jsp:useBean id="login" scope="session" type="java.lang.String"/>
     <fmt:setLocale value="${loc}"/>
     <fmt:setBundle basename="language"/>
 </head>
@@ -31,7 +32,9 @@
 <main>
     <section class="user_info">
         <div class="upper_div">
-            <button class="logout_btn"><fmt:message key="indx.log.out"/></button>
+            <form method="post" action="/cashier/signin">
+                <button type="submit" class="logout_btn"><fmt:message key="indx.log.out"/></button>
+            </form>
             <div class="language_div">
                 <form method="post">
                     <button class="lang" type="submit" value="eng" name="lang"><img class="flag_img" src="https://i.ibb.co/GHbGb1s/eng-flag.png"></button>
@@ -40,7 +43,7 @@
             </div>
         </div>
         <div class="welcome_div">
-            <h1 class="welcome"><fmt:message key="indx.welcome.text"/></h1>
+            <h1 class="welcome"><fmt:message key="indx.welcome.text"/> ${login}</h1>
         </div>
         <div class="role_div">
             <h2 class="role"><fmt:message key="indx.role.text"/></h2>

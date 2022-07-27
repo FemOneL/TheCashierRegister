@@ -13,7 +13,7 @@
     <style>
         <%@include file="../../css/authorization.css" %>
     </style>
-    <jsp:useBean id="loc" scope="request" type="java.lang.String"/>
+    <jsp:useBean id="loc" scope="session" type="java.lang.String"/>
     <fmt:setLocale value="${loc}"/>
     <fmt:setBundle basename="language"/>
 </head>
@@ -29,12 +29,12 @@
             <h1><fmt:message key="auth.sign.in"/></h1>
         </div>
         <div class="auth_div">
-            <form>
+            <form method="post" action="/cashier/cabinet">
                 <div class="login_div">
-                    <label class="inp_label"><fmt:message key="auth.login"/><input class="inputfield" type="text"></label>
+                    <label class="inp_label"><fmt:message key="auth.login"/><input class="inputfield" name="login" type="text"></label>
                 </div>
                 <div class="login_div">
-                    <label class="inp_label"><fmt:message key="auth.password"/><input class="inputfield" type="password"></label>
+                    <label class="inp_label"><fmt:message key="auth.password"/><input class="inputfield" name="password" type="password"></label>
                 </div>
                 <div class="error_div">  </div>
                 <div class="inner_div">
