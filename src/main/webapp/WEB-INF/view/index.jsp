@@ -14,7 +14,7 @@
         <%@include file="../../css/index.css" %>
     </style>
     <jsp:useBean id="loc" scope="session" type="java.lang.String"/>
-    <jsp:useBean id="login" scope="session" type="java.lang.String"/>
+    <jsp:useBean id="employee" scope="session" type="com.epam.cashierregister.model.entities.employee.Employee"/>
     <fmt:setLocale value="${loc}"/>
     <fmt:setBundle basename="language"/>
 </head>
@@ -32,21 +32,22 @@
 <main>
     <section class="user_info">
         <div class="upper_div">
-            <form method="post" action="/cashier/signin">
+            <form method="get" action="/cashier/">
                 <button type="submit" class="logout_btn"><fmt:message key="indx.log.out"/></button>
             </form>
             <div class="language_div">
-                <form method="post">
+                <form method="post" action="cabinet">
                     <button class="lang" type="submit" value="eng" name="lang"><img class="flag_img" src="https://i.ibb.co/GHbGb1s/eng-flag.png"></button>
                     <button class="lang" type="submit" value="ua" name="lang"><img class="flag_img" src="https://i.ibb.co/cQwMrnF/ua-flag.png"></button>
                 </form>
             </div>
         </div>
         <div class="welcome_div">
-            <h1 class="welcome"><fmt:message key="indx.welcome.text"/> ${login}</h1>
+            <h1 class="welcome"><fmt:message key="indx.welcome.text"/> ${employee.firstname} ${employee.secondname}</h1>
         </div>
         <div class="role_div">
-            <h2 class="role"><fmt:message key="indx.role.text"/></h2>
+            <%--todo localize roles --%>
+            <h2 class="role">[${employee.role}]</h2>
         </div>
     </section>
 </main>
