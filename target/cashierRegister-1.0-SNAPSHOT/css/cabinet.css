@@ -1,0 +1,123 @@
+.welcome_div{
+    height: 50px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.welcome{
+    font-size: 40px;
+}
+
+.role_div{
+    text-align: center;
+    height: 60px;
+    width: 100%;
+    color: goldenrod;
+}
+
+.role{
+    margin-top: 15px;
+}
+
+.language_div{
+    display: flex;
+    height: 50px;
+    width: 100%;
+    justify-content: right;
+}
+
+.lang{
+    margin-top: 20px;
+    margin-right: 10px;
+    width: 50px;
+    height: 50px;
+    border: 2px solid #25b7d3;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.lang:hover{
+    border-color: #1792aa;
+    background-color: #25b7d3;
+}
+
+.flag_img{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-left: -7px;
+    margin-top: -2px;
+}
+
+.upper_div{
+    display: flex;
+}
+
+.logout_btn{
+    border: 2px solid red;
+    background-color: white;
+    margin-top: 15px;
+    margin-left: 10px;
+    border-radius: 30px;
+    width: 150px;
+    height: 50px;
+    font-size: 20px;
+    transition: all 0.5s;
+    font-family: 'Oswald', sans-serif;
+}
+
+.logout_btn:hover{
+    background-color: red;
+    color: white;
+}
+
+.task_section{
+    margin: 0 auto;
+    width: 70%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.task{
+    border: 3px solid #25b7d3;
+    width: 250px;
+    border-radius: 12px;
+    background-color: #e8fbff;
+    transition: all 0.5s;
+}
+
+.task:hover{
+    width: 270px;
+    background-color: #a4e4f1;
+}
+
+.todo{
+    height: 200px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.task_btn{
+    margin: 0 auto;
+    display: block;
+    border: 2px solid #25b7d3;
+    background-color: white;
+    border-radius: 30px;
+    width: 150px;
+    height: 50px;
+    font-size: 20px;
+    transition: all 0.5s;
+    font-family: 'Oswald', sans-serif;
+}
+
+.task_btn:hover{
+    background-color: #25b7d3;
+    color: white;
+}
+
+.task_btn_div{
+    height: 60px;;
+}

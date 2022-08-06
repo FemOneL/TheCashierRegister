@@ -1,8 +1,8 @@
 package com.epam.cashierregister.model.DAO;
 
-import com.epam.cashierregister.model.DAO.consts.AuthorizeConst;
-import com.epam.cashierregister.model.DAO.consts.EmployeeConst;
-import com.epam.cashierregister.model.DAO.consts.RolesConst;
+import com.epam.cashierregister.model.consts.AuthorizeConst;
+import com.epam.cashierregister.model.consts.EmployeeConst;
+import com.epam.cashierregister.model.consts.RolesConst;
 import com.epam.cashierregister.model.entities.employee.AuthorizeInfo;
 import com.epam.cashierregister.model.entities.employee.Employee;
 import com.epam.cashierregister.model.entities.employee.Role;

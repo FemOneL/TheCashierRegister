@@ -1,7 +1,18 @@
 package com.epam.cashierregister.model.entities.employee;
 
 public enum Role {
-    CASHIER,
-    SENIOR_CASHIER,
-    COMMODITY_EXPERT
+    CASHIER("cashier"),
+    SENIOR_CASHIER("seniorCashier"),
+    COMMODITY_EXPERT("commodityExpert");
+
+    private String roleForTranslate;
+
+    Role(String roleForTranslate) {
+        this.roleForTranslate = roleForTranslate;
+    }
+
+    public String getRoleForTranslate() {
+        return roleForTranslate;
+    }
+
 }

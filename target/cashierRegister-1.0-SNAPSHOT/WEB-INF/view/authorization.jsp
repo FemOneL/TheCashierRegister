@@ -21,6 +21,7 @@
 <body>
 <header class="main_header">
     <div class="logo_center">
+<%--        <img class="logo_img" alt="err" src="${pageContext.request.contextPath}/images/cat.jpg">--%>
         <img class="logo_img" src="https://i.ibb.co/5GhXHzQ/logo.png">
     </div>
 </header>
