@@ -39,6 +39,11 @@
     <section class="goods_section">
         <c:forEach var="good" items="${requestScope.goods}">
             <div class="goods_div">
+                <c:if test="${edit}">
+                    <form method="post" action="delete">
+                        <button class="delete_btn" name="delete" value="${good.id}" type="submit">X</button>
+                    </form>
+                </c:if>
                 <div class="id_div">${good.id}</div>
                 <div class="model_div">${good.model}</div>
                 <div class="category_div">${good.category.category}</div>
@@ -46,7 +51,7 @@
                 <div class="number_div">${good.numbers}
                     <c:if test="${edit}">
                         <form method="post" action="edit">
-                            <input class="edit_numb" name="numb" value="${good.numbers}" type="number">
+                            <input class="edit_numb" name="numb" value="${good.numbers}" type="number" min="1" max="999">
                             <button class="edit_submit" name="id" value="${good.id}" type="submit">OK</button>
                         </form>
                     </c:if>
@@ -59,10 +64,12 @@
         <div class="counter">${currentPage}</div>
         <div class="all_buttons">
             <div class="create_btns">
-                <button class="edit_btn">add</button>
+                <form action="addGoods">
+                    <button type="submit" class="edit_btn">add</button>
+                </form>
             </div>
             <div class="buttons">
-                <form method="post" action="/cashier/goods">
+                <form method="post" action="changePage">
                     <button class="button_dir" name="page" value="left" type="submit"><</button>
                     <button class="button_first" name="page" value="first" type="submit">1</button>
                     <button class="button_dir" name="page" value="right" type="submit">></button>

@@ -15,6 +15,20 @@
         <filter-name>ValidateData</filter-name>
         <url-pattern>/cabinet</url-pattern>
     </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>ModelFilter</filter-name>
+        <url-pattern>/AddNewGoods</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>SelectsFilter</filter-name>
+        <url-pattern>/AddNewGoods</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>UniqCheckFilter</filter-name>
+        <url-pattern>/AddNewGoods</url-pattern>
+    </filter-mapping>
+
     <resource-ref>
         <description>DB Connection</description>
         <res-ref-name>jdbc/cashRegister</res-ref-name>

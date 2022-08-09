@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="loc" scope="session" type="java.lang.String"/>
-<jsp:useBean id="employee" scope="session" type="com.epam.cashierregister.model.entities.employee.Employee"/>
+<jsp:useBean id="employee" scope="session" type="com.epam.cashierregister.services.entities.employee.Employee"/>
 <fmt:setLocale value="${loc}"/>
 <fmt:setBundle basename="language"/>
 <header class="main_header">

@@ -1,7 +1,7 @@
 package com.epam.cashierregister.controllers.filters;
 
-import com.epam.cashierregister.model.entities.employee.Employee;
-import com.epam.cashierregister.model.entities.employee.Role;
+import com.epam.cashierregister.services.entities.employee.Employee;
+import com.epam.cashierregister.services.entities.employee.Role;
 
 import javax.servlet.*;
 import javax.servlet.annotation.*;

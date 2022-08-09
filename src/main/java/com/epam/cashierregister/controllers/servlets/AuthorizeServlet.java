@@ -24,9 +24,6 @@ public class AuthorizeServlet extends HttpServlet {
         if (session.getAttribute("error") == null){
             session.setAttribute("error", " ");
         }
-        if (session.getAttribute("loc") == null){
-            session.setAttribute("loc", "eng");
-        }
         try {
             LOG.info("Forward to authorize page");
             req.getRequestDispatcher("WEB-INF/view/authorization.jsp").forward(req, resp);

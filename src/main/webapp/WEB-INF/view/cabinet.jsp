@@ -15,7 +15,7 @@
         <%@include file="../../css/cabinet.css" %>
     </style>
     <jsp:useBean id="loc" scope="session" type="java.lang.String"/>
-    <jsp:useBean id="employee" scope="session" type="com.epam.cashierregister.model.entities.employee.Employee"/>
+    <jsp:useBean id="employee" scope="session" type="com.epam.cashierregister.services.entities.employee.Employee"/>
     <fmt:setLocale value="${loc}"/>
     <fmt:setBundle basename="language"/>
 </head>
@@ -28,7 +28,7 @@
                 <button type="submit" class="logout_btn"><fmt:message key="cabinet.log.out"/></button>
             </form>
             <div class="language_div">
-                <form method="post" action="cabinet">
+                <form method="post" action="changeLang">
                     <button class="lang" type="submit" value="eng" name="lang"><img class="flag_img" alt="eng"
                                                                                     src="https://i.ibb.co/GHbGb1s/eng-flag.png">
                     </button>

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:useBean id="employee" scope="session" type="com.epam.cashierregister.model.entities.employee.Employee"/>
+<jsp:useBean id="employee" scope="session" type="com.epam.cashierregister.services.entities.employee.Employee"/>
 <jsp:useBean id="loc" scope="session" type="java.lang.String"/>
 <fmt:setLocale value="${loc}"/>
 <fmt:setBundle basename="language"/>
@@ -13,7 +13,7 @@
                 <p><fmt:message key="cabinet.add.goods.title"/></p>
             </div>
             <div class="task_btn_div">
-                <form>
+                <form action="addGoods">
                     <button class="task_btn" type="submit"><fmt:message key="cabinet.go.button"/></button>
                 </form>
             </div>
