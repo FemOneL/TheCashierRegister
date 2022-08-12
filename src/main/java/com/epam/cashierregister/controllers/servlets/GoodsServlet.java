@@ -3,6 +3,7 @@ package com.epam.cashierregister.controllers.servlets;
 import com.epam.cashierregister.services.DAO.GoodsDAO;
 import com.epam.cashierregister.services.entities.goods.Goods;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,10 +15,16 @@ import java.util.List;
 
 @WebServlet(name = "GoodsServlet", value = "/goods")
 public class GoodsServlet extends HttpServlet {
+    private GoodsDAO goodsDAO;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        goodsDAO = (GoodsDAO) config.getServletContext().getAttribute("GoodsDAO");
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        GoodsDAO goodsDAO = GoodsDAO.getInstance();
         List<Goods> goods;
         // check edit mode
         if (req.getParameter("edit") != null){

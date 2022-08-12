@@ -32,7 +32,7 @@ public class ValidateEmailFilter implements Filter {
                 chain.doFilter(request, response);
             } else {
                 session.setAttribute("error", "invalid login");
-                resp.sendRedirect("/cashier/");
+                resp.sendRedirect("authorize");
             }
         } else {
             chain.doFilter(request, response);

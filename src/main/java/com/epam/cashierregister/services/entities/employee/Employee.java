@@ -2,17 +2,31 @@ package com.epam.cashierregister.services.entities.employee;
 
 public class Employee {
     private int id;
+    private String photo;
     private String firstname;
     private String secondname;
     private Role role;
     private AuthorizeInfo authorize;
 
-    public Employee(int id, String firstname, String secondname, Role role, AuthorizeInfo authorize) {
+    public Employee(int id, String photo, String firstname, String secondname, Role role, AuthorizeInfo authorize) {
         this.id = id;
+        this.photo = photo;
         this.firstname = firstname;
         this.secondname = secondname;
         this.role = role;
         this.authorize = authorize;
+    }
+
+    public Employee() {
+
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public int getId() {

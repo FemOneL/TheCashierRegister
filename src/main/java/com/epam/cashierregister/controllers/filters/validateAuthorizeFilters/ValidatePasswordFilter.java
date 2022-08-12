@@ -33,7 +33,7 @@ public class ValidatePasswordFilter implements Filter {
                 chain.doFilter(request, response);
             } else {
                 session.setAttribute("error", "invalid password");
-                resp.sendRedirect("/cashier/");
+                resp.sendRedirect("authorize");
             }
         } else {
             chain.doFilter(request, response);

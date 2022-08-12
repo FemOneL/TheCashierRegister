@@ -3,17 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
     <filter-mapping>
         <filter-name>ValidateEmail</filter-name>
-        <url-pattern>/cabinet</url-pattern>
+        <url-pattern>/dosignin</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>ValidatePassword</filter-name>
-        <url-pattern>/cabinet</url-pattern>
+        <url-pattern>/dosignin</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>ValidateData</filter-name>
-        <url-pattern>/cabinet</url-pattern>
+        <url-pattern>/dosignin</url-pattern>
     </filter-mapping>
 
     <filter-mapping>

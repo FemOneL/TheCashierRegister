@@ -1,6 +1,5 @@
 package com.epam.cashierregister.services.DAO;
 
-import com.epam.cashierregister.services.connection.PoolConnectionBuilder;
 import com.epam.cashierregister.services.consts.CategoryConst;
 import com.epam.cashierregister.services.consts.GoodsConst;
 import com.epam.cashierregister.services.consts.ProducerConst;
@@ -8,32 +7,46 @@ import com.epam.cashierregister.services.entities.goods.Category;
 import com.epam.cashierregister.services.entities.goods.Goods;
 import com.epam.cashierregister.services.entities.goods.Producer;
 
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GoodsDAO {
-    private static GoodsDAO instance;
-    private final PoolConnectionBuilder connectionBuilder;
+public class GoodsDAO extends DAO {
 
-    private GoodsDAO() {
-        connectionBuilder = new PoolConnectionBuilder();
+    public GoodsDAO() {
+        super();
     }
 
-    public static GoodsDAO getInstance() {
-        if (instance == null) {
-            instance = new GoodsDAO();
+
+    public Goods searchGood(String searchBy) {
+        Goods goods = null;
+        try (Connection connection = getConnection()) {
+            String search = "SELECT " + GoodsConst.GOODS_ID + ", " + GoodsConst.PHOTO + ", " + GoodsConst.MODEL + ", " + GoodsConst.NUMBERS + ", " + GoodsConst.COST +
+                    ", " + CategoryConst.CATEGORY + ", " + ProducerConst.NAME +
+                    " FROM " + GoodsConst.TABLE_NAME +
+                    " INNER JOIN " + CategoryConst.TABLE_NAME +
+                    " ON " + GoodsConst.TABLE_NAME + "." + GoodsConst.CATEGORY_ID + " = " + CategoryConst.TABLE_NAME + "." + CategoryConst.CATEGORY_ID +
+                    " INNER JOIN " + ProducerConst.TABLE_NAME +
+                    " ON " + GoodsConst.TABLE_NAME + "." + GoodsConst.PRODUCER_ID + " = " + ProducerConst.TABLE_NAME + "." + ProducerConst.PRODUCER_ID +
+                    " WHERE " +
+                    GoodsConst.MODEL + " = ? OR " + GoodsConst.GOODS_ID + " = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(search);
+            preparedStatement.setString(1, searchBy);
+            preparedStatement.setString(2, searchBy);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                goods = new Goods(resultSet.getInt(GoodsConst.GOODS_ID), resultSet.getString(GoodsConst.MODEL),
+                        resultSet.getString(GoodsConst.PHOTO), resultSet.getInt(GoodsConst.NUMBERS), resultSet.getBigDecimal(GoodsConst.COST),
+                        new Category(resultSet.getString(CategoryConst.CATEGORY)), new Producer(resultSet.getString(ProducerConst.NAME)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return instance;
+        return goods;
     }
 
-    private Connection getConnection() throws SQLException {
-        return connectionBuilder.getConnection();
-    }
-
-    public void deleteGoods(int goodsId){
-        try (Connection connection = getConnection()){
+    public void deleteGoods(int goodsId) {
+        try (Connection connection = getConnection()) {
             String delete = "DELETE FROM " + GoodsConst.TABLE_NAME + " WHERE " + GoodsConst.GOODS_ID + " = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(delete);
             preparedStatement.setInt(1, goodsId);
@@ -43,15 +56,15 @@ public class GoodsDAO {
         }
     }
 
-    public boolean checkModel(String model){
+    public boolean checkModel(String model) {
         boolean result = true;
-        try (Connection connection = getConnection()){
-            String selectModel = "SELECT " + GoodsConst.MODEL +" FROM " + GoodsConst.TABLE_NAME +
-            " WHERE " + GoodsConst.MODEL + " = ?";
+        try (Connection connection = getConnection()) {
+            String selectModel = "SELECT " + GoodsConst.MODEL + " FROM " + GoodsConst.TABLE_NAME +
+                    " WHERE " + GoodsConst.MODEL + " = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(selectModel);
             preparedStatement.setString(1, model);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 result = false;
             }
         } catch (SQLException e) {
@@ -60,7 +73,7 @@ public class GoodsDAO {
         return result;
     }
 
-    public boolean updateNumber(int id, int newNumber){
+    public boolean updateNumber(int id, int newNumber) {
         int result = 0;
         try (Connection connection = getConnection()) {
             String update = "UPDATE " + GoodsConst.TABLE_NAME +
@@ -76,20 +89,21 @@ public class GoodsDAO {
         return result > 0;
     }
 
-    public void addGoods(Goods goods){
+    public void addGoods(Goods goods) {
         try (Connection connection = getConnection()) {
             String insertGoods = "INSERT INTO " + GoodsConst.TABLE_NAME +
-                    " VALUES (default, ?, ?, ?, " +
-                    "(SELECT "+ CategoryConst.CATEGORY_ID +" FROM "+ CategoryConst.TABLE_NAME
-                    + " WHERE "+ CategoryConst.CATEGORY +" = ?), " +
-                    "(SELECT "+ ProducerConst.PRODUCER_ID + " FROM "+ ProducerConst.TABLE_NAME
-                    + " WHERE "+ ProducerConst.NAME +" = ?))";
+                    " VALUES (default, ?, ?, ?, ?, " +
+                    "(SELECT " + CategoryConst.CATEGORY_ID + " FROM " + CategoryConst.TABLE_NAME
+                    + " WHERE " + CategoryConst.CATEGORY + " = ?), " +
+                    "(SELECT " + ProducerConst.PRODUCER_ID + " FROM " + ProducerConst.TABLE_NAME
+                    + " WHERE " + ProducerConst.NAME + " = ?))";
             PreparedStatement preparedStatement = connection.prepareStatement(insertGoods);
             preparedStatement.setString(1, goods.getModel());
-            preparedStatement.setInt(2, goods.getNumbers());
-            preparedStatement.setBigDecimal(3, goods.getCost());
-            preparedStatement.setString(4, goods.getCategory().getCategory());
-            preparedStatement.setString(5, goods.getProducer().getName());
+            preparedStatement.setString(2, goods.getPhoto());
+            preparedStatement.setInt(3, goods.getNumbers());
+            preparedStatement.setBigDecimal(4, goods.getCost());
+            preparedStatement.setString(5, goods.getCategory().getCategory());
+            preparedStatement.setString(6, goods.getProducer().getName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -99,7 +113,7 @@ public class GoodsDAO {
     public List<Goods> getGoods(int page) {
         List<Goods> goods = new ArrayList<>();
         try (Connection connection = getConnection()) {
-            String selectGoods = "SELECT " + GoodsConst.GOODS_ID + ", " + GoodsConst.MODEL + ", " +
+            String selectGoods = "SELECT " + GoodsConst.GOODS_ID + ", " + GoodsConst.PHOTO + ", " + GoodsConst.MODEL + ", " +
                     CategoryConst.CATEGORY + ", " + ProducerConst.NAME + ", " + GoodsConst.NUMBERS + ", " + GoodsConst.COST +
                     " FROM " + GoodsConst.TABLE_NAME +
                     " INNER JOIN " + CategoryConst.TABLE_NAME + " ON " + GoodsConst.TABLE_NAME + "."
@@ -110,7 +124,7 @@ public class GoodsDAO {
             ResultSet resultSet = statement.executeQuery(selectGoods);
             while (resultSet.next()) {
                 goods.add(new Goods(resultSet.getInt(GoodsConst.GOODS_ID), resultSet.getString(GoodsConst.MODEL),
-                        resultSet.getInt(GoodsConst.NUMBERS), resultSet.getBigDecimal(GoodsConst.COST),
+                        resultSet.getString(GoodsConst.PHOTO), resultSet.getInt(GoodsConst.NUMBERS), resultSet.getBigDecimal(GoodsConst.COST),
                         new Category(resultSet.getString(CategoryConst.CATEGORY)), new Producer(resultSet.getString(ProducerConst.NAME))));
             }
         } catch (SQLException e) {

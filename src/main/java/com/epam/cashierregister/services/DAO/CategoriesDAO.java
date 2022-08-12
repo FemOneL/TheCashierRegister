@@ -1,6 +1,5 @@
 package com.epam.cashierregister.services.DAO;
 
-import com.epam.cashierregister.services.connection.PoolConnectionBuilder;
 import com.epam.cashierregister.services.consts.CategoryConst;
 import com.epam.cashierregister.services.entities.goods.Category;
 
@@ -8,26 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriesDAO {
-    private static CategoriesDAO instance;
-    private final PoolConnectionBuilder connectionBuilder;
+public class CategoriesDAO extends DAO {
 
-    private CategoriesDAO() {
-        connectionBuilder = new PoolConnectionBuilder();
-    }
-
-    public static CategoriesDAO getInstance(){
-        if (instance == null){
-            instance = new CategoriesDAO();
-        }
-        return instance;
-    }
-
-    private Connection getConnection() throws SQLException {
-        return connectionBuilder.getConnection();
-    }
-
-    public void addNewCategory(Category category){
+    public void addNewCategory(Category category) {
         try (Connection connection = getConnection()) {
             String insertCategory = "INSERT INTO " + CategoryConst.TABLE_NAME + " VALUES (default, ?)";
             PreparedStatement statement = connection.prepareStatement(insertCategory);
@@ -38,13 +20,13 @@ public class CategoriesDAO {
         }
     }
 
-    public List<Category> getCategoryList(){
+    public List<Category> getCategoryList() {
         List<Category> categories = new ArrayList<>();
         try (Connection connection = getConnection()) {
             String selectCategory = "SELECT " + CategoryConst.CATEGORY + " FROM " + CategoryConst.TABLE_NAME;
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(selectCategory);
-            while (rs.next()){
+            while (rs.next()) {
                 categories.add(new Category(rs.getString(CategoryConst.CATEGORY)));
             }
         } catch (SQLException e) {

@@ -1,0 +1,85 @@
+.title_div{
+    text-align: center;
+    font-size: 20px;
+    color: #25b7d3;
+}
+
+.main_form{
+    margin: 0 auto;
+    width: 500px;
+    height: 500px;
+    border-radius: 12px;
+    background-color: #e8fbff;
+    text-align: center;
+    border: 2px solid #25b7d3;
+}
+
+.cart_div{
+    width: 100%;
+    height: 250px;
+    background-color: white;
+}
+
+.search_div{
+    height: 50px;
+}
+
+.goods_head{
+    width: 500px;
+    height: 30px;
+    display: flex;
+    justify-content: space-around;
+    background-color: #25b7d3;
+}
+
+.goods{
+    width: 500px;
+    height: 50px;
+    display: flex;
+    justify-content: space-around;
+    background-color: #e8fbff;
+    border: 1px solid #25b7d3;
+}
+
+.total_cost{
+    height: 40px;
+}
+
+.buttons_div{
+    height: 50px;
+    width: 500px;
+}
+
+.error{
+    color: red;
+}
+
+.submit_btn{
+    margin: 0 auto;
+    border: 2px solid #25b7d3;
+    background-color: white;
+    border-radius: 30px;
+    width: 150px;
+    height: 50px;
+    font-size: 20px;
+    transition: all 0.5s;
+    font-family: 'Oswald', sans-serif;
+}
+
+
+.submit_btn:hover{
+    background-color: #25b7d3;
+    color: white;
+}
+
+
+.my_text{
+    border-radius: 12px;
+    border: 2px solid #25b7d3;
+    width: 110px;
+    height: 20px;
+}
+
+.number{
+    width: 45px;
+}

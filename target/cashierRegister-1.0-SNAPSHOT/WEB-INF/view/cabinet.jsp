@@ -24,21 +24,22 @@
 <main>
     <section class="user_info">
         <div class="upper_div">
-            <form method="get" action="/cashier/">
+            <form method="get" action="authorize">
                 <button type="submit" class="logout_btn"><fmt:message key="cabinet.log.out"/></button>
             </form>
             <div class="language_div">
                 <form method="post" action="changeLang">
                     <button class="lang" type="submit" value="eng" name="lang"><img class="flag_img" alt="eng"
-                                                                                    src="https://i.ibb.co/GHbGb1s/eng-flag.png">
+                                                                                    src="images/eng_flag.png">
                     </button>
                     <button class="lang" type="submit" value="ua" name="lang"><img class="flag_img" alt="ua"
-                                                                                   src="https://i.ibb.co/cQwMrnF/ua-flag.png">
+                                                                                   src="images/ua_flag.png">
                     </button>
                 </form>
             </div>
         </div>
         <div class="welcome_div">
+            <img src="images/goodsPhotos/${employee.photo}">
             <h1 class="welcome"><fmt:message key="cabinet.welcome.text"/> ${employee.firstname} ${employee.secondname}</h1>
         </div>
         <div class="role_div">

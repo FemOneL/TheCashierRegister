@@ -1,8 +1,5 @@
 package com.epam.cashierregister.controllers.filters;
 
-import com.epam.cashierregister.services.entities.employee.Employee;
-import com.epam.cashierregister.services.entities.employee.Role;
-
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "AuthorizeCheckFilter", value = "/goods")
-public class GoodsCheckFilter implements Filter {
+@WebFilter(filterName = "CabinetFilter", value = "/cabinet")
+public class CabinetFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
     }
 
@@ -23,16 +20,11 @@ public class GoodsCheckFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession();
-        if (session.getAttribute("employee") != null){
-            Employee emp = (Employee) session.getAttribute("employee");
-            if (emp.getRole().name().equals(Role.COMMODITY_EXPERT.name())) {
-                chain.doFilter(request, response);
-            } else {
-                resp.sendRedirect("/cashier/cabinet");
-            }
-        }else{
+        if (session.getAttribute("employee") == null){
             session.setAttribute("error", "you must authorize!");
-            resp.sendRedirect("/cashier/");
+            resp.sendRedirect("authorize");
+        }else {
+            chain.doFilter(request, response);
         }
     }
 }

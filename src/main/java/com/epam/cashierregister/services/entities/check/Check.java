@@ -5,7 +5,9 @@ import com.epam.cashierregister.services.entities.goods.Goods;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public class Check {
     private int id;
@@ -13,15 +15,20 @@ public class Check {
     private Date time;
     private BigDecimal totalCost;
     private boolean isClosed;
-    private List<Goods> goodsList;
+    private Set<Goods> goodsInWarehouseSet;
 
-    public Check(int id, Employee employee, Date time, BigDecimal totalCost, boolean isClosed, List<Goods> goodsList) {
+    public Check(int id, Employee employee, Date time, BigDecimal totalCost, boolean isClosed, Set<Goods> goodsInWarehouseList) {
         this.id = id;
         this.employee = employee;
         this.time = time;
         this.totalCost = totalCost;
         this.isClosed = isClosed;
-        this.goodsList = goodsList;
+        this.goodsInWarehouseSet = goodsInWarehouseList;
+    }
+
+    public Check() {
+        goodsInWarehouseSet = new HashSet<>();
+        this.totalCost = new BigDecimal(0);
     }
 
     public int getId() {
@@ -64,11 +71,24 @@ public class Check {
         isClosed = closed;
     }
 
-    public List<Goods> getGoodsList() {
-        return goodsList;
+    public Set<Goods> getGoodsSet() {
+        return goodsInWarehouseSet;
     }
 
-    public void setGoodsList(List<Goods> goodsList) {
-        this.goodsList = goodsList;
+    public void setGoodsSet(Set<Goods> goodsInWarehouseSet) {
+        this.goodsInWarehouseSet = goodsInWarehouseSet;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Check check = (Check) o;
+        return id == check.id && isClosed == check.isClosed && Objects.equals(employee, check.employee) && Objects.equals(time, check.time) && Objects.equals(totalCost, check.totalCost) && Objects.equals(goodsInWarehouseSet, check.goodsInWarehouseSet);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, employee, time, totalCost, isClosed, goodsInWarehouseSet);
     }
 }

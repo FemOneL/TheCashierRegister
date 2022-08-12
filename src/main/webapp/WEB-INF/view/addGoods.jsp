@@ -27,12 +27,13 @@
         <div class="title_div">
             <h1>Add goods</h1>
         </div>
-        <form method="post" action="AddNewGoods">
+        <form method="post" enctype="multipart/form-data" action="AddNewGoods">
             <div class="main_div">
                 <div class="top_div">
                     <div class="model_div">
                         <h2>model</h2>
                         <input name="model" class="my_text" type="text">
+                        <input type="file" name="photo"/>
                     </div>
                     <div class="category_and_producer_div">
                         <div class="select_div">

@@ -1,50 +1,32 @@
 package com.epam.cashierregister.controllers.servlets;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(name = "AuthorizeServlet", value = "/")
+@WebServlet(name = "AuthorizeServlet", value = "/authorize")
 public class AuthorizeServlet extends HttpServlet {
-    static Logger LOG = LogManager.getLogger(AuthorizeServlet.class);
-
 
     @Override
-    public void init() throws ServletException {
-        LOG.info("init {}", this.getServletName());
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        if (session.getAttribute("error") == null){
+        if (session.getAttribute("error") == null) {
             session.setAttribute("error", " ");
         }
-        try {
-            LOG.info("Forward to authorize page");
-            req.getRequestDispatcher("WEB-INF/view/authorization.jsp").forward(req, resp);
-        } catch (ServletException | IOException e) {
-            LOG.error("Wrong forward to authorize page");
-            e.printStackTrace();
-        }
+        req.getRequestDispatcher("WEB-INF/view/authorization.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         session.setAttribute("tempLogin", req.getParameter("login"));
         session.setAttribute("tempPassword", req.getParameter("password"));
-        try {
-            LOG.info("Redirecting in cabinet page");
-            resp.sendRedirect("cabinet");
-        } catch (IOException e) {
-            LOG.error("Wrong redirect to cabinet page");
-            e.printStackTrace();
-        }
+        resp.sendRedirect("dosignin");
+
     }
 
 }

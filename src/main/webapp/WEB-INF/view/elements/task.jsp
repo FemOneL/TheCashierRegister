@@ -26,7 +26,7 @@
                 <p><fmt:message key="cabinet.create.check.title"/></p>
             </div>
             <div class="task_btn_div">
-                <form>
+                <form action="createCheck">
                     <button class="task_btn" type="submit"><fmt:message key="cabinet.go.button"/></button>
                 </form>
             </div>

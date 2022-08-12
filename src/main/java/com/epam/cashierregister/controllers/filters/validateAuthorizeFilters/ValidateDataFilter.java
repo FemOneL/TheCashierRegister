@@ -12,7 +12,10 @@ import java.io.IOException;
 
 @WebFilter(filterName = "ValidateData")
 public class ValidateDataFilter implements Filter {
-    public void init(FilterConfig config) throws ServletException {
+    private EmployeeDAO employeeDAO;
+
+     public void init(FilterConfig config) throws ServletException {
+         employeeDAO = (EmployeeDAO) config.getServletContext().getAttribute("EmployeeDAO");
     }
 
     public void destroy() {
@@ -20,7 +23,6 @@ public class ValidateDataFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-        EmployeeDAO employeeDAO = EmployeeDAO.getInstance();
         Employee myEmployee;
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
@@ -33,7 +35,7 @@ public class ValidateDataFilter implements Filter {
                 chain.doFilter(request, response);
             } else {
                 session.setAttribute("error", "employee not found");
-                resp.sendRedirect("/cashier/");
+                resp.sendRedirect("authorize");
             }
         }else {
             chain.doFilter(request, response);

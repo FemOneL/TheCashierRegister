@@ -12,9 +12,10 @@ import java.io.IOException;
 
 @WebFilter(filterName = "UniqCheckFilter")
 public class UniqCheckFilter implements Filter {
+    private GoodsDAO goodsDAO;
 
     public void init(FilterConfig config) throws ServletException {
-
+        goodsDAO = (GoodsDAO) config.getServletContext().getAttribute("GoodsDAO");
     }
 
     public void destroy() {
@@ -25,7 +26,6 @@ public class UniqCheckFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
-        GoodsDAO goodsDAO = GoodsDAO.getInstance();
         if (goodsDAO.checkModel(req.getParameter("model"))) {
             chain.doFilter(request, response);
         }else {
