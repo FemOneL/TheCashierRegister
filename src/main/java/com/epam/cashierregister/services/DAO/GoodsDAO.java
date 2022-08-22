@@ -6,6 +6,7 @@ import com.epam.cashierregister.services.consts.ProducerConst;
 import com.epam.cashierregister.services.entities.goods.Category;
 import com.epam.cashierregister.services.entities.goods.Goods;
 import com.epam.cashierregister.services.entities.goods.Producer;
+import com.epam.cashierregister.services.exeptions.GoodsExistInCheckException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class GoodsDAO extends DAO {
     }
 
 
-    public Goods searchGood(String searchBy) {
+    public Goods searchGood(String searchBy, boolean getZeroNumber) {
         Goods goods = null;
         try (Connection connection = getConnection()) {
             String search = "SELECT " + GoodsConst.GOODS_ID + ", " + GoodsConst.PHOTO + ", " + GoodsConst.MODEL + ", " + GoodsConst.NUMBERS + ", " + GoodsConst.COST +
@@ -28,8 +29,8 @@ public class GoodsDAO extends DAO {
                     " ON " + GoodsConst.TABLE_NAME + "." + GoodsConst.CATEGORY_ID + " = " + CategoryConst.TABLE_NAME + "." + CategoryConst.CATEGORY_ID +
                     " INNER JOIN " + ProducerConst.TABLE_NAME +
                     " ON " + GoodsConst.TABLE_NAME + "." + GoodsConst.PRODUCER_ID + " = " + ProducerConst.TABLE_NAME + "." + ProducerConst.PRODUCER_ID +
-                    " WHERE " +
-                    GoodsConst.MODEL + " = ? OR " + GoodsConst.GOODS_ID + " = ?";
+                    " WHERE (" +
+                    GoodsConst.MODEL + " = ? OR " + GoodsConst.GOODS_ID + " = ?)" + (!getZeroNumber ? " AND " + GoodsConst.NUMBERS + " > 0" : "");
             PreparedStatement preparedStatement = connection.prepareStatement(search);
             preparedStatement.setString(1, searchBy);
             preparedStatement.setString(2, searchBy);
@@ -45,14 +46,17 @@ public class GoodsDAO extends DAO {
         return goods;
     }
 
-    public void deleteGoods(int goodsId) {
+    public void deleteGoods(int goodsId) throws GoodsExistInCheckException {
         try (Connection connection = getConnection()) {
+            String fkc = "SET FOREIGN_KEY_CHECKS=1";
             String delete = "DELETE FROM " + GoodsConst.TABLE_NAME + " WHERE " + GoodsConst.GOODS_ID + " = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(delete);
+            CallableStatement callableStatement = connection.prepareCall(fkc);
+            callableStatement.executeUpdate();
             preparedStatement.setInt(1, goodsId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new GoodsExistInCheckException();
         }
     }
 

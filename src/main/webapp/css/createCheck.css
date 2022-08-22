@@ -83,3 +83,7 @@
 .number{
     width: 45px;
 }
+
+.number_div{
+    display: flex;
+}

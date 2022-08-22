@@ -5,29 +5,29 @@ import com.epam.cashierregister.services.entities.goods.Goods;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
 public class Check {
     private int id;
     private Employee employee;
-    private Date time;
+    private Timestamp time;
     private BigDecimal totalCost;
-    private boolean isClosed;
     private Set<Goods> goodsInWarehouseSet;
 
-    public Check(int id, Employee employee, Date time, BigDecimal totalCost, boolean isClosed, Set<Goods> goodsInWarehouseList) {
+    public Check(int id, Employee employee, Timestamp time, BigDecimal totalCost) {
         this.id = id;
         this.employee = employee;
         this.time = time;
         this.totalCost = totalCost;
-        this.isClosed = isClosed;
-        this.goodsInWarehouseSet = goodsInWarehouseList;
+        goodsInWarehouseSet = new LinkedHashSet<>();
     }
 
     public Check() {
-        goodsInWarehouseSet = new HashSet<>();
+        goodsInWarehouseSet = new LinkedHashSet<>();
         this.totalCost = new BigDecimal(0);
     }
 
@@ -43,15 +43,15 @@ public class Check {
         return employee;
     }
 
-    public void setEmployee(Employee employee) {
+    public void setEmployee(Employee employeeId) {
         this.employee = employee;
     }
 
-    public Date getTime() {
+    public Timestamp getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(Timestamp time) {
         this.time = time;
     }
 
@@ -63,14 +63,6 @@ public class Check {
         this.totalCost = totalCost;
     }
 
-    public boolean isClosed() {
-        return isClosed;
-    }
-
-    public void setClosed(boolean closed) {
-        isClosed = closed;
-    }
-
     public Set<Goods> getGoodsSet() {
         return goodsInWarehouseSet;
     }
@@ -79,16 +71,4 @@ public class Check {
         this.goodsInWarehouseSet = goodsInWarehouseSet;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Check check = (Check) o;
-        return id == check.id && isClosed == check.isClosed && Objects.equals(employee, check.employee) && Objects.equals(time, check.time) && Objects.equals(totalCost, check.totalCost) && Objects.equals(goodsInWarehouseSet, check.goodsInWarehouseSet);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, employee, time, totalCost, isClosed, goodsInWarehouseSet);
-    }
 }

@@ -17,6 +17,7 @@
     <jsp:useBean id="goods" scope="request" type="java.util.List"/>
     <jsp:useBean id="currentPage" scope="session" type="java.lang.Integer"/>
     <jsp:useBean id="edit" scope="request" type="java.lang.Boolean"/>
+    <jsp:useBean id="error" scope="session" type="java.lang.String"/>
     <jsp:useBean id="loc" scope="session" type="java.lang.String"/>
     <fmt:setLocale value="${loc}"/>
     <fmt:setBundle basename="language"/>
@@ -40,12 +41,13 @@
         <c:forEach var="good" items="${requestScope.goods}">
             <div class="goods_div">
                 <c:if test="${edit}">
-                    <form method="post" action="delete">
+                    <form method="post" action="frontController">
+                        <input type="hidden" name="cmd" value="DeleteGoods">
                         <button class="delete_btn" name="delete" value="${good.id}" type="submit">X</button>
                     </form>
                 </c:if>
                 <div class="id_div">
-                        <img src="images/goodsPhotos/${good.photo}" width="30px" height="30px">
+                        <img src="images/${good.photo}" width="30px" height="30px">
                         ${good.id}
                 </div>
                 <div class="model_div">${good.model}</div>
@@ -53,7 +55,8 @@
                 <div class="producer_div">${good.producer.name}</div>
                 <div class="number_div">${good.numbers}
                     <c:if test="${edit}">
-                        <form method="post" action="edit">
+                        <form method="post" action="frontController">
+                            <input type="hidden" name="cmd" value="EditGoodsInWarehouse">
                             <input class="edit_numb" name="numb" value="${good.numbers}" type="number" min="1" max="999">
                             <button class="edit_submit" name="id" value="${good.id}" type="submit">OK</button>
                         </form>
@@ -72,7 +75,8 @@
                 </form>
             </div>
             <div class="buttons">
-                <form method="post" action="changePage">
+                <form method="post" action="frontController?pageName=goods&size=4">
+                    <input type="hidden" name="cmd" value="ChangePage">
                     <button class="button_dir" name="page" value="left" type="submit"><</button>
                     <button class="button_first" name="page" value="first" type="submit">1</button>
                     <button class="button_dir" name="page" value="right" type="submit">></button>
@@ -85,6 +89,7 @@
                         <button class="cancel_btn" name="edit" value="false">cancel</button>
                     </c:if>
                 </form>
+                <div class="error">${error}</div>
             </div>
         </div>
     </section>

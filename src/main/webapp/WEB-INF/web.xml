@@ -3,37 +3,4 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-
-    <filter-mapping>
-        <filter-name>ValidateEmail</filter-name>
-        <url-pattern>/dosignin</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>ValidatePassword</filter-name>
-        <url-pattern>/dosignin</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>ValidateData</filter-name>
-        <url-pattern>/dosignin</url-pattern>
-    </filter-mapping>
-
-    <filter-mapping>
-        <filter-name>ModelFilter</filter-name>
-        <url-pattern>/AddNewGoods</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>SelectsFilter</filter-name>
-        <url-pattern>/AddNewGoods</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>UniqCheckFilter</filter-name>
-        <url-pattern>/AddNewGoods</url-pattern>
-    </filter-mapping>
-
-    <resource-ref>
-        <description>DB Connection</description>
-        <res-ref-name>jdbc/cashRegister</res-ref-name>
-        <res-type>javax.sql.DataSource</res-type>
-        <res-auth>Container</res-auth>
-    </resource-ref>
 </web-app>

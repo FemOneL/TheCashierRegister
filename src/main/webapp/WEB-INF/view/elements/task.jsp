@@ -39,7 +39,7 @@
                 <p><fmt:message key="cabinet.cancel.check.title"/></p>
             </div>
             <div class="task_btn_div">
-                <form>
+                <form action="checks">
                     <button class="task_btn" type="submit"><fmt:message key="cabinet.go.button"/></button>
                 </form>
             </div>

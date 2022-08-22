@@ -27,13 +27,13 @@
         <div class="title_div">
             <h1>Add goods</h1>
         </div>
-        <form method="post" enctype="multipart/form-data" action="AddNewGoods">
+       <form method="post" action="frontController" enctype="multipart/form-data">
             <div class="main_div">
                 <div class="top_div">
                     <div class="model_div">
                         <h2>model</h2>
                         <input name="model" class="my_text" type="text">
-                        <input type="file" name="photo"/>
+                        <input type="file" name="photo">
                     </div>
                     <div class="category_and_producer_div">
                         <div class="select_div">
@@ -76,6 +76,7 @@
                     </div>
                 </div>
                 <div class="bottom_div">
+                    <input type="hidden" name="cmd" value="AddNewGoods">
                     <button type="submit" class="submit_btn">ADD</button>
                 </div>
             </div>

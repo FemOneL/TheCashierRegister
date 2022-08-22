@@ -28,7 +28,8 @@
                 <button type="submit" class="logout_btn"><fmt:message key="cabinet.log.out"/></button>
             </form>
             <div class="language_div">
-                <form method="post" action="changeLang">
+                <form method="post" action="frontController">
+                    <input type="hidden" name="cmd" value="ChangeLang">
                     <button class="lang" type="submit" value="eng" name="lang"><img class="flag_img" alt="eng"
                                                                                     src="images/eng_flag.png">
                     </button>
@@ -39,7 +40,7 @@
             </div>
         </div>
         <div class="welcome_div">
-            <img src="images/goodsPhotos/${employee.photo}">
+            <img class="emp_image" src="images/${employee.photo}">
             <h1 class="welcome"><fmt:message key="cabinet.welcome.text"/> ${employee.firstname} ${employee.secondname}</h1>
         </div>
         <div class="role_div">

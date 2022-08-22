@@ -1,5 +1,5 @@
 .welcome_div{
-    height: 50px;
+    height: 140px;
     width: 100%;
     margin: 0 auto;
     text-align: center;
@@ -7,6 +7,7 @@
 
 .welcome{
     font-size: 40px;
+    margin: 0;
 }
 
 .role_div{
@@ -120,4 +121,10 @@
 
 .task_btn_div{
     height: 60px;;
+}
+
+.emp_image{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
 }

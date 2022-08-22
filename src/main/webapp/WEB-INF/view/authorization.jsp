@@ -30,7 +30,7 @@
             <h1><fmt:message key="auth.sign.in"/></h1>
         </div>
         <div class="auth_div">
-            <form method="post">
+            <form method="post" action="frontController">
                 <div class="login_div">
                     <label class="inp_label"><fmt:message key="auth.login"/><input class="inputfield" name="login" type="text"></label>
                 </div>
@@ -39,6 +39,7 @@
                 </div>
                 <div class="error_div">${error}</div>
                 <div class="inner_div">
+                    <input type="hidden" name="cmd" value="SignIn">
                     <button class="submit_btn" type="submit"><fmt:message key="auth.submit"/></button>
                 </div>
             </form>

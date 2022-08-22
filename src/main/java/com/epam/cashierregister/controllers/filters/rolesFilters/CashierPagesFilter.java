@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "CashierPagesFilter", value = { "/createCheck" })
+@WebFilter(filterName = "CashierPagesFilter", value = { "/createCheck", "/pay" })
 public class CashierPagesFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
     }
