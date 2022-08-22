@@ -46,23 +46,25 @@
         </div>
         <div class="task">
             <div class="todo">
-                <h1 class="task_title"><fmt:message key="cabinet.cancel.goods"/></h1>
-                <p><fmt:message key="cabinet.cancel.goods.tittle"/></p>
+                <h1 class="task_title"><fmt:message key="cabinet.create.x.reports"/></h1>
+                <p><fmt:message key="cabinet.create.x.reports.title"/></p>
             </div>
             <div class="task_btn_div">
-                <form>
-                    <button class="task_btn" type="submit"><fmt:message key="cabinet.go.button"/></button>
+                <form method="post" action="frontController">
+                    <input type="hidden" name="cmd" value="GenerateReport">
+                    <button class="task_btn" name="type" value="X" type="submit"><fmt:message key="cabinet.go.button"/></button>
                 </form>
             </div>
         </div>
         <div class="task">
             <div class="todo">
-                <h1 class="task_title"><fmt:message key="cabinet.create.x.and.z.reports"/></h1>
-                <p><fmt:message key="cabinet.create.x.and.z.reports.title"/></p>
+                <h1 class="task_title"><fmt:message key="cabinet.create.z.reports"/></h1>
+                <p><fmt:message key="cabinet.create.z.reports.title"/></p>
             </div>
             <div class="task_btn_div">
-                <form>
-                    <button class="task_btn" type="submit"><fmt:message key="cabinet.go.button"/></button>
+                <form method="post" action="frontController">
+                    <input type="hidden" name="cmd" value="GenerateReport">
+                    <button class="task_btn" name="type" value="Z"  type="submit"><fmt:message key="cabinet.go.button"/></button>
                 </form>
             </div>
         </div>

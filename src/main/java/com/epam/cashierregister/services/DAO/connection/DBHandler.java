@@ -1,4 +1,4 @@
-package com.epam.cashierregister.services.connection;
+package com.epam.cashierregister.services.DAO.connection;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
@@ -6,7 +6,6 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.PropertyResourceBundle;
 
 public class DBHandler {
     private MysqlDataSource dataSource;

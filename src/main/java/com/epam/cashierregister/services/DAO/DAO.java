@@ -1,6 +1,6 @@
 package com.epam.cashierregister.services.DAO;
 
-import com.epam.cashierregister.services.connection.DBHandler;
+import com.epam.cashierregister.services.DAO.connection.DBHandler;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -6,6 +6,7 @@ import com.epam.cashierregister.services.entities.check.Check;
 import com.epam.cashierregister.services.entities.employee.Employee;
 import com.epam.cashierregister.services.entities.goods.Goods;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
+import com.epam.cashierregister.services.ReportService;
 import com.epam.cashierregister.services.validateServices.ValidateCloseCheck;
 import com.epam.cashierregister.services.validateServices.ValidateInputService;
 
@@ -17,10 +18,12 @@ import java.util.Set;
 
 public class CloseCheckCommand extends FrontCommand {
     private ChecksDAO checksDAO;
+    private ReportService report;
 
     @Override
     public void initContext() throws ServletException {
         checksDAO = (ChecksDAO) context.getAttribute("ChecksDAO");
+        report = (ReportService) context.getAttribute("report");
     }
 
     @Override
@@ -46,6 +49,7 @@ public class CloseCheckCommand extends FrontCommand {
         newCheck.setGoodsSet(goodsSet);
         newCheck.setId(checksDAO.createCheck(newCheck));
         checksDAO.addGoodsInCheck(goodsSet, newCheck);
+        report.addSelling(1, newCheck.getTotalCost());
         session.removeAttribute("activeCheck");
         session.removeAttribute("type");
         session.removeAttribute("remainder");
