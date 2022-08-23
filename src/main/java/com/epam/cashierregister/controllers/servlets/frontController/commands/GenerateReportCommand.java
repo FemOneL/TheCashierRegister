@@ -7,6 +7,7 @@ import com.epam.cashierregister.services.ReportService;
 import com.epam.cashierregister.services.entities.report.Report;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class GenerateReportCommand extends FrontCommand {
@@ -26,8 +27,10 @@ public class GenerateReportCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        HttpSession session = req.getSession();
         Report newReport = report.generateReport((Employee) req.getSession().getAttribute("employee"));
         if (req.getParameter("type").equals("Z")){
+            session.setAttribute("type", req.getParameter("type"));
             newReport.getSelling().setId(reportDAO.writeSelling(newReport.getSelling()  ));
             newReport.getReturned().setId(reportDAO.writeReturned(newReport.getReturned()));
             reportDAO.writeReport(newReport);

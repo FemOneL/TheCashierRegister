@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib version="2.0"
+        xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd">
+    <tlib-version>1.0</tlib-version>
+    <short-name>selectOptionTag</short-name>
+    <uri>https://epam.ua</uri>
+
+    <tag>
+        <name>SelectTag</name>
+        <tag-class>com.epam.cashierregister.services.tagService.SelectTag</tag-class>
+        <body-content>empty</body-content>
+
+        <attribute>
+            <name>role</name>
+            <required>true</required>
+            <fragment>true</fragment>
+        </attribute>
+        <attribute>
+            <name>emp</name>
+            <required>true</required>
+            <fragment>true</fragment>
+        </attribute>
+    </tag>
+</taglib>

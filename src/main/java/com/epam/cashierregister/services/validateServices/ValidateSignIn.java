@@ -1,10 +1,12 @@
 package com.epam.cashierregister.services.validateServices;
 
 import com.epam.cashierregister.services.DAO.EmployeeDAO;
+import com.epam.cashierregister.services.PasswordHashierService;
 import com.epam.cashierregister.services.entities.employee.Employee;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 public class ValidateSignIn extends ValidateInputService {
     private EmployeeDAO employeeDAO;
@@ -31,13 +33,17 @@ public class ValidateSignIn extends ValidateInputService {
     }
 
     private boolean checkData() {
-        Employee myEmployee = employeeDAO.getEmployee(request.getParameter("login"), request.getParameter("password"));
+        Employee myEmployee = employeeDAO.getEmployee(request.getParameter("login"));
         if (myEmployee == null) {
             return false;
         }
-        myEmployee.setAuthorize(null);
-        request.getSession().setAttribute("employee", myEmployee);
-        return true;
+        String password = PasswordHashierService.hash(request.getParameter("password"), myEmployee.getId());
+        if (myEmployee.getAuthorize().getPassword().equals(password)) {
+            myEmployee.getAuthorize().setPassword(null);
+            request.getSession().setAttribute("employee", myEmployee);
+            return true;
+        }
+        return false;
     }
 
     private boolean checkPassword() {

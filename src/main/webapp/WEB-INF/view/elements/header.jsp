@@ -23,5 +23,13 @@
                 <div class="navigate_btn"><fmt:message key="cabinet.goods.btn.text"/></div>
             </a>
         </c:if>
+        <c:if test="${employee.role == 'ADMIN'}">
+            <a href="employees">
+                <div class="navigate_btn">Employees</div>
+            </a>
+            <a href="#">
+                <div class="navigate_btn">Reports</div>
+            </a>
+        </c:if>
     </div>
 </header>
