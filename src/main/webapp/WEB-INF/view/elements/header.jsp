@@ -27,8 +27,11 @@
             <a href="employees">
                 <div class="navigate_btn">Employees</div>
             </a>
-            <a href="#">
+            <a href="reports">
                 <div class="navigate_btn">Reports</div>
+            </a>
+            <a href="signup">
+                <div class="navigate_btn">Register</div>
             </a>
         </c:if>
     </div>

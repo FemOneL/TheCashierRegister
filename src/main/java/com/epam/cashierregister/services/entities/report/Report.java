@@ -22,6 +22,13 @@ public class Report {
         this.profit = new BigDecimal(0);
     }
 
+    public Report(Timestamp date, Selling selling, Return returned, BigDecimal profit){
+        this.date = date;
+        this.selling = selling;
+        this.returned = returned;
+        this.profit = profit;
+    }
+
     public Report(Employee seniorCashier, Timestamp createdDate, Timestamp date, Selling selling, Return returned, BigDecimal profit) {
         this.seniorCashier = seniorCashier;
         this.createdDate = createdDate;

@@ -4,6 +4,7 @@ import com.epam.cashierregister.controllers.servlets.frontController.FrontComman
 import com.epam.cashierregister.services.DAO.CategoriesDAO;
 import com.epam.cashierregister.services.DAO.GoodsDAO;
 import com.epam.cashierregister.services.DAO.ProducersDAO;
+import com.epam.cashierregister.services.UploadPhotoService;
 import com.epam.cashierregister.services.entities.employee.Employee;
 import com.epam.cashierregister.services.entities.goods.Category;
 import com.epam.cashierregister.services.entities.goods.Goods;
@@ -48,7 +49,7 @@ public class AddNewGoodsCommand extends FrontCommand {
     public void process() throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
         //todo urf8
-        String photo = uploadPhoto(req);
+        String photo = UploadPhotoService.uploadPhoto(req, "goodsPhotos");
         if (photo == null) {
             photo = "nopicture.png";
         }
@@ -84,27 +85,6 @@ public class AddNewGoodsCommand extends FrontCommand {
         redirect("addGoods");
     }
 
-    private String uploadPhoto(HttpServletRequest req) throws ServletException, IOException {
-        String name = null;
-        Employee emp = (Employee) req.getSession().getAttribute("employee");
-        Collection<Part> parts = req.getParts();
-        String realPath = req.getServletContext().getRealPath("images/goodsPhotos");
-        for (Part part : parts) {
-            try {
-                if (part.getSubmittedFileName() != null) {
-                    LOG.info("try upload image in {}", realPath);
-                    part.write(realPath + "/" + emp.getId() + "_" + part.getSubmittedFileName());
-                    LOG.info("upload image {}", part.getSubmittedFileName());
-                    if (!part.getSubmittedFileName().equals("")) {
-                        name = emp.getId() + "_" + part.getSubmittedFileName();
-                    }
-                }
-            } catch (IOException e) {
-                LOG.error("Can not upload image {} ", part.getSubmittedFileName());
-                return null;
-            }
-        }
-        return name;
-    }
+
 
 }

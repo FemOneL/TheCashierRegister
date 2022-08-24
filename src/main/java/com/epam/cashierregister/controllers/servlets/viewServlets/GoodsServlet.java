@@ -26,6 +26,8 @@ public class GoodsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         List<Goods> goods;
+//        req.setAttribute("search", session.getAttribute("search"));
+//        session.removeAttribute("search");
         // check edit mode
         if (req.getParameter("edit") != null){
             req.setAttribute("edit", Boolean.valueOf(req.getParameter("edit")));
@@ -40,12 +42,12 @@ public class GoodsServlet extends HttpServlet {
             session.setAttribute("error", " ");
         }
         Integer currentPage = (Integer) session.getAttribute("page");
-        goods = goodsDAO.getGoods(currentPage);
+        goods = goodsDAO.getGoods(currentPage, (String) session.getAttribute("search"));
         if (goods.size() != 0) {
             req.setAttribute("goods", goods);
             session.setAttribute("currentPage", currentPage / 4 + 1);
         } else {
-            goods = goodsDAO.getGoods(0);
+            goods = goodsDAO.getGoods(0, (String) session.getAttribute("search"));
             req.setAttribute("goods", goods);
             session.setAttribute("currentPage", 1);
             session.setAttribute("page", 0);

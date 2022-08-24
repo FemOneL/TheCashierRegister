@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="et" %>
 <!DOCTYPE html>
 <head>
     <title>cashier</title>
@@ -18,12 +19,17 @@
 <body>
 <c:import url="elements/header.jsp"/>
 <main>
+    <form method="post" action="frontController">
+        <input type="hidden" name="cmd" value="Search">
+        <input type="text" name="search" placeholder="search...">
+        <button type="submit" name="view" value="checks">search</button>
+    </form>
     <section class="checks_section">
         <c:forEach var="check" items="${requestScope.checks}">
             <div class="check">
                 <div>Check №${check.id}</div>
                 <div>${check.time}</div>
-                <div>${check.employee.firstname} ${check.employee.secondname}</div>
+                <div><et:empTag employee="${check.employee}"/></div>
                 <div>${check.totalCost} $</div>
                 <form method="get" action="editExisting">
                     <button name="edit" value="${check.id}">Edit</button>

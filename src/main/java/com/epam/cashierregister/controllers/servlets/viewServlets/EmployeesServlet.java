@@ -29,12 +29,12 @@ public class EmployeesServlet extends HttpServlet {
             session.setAttribute("page", 0);
         }
         Integer currentPage = (Integer) session.getAttribute("page");
-        employees = employeeDAO.getEmployees(currentPage);
+        employees = employeeDAO.getEmployees(currentPage, (String) session.getAttribute("search"));
         if (employees.size() != 0) {
             req.setAttribute("employees", employees);
             session.setAttribute("currentPage", currentPage + 1);
         } else {
-            employees = employeeDAO.getEmployees(0);
+            employees = employeeDAO.getEmployees(0, (String) session.getAttribute("search"));
             req.setAttribute("employees", employees);
             session.setAttribute("currentPage", 1);
             session.setAttribute("page", 0);

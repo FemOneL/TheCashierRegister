@@ -3,7 +3,7 @@ package com.epam.cashierregister.services.DAO;
 import com.epam.cashierregister.services.DAO.queries.CheckQuery;
 import com.epam.cashierregister.services.consts.CheckConst;
 import com.epam.cashierregister.services.consts.CheckHasGoodsConst;
-import com.epam.cashierregister.services.consts.GoodsConst;
+import com.epam.cashierregister.services.consts.EmployeeConst;
 import com.epam.cashierregister.services.entities.check.Check;
 import com.epam.cashierregister.services.entities.goods.Goods;
 
@@ -55,7 +55,7 @@ public class ChecksDAO extends DAO {
         return true;
     }
 
-    public boolean deleteSpecificCheck(Check check, int goodsId){
+    public boolean deleteSpecificCheck(Check check, int goodsId) {
         Connection connection = null;
         try {
             connection = getConnection();
@@ -181,11 +181,21 @@ public class ChecksDAO extends DAO {
         return check;
     }
 
-    public List<Check> getChecks(int page) {
+    public List<Check> getChecks(int page, String search) {
         EmployeeDAO employeeDAO = new EmployeeDAO();
         List<Check> checks = new ArrayList<>();
         try (Connection connection = getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(CheckQuery.SELECT_FROM_CHECK);
+            String searchRes = " WHERE " + EmployeeConst.FIRSTNAME + " LIKE '%" + search + "%' OR " +
+                    CheckConst.EMP_ID + " LIKE '%" + search + "%' OR " +
+                    EmployeeConst.SECONDNAME + " LIKE '%" + search + "%' OR " +
+                    CheckConst.TIME + " LIKE '%" + search + "%' OR " + CheckConst.TIME + " LIKE '% + search + %' ";
+            String selectFromCheck = "SELECT * FROM " + CheckConst.TABLE_NAME +
+                    " INNER JOIN " + EmployeeConst.TABLE_NAME + " ON " + CheckConst.TABLE_NAME + "." + CheckConst.EMP_ID +
+                    " = " + EmployeeConst.TABLE_NAME + "." + EmployeeConst.EMP_ID +
+                    (search != null ? searchRes : " ") +
+                    " ORDER BY " + CheckConst.TIME +
+                    " DESC LIMIT ?, 21";
+            PreparedStatement statement = connection.prepareStatement(selectFromCheck);
             statement.setInt(1, page);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {

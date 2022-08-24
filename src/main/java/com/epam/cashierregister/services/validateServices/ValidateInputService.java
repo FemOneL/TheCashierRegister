@@ -1,5 +1,6 @@
 package com.epam.cashierregister.services.validateServices;
 
+import com.epam.cashierregister.services.ValidateService;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
 
 import javax.servlet.http.HttpServletRequest;

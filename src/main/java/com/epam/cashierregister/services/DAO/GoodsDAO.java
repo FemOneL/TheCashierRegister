@@ -1,6 +1,7 @@
 package com.epam.cashierregister.services.DAO;
 
 import com.epam.cashierregister.services.consts.CategoryConst;
+import com.epam.cashierregister.services.consts.EmployeeConst;
 import com.epam.cashierregister.services.consts.GoodsConst;
 import com.epam.cashierregister.services.consts.ProducerConst;
 import com.epam.cashierregister.services.entities.goods.Category;
@@ -114,16 +115,22 @@ public class GoodsDAO extends DAO {
         }
     }
 
-    public List<Goods> getGoods(int page) {
+
+    public List<Goods> getGoods(int page, String search) {
         List<Goods> goods = new ArrayList<>();
         try (Connection connection = getConnection()) {
+            String searchQuery = " WHERE " + GoodsConst.GOODS_ID + " LIKE '%" + search + "%' OR " +
+                    GoodsConst.MODEL + " LIKE '%" + search + "%' OR " +
+                    CategoryConst.CATEGORY + " LIKE '%" + search + "%' OR " +
+                    ProducerConst.NAME + " LIKE '%" + search + "%' ";
             String selectGoods = "SELECT " + GoodsConst.GOODS_ID + ", " + GoodsConst.PHOTO + ", " + GoodsConst.MODEL + ", " +
                     CategoryConst.CATEGORY + ", " + ProducerConst.NAME + ", " + GoodsConst.NUMBERS + ", " + GoodsConst.COST +
                     " FROM " + GoodsConst.TABLE_NAME +
                     " INNER JOIN " + CategoryConst.TABLE_NAME + " ON " + GoodsConst.TABLE_NAME + "."
                     + GoodsConst.CATEGORY_ID + " = " + CategoryConst.TABLE_NAME + "." + CategoryConst.CATEGORY_ID +
                     " INNER JOIN " + ProducerConst.TABLE_NAME + " ON " + GoodsConst.TABLE_NAME + "."
-                    + GoodsConst.PRODUCER_ID + " = " + ProducerConst.TABLE_NAME + "." + ProducerConst.PRODUCER_ID + " ORDER BY " + GoodsConst.GOODS_ID + " LIMIT " + page + ", 4";
+                    + GoodsConst.PRODUCER_ID + " = " + ProducerConst.TABLE_NAME + "." + ProducerConst.PRODUCER_ID +
+                    (search != null ? searchQuery : " ")  + " ORDER BY " + GoodsConst.GOODS_ID + " LIMIT " + page + ", 4";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(selectGoods);
             while (resultSet.next()) {

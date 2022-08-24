@@ -2,8 +2,7 @@ package com.epam.cashierregister.controllers.Listeners;
 
 import com.epam.cashierregister.services.DAO.*;
 import com.epam.cashierregister.services.ReportService;
-import com.epam.cashierregister.services.entities.report.Report;
-import com.epam.cashierregister.services.validateServices.ValidateService;
+import com.epam.cashierregister.services.ValidateService;
 
 import javax.servlet.*;
 import javax.servlet.annotation.*;

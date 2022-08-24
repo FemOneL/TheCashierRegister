@@ -8,10 +8,12 @@ import com.epam.cashierregister.services.entities.report.Return;
 import com.epam.cashierregister.services.entities.report.Selling;
 
 import java.sql.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-public class ReportDAO extends DAO{
+public class ReportDAO extends DAO {
 
-    public int writeSelling(Selling selling){
+    public int writeSelling(Selling selling) {
         int id = 0;
         try (Connection connection = getConnection()) {
             String insertSelling = "INSERT INTO " + SellingConst.TABLE_NAME + " VALUES (default, ?, ?)";
@@ -29,7 +31,7 @@ public class ReportDAO extends DAO{
         return id;
     }
 
-    public int writeReturned(Return returned){
+    public int writeReturned(Return returned) {
         int id = 0;
         try (Connection connection = getConnection()) {
             String insertReturned = "INSERT INTO " + ReturnConst.TABLE_NAME + " VALUES (default, ?, ?)";
@@ -48,7 +50,7 @@ public class ReportDAO extends DAO{
     }
 
 
-    public boolean writeReport(Report returned){
+    public boolean writeReport(Report returned) {
         try (Connection connection = getConnection()) {
             String insertReport = "INSERT INTO " + ReportConst.TABLE_NAME + " VALUES (default, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertReport);
@@ -63,5 +65,32 @@ public class ReportDAO extends DAO{
             e.printStackTrace();
         }
         return true;
+    }
+
+    public Set<Report> getReports(int page, String search) {
+        Set<Report> reports = new LinkedHashSet<>();
+        try (Connection connection = getConnection()) {
+            String searchQuery = " WHERE " + ReportConst.DATE + " LIKE '%" + search + "%' ";
+            String getReports = "SELECT " + ReportConst.DATE + ", " + SellingConst.TABLE_NAME + "." + SellingConst.SUM +
+                    ", " + ReturnConst.TABLE_NAME + "." + ReturnConst.SUM + ", " + ReportConst.PROFIT +
+                    " FROM " + ReportConst.TABLE_NAME +
+                    " INNER JOIN " + SellingConst.TABLE_NAME + " ON " + ReportConst.TABLE_NAME + "." + ReportConst.SELLING_ID +
+                    " = " + SellingConst.TABLE_NAME + "." + SellingConst.SELLING_ID +
+                    " INNER JOIN " + ReturnConst.TABLE_NAME + " ON " + ReportConst.TABLE_NAME + "." + ReportConst.RETURN_ID +
+                    " = " + ReturnConst.TABLE_NAME + "." + ReturnConst.RETURN_ID +
+                    (search != null ? searchQuery : " ") + " ORDER BY " + ReportConst.DATE + " LIMIT ?, 5";
+            PreparedStatement statement = connection.prepareStatement(getReports);
+            statement.setInt(1, page);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                reports.add(new Report(resultSet.getTimestamp(ReportConst.DATE),
+                        new Selling(0, resultSet.getBigDecimal(SellingConst.SUM)),
+                        new Return(0, resultSet.getBigDecimal(ReturnConst.SUM)),
+                        resultSet.getBigDecimal(ReportConst.PROFIT)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return reports;
     }
 }

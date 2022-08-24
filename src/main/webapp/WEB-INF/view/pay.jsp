@@ -42,7 +42,7 @@
     <p>total: ${activeCheck.totalCost}</p>
     <p class="error">${error}</p>
     <p>remaining: ${remainder} $</p>
-    <c:if test="${sum.doubleValue() > activeCheck.totalCost}">
+    <c:if test="${sum.doubleValue() >= activeCheck.totalCost}">
     <form method="post" action="frontController">
         <input type="hidden" name="cmd" value="CloseCheck">
         <input type="submit" value="print">

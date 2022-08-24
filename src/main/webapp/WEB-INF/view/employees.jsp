@@ -25,6 +25,11 @@
 <main>
     <div class="title_div">
         <h1>employees</h1>
+        <form method="post" action="frontController">
+            <input type="hidden" name="cmd" value="Search">
+            <input type="text" name="search" placeholder="search...">
+            <button type="submit" name="view" value="employees">search</button>
+        </form>
     </div>
     <section class="user_section">
         <c:forEach var="employee" items="${requestScope.employees}">
@@ -33,6 +38,10 @@
                     <img class="emp_img" src="images/${employee.photo}">
                 </div>
                 <div class="emp_title">
+                    <form method="post" action="frontController">
+                        <input type="hidden" name="cmd" value="DeleteEmployee">
+                        <button type="submit" name="empId" value="${employee.id}">delete</button>
+                    </form>
                     <h1>${employee.firstname} ${employee.secondname}</h1>
                     <h2>[${employee.role}]</h2>
                     <form method="post" action="frontController">

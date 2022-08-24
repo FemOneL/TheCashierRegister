@@ -23,11 +23,15 @@
     <fmt:setBundle basename="language"/>
 </head>
 <body>
-<%-- todo Barbecue API --%>
 <c:import url="elements/header.jsp"/>
 <main>
     <div class="title_div">
         <h1><fmt:message key="goods.goods.header"/></h1>
+        <form method="post" action="frontController">
+            <input type="hidden" name="cmd" value="Search">
+            <input type="text" name="search" placeholder="search...">
+            <button type="submit" name="view" value="goods">search</button>
+        </form>
     </div>
     <table class="table">
         <th>id</th>

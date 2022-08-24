@@ -29,9 +29,9 @@ public class GenerateReportCommand extends FrontCommand {
     public void process() throws ServletException, IOException {
         HttpSession session = req.getSession();
         Report newReport = report.generateReport((Employee) req.getSession().getAttribute("employee"));
+        session.setAttribute("type", req.getParameter("type"));
         if (req.getParameter("type").equals("Z")){
-            session.setAttribute("type", req.getParameter("type"));
-            newReport.getSelling().setId(reportDAO.writeSelling(newReport.getSelling()  ));
+            newReport.getSelling().setId(reportDAO.writeSelling(newReport.getSelling()));
             newReport.getReturned().setId(reportDAO.writeReturned(newReport.getReturned()));
             reportDAO.writeReport(newReport);
             report.invalidate();

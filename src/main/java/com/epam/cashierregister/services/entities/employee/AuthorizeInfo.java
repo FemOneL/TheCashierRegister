@@ -1,12 +1,26 @@
 package com.epam.cashierregister.services.entities.employee;
 
 public class AuthorizeInfo {
+    private int id;
     private String email;
     private String password;
 
     public AuthorizeInfo(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public AuthorizeInfo(int id, String email) {
+        this.email = email;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getEmail() {
