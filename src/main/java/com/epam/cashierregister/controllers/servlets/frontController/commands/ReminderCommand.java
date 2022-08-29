@@ -20,7 +20,7 @@ public class ReminderCommand extends FrontCommand {
 
     @Override
     public boolean filter() throws ServletException, IOException {
-        ValidateInputService validateInputService = new ValidateRemainder("ReminderCommand", req);
+        ValidateInputService validateInputService = new ValidateRemainder(req);
         try {
             validateInputService.validate();
             req.getSession().removeAttribute("remainder");

@@ -9,16 +9,13 @@ public class ValidateSignUp extends ValidateInputService{
 
     private EmployeeDAO employeeDAO;
 
-    public ValidateSignUp(String command, HttpServletRequest request, EmployeeDAO employeeDAO) {
-        super(command, request);
+    public ValidateSignUp(HttpServletRequest request, EmployeeDAO employeeDAO) {
+        super(request);
         this.employeeDAO = employeeDAO;
     }
 
     @Override
     public void validate() throws InvalidInputException {
-        if (!command.equals("SignUp")) {
-            throw new IllegalArgumentException();
-        }
         if (!checkName()){
             throw new InvalidInputException("Please input name correctly");
         }
@@ -29,7 +26,7 @@ public class ValidateSignUp extends ValidateInputService{
             throw new InvalidInputException("invalid password");
         }
         if (!checkPassword()){
-            throw new InvalidInputException("password are different");
+            throw new InvalidInputException("passwords are different");
         }
         if (!checkUniqLogin()){
             throw new InvalidInputException("such a user is already registered");

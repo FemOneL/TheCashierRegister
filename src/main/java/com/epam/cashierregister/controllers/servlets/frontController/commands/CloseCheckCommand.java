@@ -28,7 +28,7 @@ public class CloseCheckCommand extends FrontCommand {
 
     @Override
     public boolean filter() throws ServletException, IOException {
-        ValidateInputService validateInputService = new ValidateCloseCheck("CloseCheck", req);
+        ValidateInputService validateInputService = new ValidateCloseCheck(req);
         try {
             validateInputService.validate();
         } catch (InvalidInputException e) {

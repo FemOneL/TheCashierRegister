@@ -24,6 +24,9 @@ public class Goods {
         this.producer = producer;
     }
 
+    public Goods() {
+    }
+
     public String getPhoto() {
         return photo;
     }

@@ -2,9 +2,9 @@ package com.epam.cashierregister.controllers.servlets.frontController.commands;
 
 import com.epam.cashierregister.controllers.servlets.frontController.FrontCommand;
 import com.epam.cashierregister.services.DAO.ChecksDAO;
+import com.epam.cashierregister.services.ReportService;
 import com.epam.cashierregister.services.entities.check.Check;
 import com.epam.cashierregister.services.entities.goods.Goods;
-import com.epam.cashierregister.services.ReportService;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
@@ -37,19 +37,19 @@ public class DeleteGoodsFromCheckCommand extends FrontCommand {
         int value = Integer.parseInt(req.getParameter("editNumber"));
         int different = 0;
         Goods currentGoods = null;
-        if (value == 0) {
-            checksDAO.deleteSpecificCheck(activeCheck, goodsId);
-        } else {
-            for (Goods goods : activeCheck.getGoodsSet()) {
-                if (goods.getId() == goodsId) {
-                    currentGoods = goods;
-                    if (goods.getNumbers() != value) {
-                        different = goods.getNumbers() - value;
-                    }
+        for (Goods goods : activeCheck.getGoodsSet()) {
+            if (goods.getId() == goodsId) {
+                currentGoods = goods;
+                if (goods.getNumbers() != value) {
+                    different = goods.getNumbers() - value;
                 }
             }
-            checksDAO.deleteSpecificCheck(activeCheck, goodsId, different);
-            if (currentGoods != null){
+            if (value == 0) {
+                checksDAO.deleteSpecificCheck(activeCheck, goodsId);
+            } else {
+                checksDAO.deleteSpecificCheck(activeCheck, goodsId, different);
+            }
+            if (currentGoods != null) {
                 report.addReturned(different, currentGoods.getCost().multiply(new BigDecimal(different)));
             }
         }

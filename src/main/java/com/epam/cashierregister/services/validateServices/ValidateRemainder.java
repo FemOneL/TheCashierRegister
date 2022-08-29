@@ -7,8 +7,8 @@ import javax.servlet.http.HttpSession;
 
 public class ValidateRemainder extends ValidateInputService{
 
-    public ValidateRemainder(String command, HttpServletRequest request) {
-        super(command, request);
+    public ValidateRemainder(HttpServletRequest request) {
+        super(request);
     }
 
     @Override

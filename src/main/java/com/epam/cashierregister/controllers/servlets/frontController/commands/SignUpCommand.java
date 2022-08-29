@@ -24,7 +24,7 @@ public class SignUpCommand extends FrontCommand {
 
     @Override
     public boolean filter() throws ServletException, IOException {
-        ValidateInputService validateInputService = new ValidateSignUp("SignUp", req, employeeDAO);
+        ValidateInputService validateInputService = new ValidateSignUp(req, employeeDAO);
         try {
             validateInputService.validate();
         } catch (InvalidInputException e) {

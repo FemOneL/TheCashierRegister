@@ -15,11 +15,6 @@ import java.util.List;
 
 public class GoodsDAO extends DAO {
 
-    public GoodsDAO() {
-        super();
-    }
-
-
     public Goods searchGood(String searchBy, boolean getZeroNumber) {
         Goods goods = null;
         try (Connection connection = getConnection()) {

@@ -8,8 +8,8 @@ import javax.servlet.http.HttpSession;
 
 public class ValidateCloseCheck extends ValidateInputService{
 
-    public ValidateCloseCheck(String command, HttpServletRequest request) {
-        super(command, request);
+    public ValidateCloseCheck(HttpServletRequest request) {
+        super(request);
     }
 
     @Override

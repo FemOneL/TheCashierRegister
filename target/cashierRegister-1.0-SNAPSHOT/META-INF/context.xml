@@ -1,0 +1,10 @@
+
+<Context>
+
+    <Resource name="jdbc/cashierRegister" auth="Container" type="javax.sql.DataSource"
+              maxActive="4" maxIdle="2" maxWait="5000"
+              username="root" password="nfhfc123"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/cash_register"/>
+
+</Context>

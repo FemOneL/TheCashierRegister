@@ -169,7 +169,7 @@ public class ChecksDAO extends DAO {
                         checkSet.getTimestamp(CheckConst.TIME), checkSet.getBigDecimal(CheckConst.TOTAL_COST));
             }
             while (goodsSet.next()) {
-                goods = goodsDAO.searchGood(goodsSet.getString(CheckHasGoodsConst.GOODS_ID), false);
+                goods = goodsDAO.searchGood(goodsSet.getString(CheckHasGoodsConst.GOODS_ID), true);
                 goods.setTotalNumber(goods.getNumbers());
                 goods.setNumbers(goodsSet.getInt(CheckHasGoodsConst.NUMBER_OF_GOODS));
                 goods.setTotalCost(goods.getCost().multiply(new BigDecimal(goods.getNumbers())));

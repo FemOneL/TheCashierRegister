@@ -11,16 +11,13 @@ import java.util.Arrays;
 public class ValidateSignIn extends ValidateInputService {
     private EmployeeDAO employeeDAO;
 
-    public ValidateSignIn(String command, HttpServletRequest request, EmployeeDAO employeeDAO) {
-        super(command, request);
+    public ValidateSignIn(HttpServletRequest request, EmployeeDAO employeeDAO) {
+        super(request);
         this.employeeDAO = employeeDAO;
     }
 
     @Override
     public void validate() throws InvalidInputException {
-        if (!command.equals("SignIn")) {
-            throw new IllegalArgumentException();
-        }
         if (!checkEmail()) {
             throw new InvalidInputException("invalid login");
         }

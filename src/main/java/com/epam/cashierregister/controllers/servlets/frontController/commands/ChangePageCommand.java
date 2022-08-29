@@ -24,11 +24,7 @@ public class ChangePageCommand extends FrontCommand {
         int page;
         int currentPage = (Integer) session.getAttribute("page");
         page = getPage(req.getParameter("page"), currentPage, size);
-        if (page < 0) {
-            throw new IOException();
-        } else {
-            session.setAttribute("page", page);
-        }
+        session.setAttribute("page", page);
         redirect(pageName);
     }
 

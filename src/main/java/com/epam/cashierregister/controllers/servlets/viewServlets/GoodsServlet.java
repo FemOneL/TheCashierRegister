@@ -26,8 +26,7 @@ public class GoodsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         List<Goods> goods;
-//        req.setAttribute("search", session.getAttribute("search"));
-//        session.removeAttribute("search");
+
         // check edit mode
         if (req.getParameter("edit") != null){
             req.setAttribute("edit", Boolean.valueOf(req.getParameter("edit")));

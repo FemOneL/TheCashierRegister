@@ -1,5 +1,7 @@
 package com.epam.cashierregister.services.DAO;
 
+import com.epam.cashierregister.services.DAO.connection.DBHandler;
+import com.epam.cashierregister.services.DAO.connection.MainDBHandler;
 import com.epam.cashierregister.services.consts.ProducerConst;
 import com.epam.cashierregister.services.entities.goods.Producer;
 

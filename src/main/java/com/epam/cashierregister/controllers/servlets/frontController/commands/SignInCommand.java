@@ -20,7 +20,7 @@ public class SignInCommand extends FrontCommand {
 
     @Override
     public boolean filter() throws ServletException, IOException {
-        ValidateInputService validateInputService = new ValidateSignIn("SignIn", req, employeeDAO);
+        ValidateInputService validateInputService = new ValidateSignIn(req, employeeDAO);
         try {
             validateInputService.validate();
         } catch (InvalidInputException e) {

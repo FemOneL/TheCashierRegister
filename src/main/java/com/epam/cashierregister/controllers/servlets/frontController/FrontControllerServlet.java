@@ -27,7 +27,7 @@ public class FrontControllerServlet extends HttpServlet {
         }
     }
 
-    private FrontCommand getCommand(HttpServletRequest req) {
+    protected FrontCommand getCommand(HttpServletRequest req) {
         try {
             Class type = Class.forName(String.format("com.epam.cashierregister.controllers.servlets.frontController.commands.%sCommand",
                     req.getParameter("cmd")));

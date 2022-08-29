@@ -7,12 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 
 public abstract class ValidateInputService {
     protected HttpServletRequest request;
-    protected String command;
     protected ValidateService validateField;
 
 
-    public ValidateInputService(String command, HttpServletRequest request) {
-        this.command = command;
+    public ValidateInputService(HttpServletRequest request) {
         this.validateField = new ValidateService();
         this.request = request;
     }

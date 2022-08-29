@@ -7,7 +7,7 @@
 <fmt:setBundle basename="language"/>
 <header class="main_header">
     <div class="logo">
-        <img class="logo_img" src="https://i.ibb.co/5GhXHzQ/logo.png">
+        <img class="logo_img" src="images/cashier_register.png">
     </div>
     <div class="navigator">
         <a href="cabinet">

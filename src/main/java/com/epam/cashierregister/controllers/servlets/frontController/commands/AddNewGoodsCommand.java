@@ -4,6 +4,7 @@ import com.epam.cashierregister.controllers.servlets.frontController.FrontComman
 import com.epam.cashierregister.services.DAO.CategoriesDAO;
 import com.epam.cashierregister.services.DAO.GoodsDAO;
 import com.epam.cashierregister.services.DAO.ProducersDAO;
+import com.epam.cashierregister.services.DAO.connection.MainDBHandler;
 import com.epam.cashierregister.services.UploadPhotoService;
 import com.epam.cashierregister.services.entities.employee.Employee;
 import com.epam.cashierregister.services.entities.goods.Category;
@@ -34,7 +35,7 @@ public class AddNewGoodsCommand extends FrontCommand {
 
     @Override
     public boolean filter() throws ServletException, IOException {
-        ValidateInputService validate = new ValidateAddGoods("AddNewGoods", req, goodsDAO);
+        ValidateInputService validate = new ValidateAddGoods(req, goodsDAO);
         try {
             validate.validate();
         } catch (InvalidInputException e) {
@@ -79,7 +80,7 @@ public class AddNewGoodsCommand extends FrontCommand {
             categoriesDAO.addNewCategory(category);
         }
         if (isNewProducer) {
-            producersDAO.addNewProducer(producer);
+            producersDAO.addNewProducer(producer) ;
         }
         goodsDAO.addGoods(myGoods);
         redirect("addGoods");

@@ -9,8 +9,7 @@ import javax.servlet.annotation.*;
 public class CabinetServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        HttpSession session = req.getSession();
-        session.removeAttribute("error");
+        req.getSession().removeAttribute("error");
         req.getRequestDispatcher("WEB-INF/view/cabinet.jsp").forward(req, resp);
     }
 }

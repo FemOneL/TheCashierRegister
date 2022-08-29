@@ -7,7 +7,6 @@ public class ValidateService {
     private Pattern pattern;
     private Matcher matcher;
 
-
     public boolean validateEmail(String email) {
         if (email == null) {
             return false;
@@ -27,6 +26,10 @@ public class ValidateService {
     }
 
     public boolean validateSelect(String select, String newElement) {
+        if (select == null || newElement == null) {
+            return false;
+        }
+
         return !((select.equals("none") && newElement.equals("")) || (!select.equals("none") && !newElement.equals("")));
     }
 

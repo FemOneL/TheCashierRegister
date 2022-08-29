@@ -13,7 +13,6 @@ import java.util.Set;
 
 public class EmployeeDAO extends DAO {
 
-
     public boolean deleteEmployee(Employee employee){
         try (Connection connection = getConnection()) {
             String fkc0 = "SET FOREIGN_KEY_CHECKS=0";

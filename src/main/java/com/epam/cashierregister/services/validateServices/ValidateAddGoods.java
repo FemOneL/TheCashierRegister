@@ -8,16 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 public class ValidateAddGoods extends ValidateInputService{
     private GoodsDAO goodsDAO;
 
-    public ValidateAddGoods(String command, HttpServletRequest request, GoodsDAO goodsDAO) {
-        super(command, request);
+    public ValidateAddGoods(HttpServletRequest request, GoodsDAO goodsDAO) {
+        super(request);
         this.goodsDAO = goodsDAO;
     }
 
     @Override
     public void validate() throws InvalidInputException {
-        if (!command.equals("AddNewGoods")) {
-            throw new IllegalArgumentException();
-        }
         if (!checkModel()){
             throw new InvalidInputException("Model field cannot be empty!");
         }
