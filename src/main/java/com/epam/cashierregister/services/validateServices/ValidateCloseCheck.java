@@ -6,6 +6,9 @@ import com.epam.cashierregister.services.exeptions.InvalidInputException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Method for validation if goods in check exist
+ */
 public class ValidateCloseCheck extends ValidateInputService{
 
     public ValidateCloseCheck(HttpServletRequest request) {
@@ -19,5 +22,6 @@ public class ValidateCloseCheck extends ValidateInputService{
         if (check.getGoodsSet().size() == 0){
             throw new InvalidInputException("you must add any goods!!");
         }
+        LOG.info("Validate success");
     }
 }

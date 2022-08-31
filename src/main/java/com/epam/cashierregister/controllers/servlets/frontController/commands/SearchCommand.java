@@ -18,6 +18,7 @@ public class SearchCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        LOG.info("searching...");
         req.getSession().setAttribute("search", req.getParameter("search"));
         redirect(req.getParameter("view"));
     }

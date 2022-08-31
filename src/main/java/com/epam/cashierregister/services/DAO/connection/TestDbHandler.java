@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Test Database handler which used standard connections and test configs
+ */
 public class TestDbHandler implements DBHandler{
     private Connection connection;
 

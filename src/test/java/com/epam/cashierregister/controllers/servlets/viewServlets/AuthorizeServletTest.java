@@ -51,6 +51,5 @@ class AuthorizeServletTest {
 
         verify(request, times(1)).getRequestDispatcher(path);
         verify(requestDispatcher).forward(request, response);
-        verify(session, times(1)).setAttribute("error", " ");
     }
 }

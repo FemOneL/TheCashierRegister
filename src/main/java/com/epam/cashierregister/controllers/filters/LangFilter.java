@@ -18,6 +18,7 @@ public class LangFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
+        request.setCharacterEncoding("UTF-8");
         if (session.getAttribute("loc") == null){
             session.setAttribute("loc", "eng");
         }

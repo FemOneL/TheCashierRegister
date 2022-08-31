@@ -17,7 +17,7 @@
     <jsp:useBean id="goods" scope="request" type="java.util.List"/>
     <jsp:useBean id="currentPage" scope="session" type="java.lang.Integer"/>
     <jsp:useBean id="edit" scope="request" type="java.lang.Boolean"/>
-    <jsp:useBean id="error" scope="session" type="java.lang.String"/>
+    <jsp:useBean id="error" scope="request" type="java.lang.String"/>
     <jsp:useBean id="loc" scope="session" type="java.lang.String"/>
     <fmt:setLocale value="${loc}"/>
     <fmt:setBundle basename="language"/>
@@ -30,7 +30,7 @@
         <form method="post" action="frontController">
             <input type="hidden" name="cmd" value="Search">
             <input type="text" name="search" placeholder="search...">
-            <button type="submit" name="view" value="goods">search</button>
+            <button type="submit" name="view" value="goods"><fmt:message key="goods.search.btn"/></button>
         </form>
     </div>
     <table class="table">
@@ -75,7 +75,7 @@
         <div class="all_buttons">
             <div class="create_btns">
                 <form action="addGoods">
-                    <button type="submit" class="edit_btn">add</button>
+                    <button type="submit" class="edit_btn"><fmt:message key="goods.add.btn"/></button>
                 </form>
             </div>
             <div class="buttons">
@@ -88,9 +88,9 @@
             </div>
             <div class="edit_btns">
                 <form>
-                    <button class="edit_btn" name="edit" value="true">edit</button>
+                    <button class="edit_btn" name="edit" value="true"><fmt:message key="goods.edit.btn"/></button>
                     <c:if test="${edit}">
-                        <button class="cancel_btn" name="edit" value="false">cancel</button>
+                        <button class="cancel_btn" name="edit" value="false"><fmt:message key="goods.edit.exit.btn"/></button>
                     </c:if>
                 </form>
                 <div class="error">${error}</div>

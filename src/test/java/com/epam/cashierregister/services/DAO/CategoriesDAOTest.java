@@ -4,6 +4,8 @@ import com.epam.cashierregister.services.DAO.connection.DBHandler;
 import com.epam.cashierregister.services.DAO.connection.TestDbHandler;
 import com.epam.cashierregister.services.entities.goods.Category;
 import com.epam.cashierregister.services.entities.goods.Producer;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
+import com.epam.cashierregister.services.exeptions.InvalidInputException;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.jupiter.api.*;
 import org.mockito.MockedStatic;
@@ -52,7 +54,7 @@ class CategoriesDAOTest {
     }
 
     @Test
-    void addNewCategory() {
+    void addNewCategory() throws InvalidInputException, DatabaseException {
         Category category = new Category("AI");
         when(DBHandler.getConBuilder()).thenReturn(testDBHandler);
         categoriesDAO = new CategoriesDAO();
@@ -61,7 +63,7 @@ class CategoriesDAOTest {
     }
 
     @Test
-    void getCategoryList() {
+    void getCategoryList() throws DatabaseException {
         List<Category> categoryList;
         when(DBHandler.getConBuilder()).thenReturn(testDBHandler);
         categoriesDAO = new CategoriesDAO();

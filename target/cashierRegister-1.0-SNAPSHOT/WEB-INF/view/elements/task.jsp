@@ -64,7 +64,42 @@
             <div class="task_btn_div">
                 <form method="post" action="frontController">
                     <input type="hidden" name="cmd" value="GenerateReport">
-                    <button class="task_btn" name="type" value="Z"  type="submit"><fmt:message key="cabinet.go.button"/></button>
+                    <button class="task_btn" name="type" value="Z" type="submit"><fmt:message key="cabinet.go.button"/></button>
+                </form>
+            </div>
+        </div>
+    </c:if>
+    <c:if test="${employee.role == 'ADMIN'}">
+        <div class="task">
+            <div class="todo">
+                <h1 class="task_title"><fmt:message key="cabinet.register.employees"/></h1>
+                <p><fmt:message key="cabinet.register.employees.title"/></p>
+            </div>
+            <div class="task_btn_div">
+                <form action="signup">
+                    <button class="task_btn" type="submit"><fmt:message key="cabinet.go.button"/></button>
+                </form>
+            </div>
+        </div>
+        <div class="task">
+            <div class="todo">
+                <h1 class="task_title"><fmt:message key="cabinet.review.employees"/></h1>
+                <p><fmt:message key="cabinet.review.employees.title"/></p>
+            </div>
+            <div class="task_btn_div">
+                <form action="employees">
+                    <button class="task_btn" type="submit"><fmt:message key="cabinet.go.button"/></button>
+                </form>
+            </div>
+        </div>
+        <div class="task">
+            <div class="todo">
+                <h1 class="task_title"><fmt:message key="cabinet.reports.review"/></h1>
+                <p><fmt:message key="cabinet.reports.review.title"/></p>
+            </div>
+            <div class="task_btn_div">
+                <form action="reports">
+                    <button class="task_btn" type="submit"><fmt:message key="cabinet.go.button"/></button>
                 </form>
             </div>
         </div>

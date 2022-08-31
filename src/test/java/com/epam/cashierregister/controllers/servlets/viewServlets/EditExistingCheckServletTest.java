@@ -3,6 +3,7 @@ package com.epam.cashierregister.controllers.servlets.viewServlets;
 import com.epam.cashierregister.services.DAO.ChecksDAO;
 import com.epam.cashierregister.services.entities.check.Check;
 import com.epam.cashierregister.services.entities.goods.Goods;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,7 @@ class EditExistingCheckServletTest {
 
 
     @Test
-    void testEditExitingCheckDoGet() throws ServletException, IOException {
+    void testEditExitingCheckDoGet() throws ServletException, IOException, DatabaseException {
         EditExistingCheckServlet servlet = new EditExistingCheckServlet();
         ChecksDAO checksDAO = mock(ChecksDAO.class);
         Check check = mock(Check.class);

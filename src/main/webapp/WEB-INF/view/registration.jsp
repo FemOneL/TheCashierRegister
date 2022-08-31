@@ -14,7 +14,7 @@
         <%@include file="../../css/registration.css" %>
     </style>
     <jsp:useBean id="roles" scope="request" type="java.util.Set"/>
-    <jsp:useBean id="error" scope="session" type="java.lang.String"/>
+    <jsp:useBean id="error" scope="request" type="java.lang.String"/>
 </head>
 <body>
 <c:import url="elements/header.jsp"/>

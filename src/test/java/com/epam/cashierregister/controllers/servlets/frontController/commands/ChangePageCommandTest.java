@@ -20,4 +20,8 @@ class ChangePageCommandTest {
     void testGetPage() {
 
     }
+
+    @Test
+    void process() {
+    }
 }

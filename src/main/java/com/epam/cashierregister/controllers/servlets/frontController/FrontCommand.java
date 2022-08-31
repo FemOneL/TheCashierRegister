@@ -1,5 +1,6 @@
 package com.epam.cashierregister.controllers.servlets.frontController;
 
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +25,7 @@ public abstract class FrontCommand {
 
     public abstract void initContext() throws ServletException;
 
-    public abstract boolean filter() throws ServletException, IOException;
+    public abstract boolean filter() throws ServletException, IOException, DatabaseException;
 
     public abstract void process() throws ServletException, IOException;
 

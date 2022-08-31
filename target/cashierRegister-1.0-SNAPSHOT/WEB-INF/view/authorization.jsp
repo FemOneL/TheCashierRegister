@@ -13,7 +13,7 @@
     <style>
         <%@include file="../../css/authorization.css" %>
     </style>
-    <jsp:useBean id="error" scope="session" type="java.lang.String"/>
+    <jsp:useBean id="error" scope="request" type="java.lang.String"/>
     <jsp:useBean id="loc" scope="session" type="java.lang.String"/>
     <fmt:setLocale value="${loc}"/>
     <fmt:setBundle basename="language"/>

@@ -2,6 +2,9 @@ package com.epam.cashierregister.controllers.servlets.viewServlets;
 
 import com.epam.cashierregister.services.DAO.GoodsDAO;
 import com.epam.cashierregister.services.entities.goods.Goods;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -16,9 +19,11 @@ import java.util.List;
 @WebServlet(name = "GoodsServlet", value = "/goods")
 public class GoodsServlet extends HttpServlet {
     private GoodsDAO goodsDAO;
+    static Logger LOG = LogManager.getLogger(GoodsServlet.class);
 
     @Override
     public void init(ServletConfig config) throws ServletException {
+        LOG.info("Opened goods servlet (/goods)");
         goodsDAO = (GoodsDAO) config.getServletContext().getAttribute("GoodsDAO");
     }
 
@@ -37,20 +42,25 @@ public class GoodsServlet extends HttpServlet {
         if (session.getAttribute("page") == null) {
             session.setAttribute("page", 0);
         }
-        if (session.getAttribute("error") == null) {
-            session.setAttribute("error", " ");
-        }
+
         Integer currentPage = (Integer) session.getAttribute("page");
-        goods = goodsDAO.getGoods(currentPage, (String) session.getAttribute("search"));
-        if (goods.size() != 0) {
-            req.setAttribute("goods", goods);
-            session.setAttribute("currentPage", currentPage / 4 + 1);
-        } else {
-            goods = goodsDAO.getGoods(0, (String) session.getAttribute("search"));
-            req.setAttribute("goods", goods);
-            session.setAttribute("currentPage", 1);
-            session.setAttribute("page", 0);
+        try {
+            goods = goodsDAO.getGoods(currentPage, (String) session.getAttribute("search"));
+            if (goods.size() != 0) {
+                req.setAttribute("goods", goods);
+                session.setAttribute("currentPage", currentPage / 4 + 1);
+            } else {
+                goods = goodsDAO.getGoods(0, (String) session.getAttribute("search"));
+                req.setAttribute("goods", goods);
+                session.setAttribute("currentPage", 1);
+                session.setAttribute("page", 0);
+            }
+        } catch (DatabaseException e) {
+            LOG.error("Problem with goods page");
+            req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
+            resp.sendRedirect("errorPage");
         }
+        LOG.info("Opened goods page (goods.jsp)");
         req.getRequestDispatcher("WEB-INF/view/goods.jsp").forward(req, resp);
     }
 }

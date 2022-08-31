@@ -11,7 +11,7 @@
     </style>
     <jsp:useBean id="type" scope="session" type="java.lang.String"/>
     <jsp:useBean id="remainder" scope="session" type="java.math.BigDecimal"/>
-    <jsp:useBean id="error" scope="session" type="java.lang.String"/>
+    <jsp:useBean id="error" scope="request" type="java.lang.String"/>
     <jsp:useBean id="activeCheck" scope="session" type="com.epam.cashierregister.services.entities.check.Check"/>
     <jsp:useBean id="sum" scope="session" type="java.math.BigDecimal"/>
 </head>

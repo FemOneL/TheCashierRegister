@@ -2,6 +2,7 @@ package com.epam.cashierregister.controllers.servlets.frontController.commands;
 
 import com.epam.cashierregister.controllers.servlets.frontController.FrontCommand;
 import com.epam.cashierregister.services.DAO.GoodsDAO;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,13 +25,18 @@ public class EditGoodsInWarehouseCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
-        LOG.info("Change number for id = {} to {}", req.getParameter("id"), req.getParameter("numb"));
+        LOG.info("Change number of goods for id = {} to {}", req.getParameter("id"), req.getParameter("numb"));
         int id = Integer.parseInt(req.getParameter("id"));
         int newNumber = Integer.parseInt(req.getParameter("numb"));
-        if (goodsDAO.updateNumber(id, newNumber)) {
-            LOG.info("Success update");
-        } else {
-            LOG.warn("Failed update");
+        try {
+            if (goodsDAO.updateNumber(id, newNumber)) {
+                LOG.info("Number update success");
+            } else {
+                LOG.warn("Number update failed");
+            }
+        } catch (DatabaseException e) {
+            req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
+            redirect("errorPage");
         }
         redirect("goods?edit=true");
     }

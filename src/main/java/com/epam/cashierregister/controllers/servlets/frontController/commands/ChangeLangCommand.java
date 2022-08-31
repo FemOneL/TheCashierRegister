@@ -19,6 +19,7 @@ public class ChangeLangCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        LOG.info("Change language to {}", req.getParameter("lang"));
         if (req.getParameter("lang") != null) {
             HttpSession session = req.getSession();
             session.setAttribute("loc", req.getParameter("lang"));

@@ -1,8 +1,12 @@
 package com.epam.cashierregister.controllers.servlets.viewServlets;
 
+import com.epam.cashierregister.controllers.servlets.frontController.FrontCommand;
 import com.epam.cashierregister.services.DAO.CategoriesDAO;
 import com.epam.cashierregister.services.DAO.GoodsDAO;
 import com.epam.cashierregister.services.DAO.ProducersDAO;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -11,23 +15,28 @@ import java.io.IOException;
 
 @WebServlet(name = "AddGoodsPageServlet", value = "/addGoods")
 public class AddGoodsPageServlet extends HttpServlet {
+    static Logger LOG = LogManager.getLogger(AddGoodsPageServlet.class);
     private CategoriesDAO categoriesDAO;
     private ProducersDAO producersDAO;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
+        LOG.info("Opened add goods servlet (/addGoods)");
         categoriesDAO = (CategoriesDAO) config.getServletContext().getAttribute("CategoriesDAO");
         producersDAO = (ProducersDAO) config.getServletContext().getAttribute("ProducersDAO");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        req.setAttribute("categories", categoriesDAO.getCategoryList());
-        req.setAttribute("producers", producersDAO.getProducerList());
-        if (session.getAttribute("error") == null){
-            session.setAttribute("error", " ");
+        try {
+            req.setAttribute("categories", categoriesDAO.getCategoryList());
+            req.setAttribute("producers", producersDAO.getProducerList());
+        } catch (DatabaseException e) {
+            LOG.error("Problem with adding goods");
+            req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
+            resp.sendRedirect("errorPage");
         }
+        LOG.info("Opened add goods page (addGoods.jsp)");
         req.getRequestDispatcher("WEB-INF/view/addGoods.jsp").forward(req, resp);
     }
 }

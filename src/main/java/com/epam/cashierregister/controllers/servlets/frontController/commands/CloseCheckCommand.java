@@ -5,6 +5,7 @@ import com.epam.cashierregister.services.DAO.ChecksDAO;
 import com.epam.cashierregister.services.entities.check.Check;
 import com.epam.cashierregister.services.entities.employee.Employee;
 import com.epam.cashierregister.services.entities.goods.Goods;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
 import com.epam.cashierregister.services.ReportService;
 import com.epam.cashierregister.services.validateServices.ValidateCloseCheck;
@@ -27,11 +28,12 @@ public class CloseCheckCommand extends FrontCommand {
     }
 
     @Override
-    public boolean filter() throws ServletException, IOException {
+    public boolean filter() throws ServletException, IOException, DatabaseException {
         ValidateInputService validateInputService = new ValidateCloseCheck(req);
         try {
             validateInputService.validate();
         } catch (InvalidInputException e) {
+            LOG.warn("Invalid input: {}", e.getMessage());
             req.getSession().setAttribute("error", e.getMessage());
             redirect("createCheck");
             return false;
@@ -43,18 +45,24 @@ public class CloseCheckCommand extends FrontCommand {
     public void process() throws ServletException, IOException {
         HttpSession session = req.getSession();
         Check activeCheck = (Check) session.getAttribute("activeCheck");
+        LOG.info("Try to close check where id = {}", activeCheck.getId());
         Set<Goods> goodsSet = activeCheck.getGoodsSet();
         Employee employee = (Employee) session.getAttribute("employee");
         Check newCheck = new Check(0, employee, new Timestamp(System.currentTimeMillis()), activeCheck.getTotalCost());
         newCheck.setGoodsSet(goodsSet);
-        newCheck.setId(checksDAO.createCheck(newCheck));
-        checksDAO.addGoodsInCheck(goodsSet, newCheck);
+        try {
+            newCheck.setId(checksDAO.createCheck(newCheck));
+            checksDAO.addGoodsInCheck(goodsSet, newCheck);
+        } catch (DatabaseException e) {
+            LOG.error("Problem with closing check");
+            req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
+            redirect("errorPage");
+        }
         report.addSelling(1, newCheck.getTotalCost());
         session.removeAttribute("activeCheck");
         session.removeAttribute("type");
         session.removeAttribute("remainder");
         session.removeAttribute("sum");
-        session.removeAttribute("error");
         session.setAttribute("newCheck", newCheck);
         redirect("check");
     }

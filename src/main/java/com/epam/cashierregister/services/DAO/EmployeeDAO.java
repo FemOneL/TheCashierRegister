@@ -1,54 +1,84 @@
 package com.epam.cashierregister.services.DAO;
 
+import com.epam.cashierregister.services.DAO.queries.Query;
 import com.epam.cashierregister.services.consts.AuthorizeConst;
 import com.epam.cashierregister.services.consts.EmployeeConst;
 import com.epam.cashierregister.services.consts.RolesConst;
 import com.epam.cashierregister.services.entities.employee.AuthorizeInfo;
 import com.epam.cashierregister.services.entities.employee.Employee;
 import com.epam.cashierregister.services.entities.employee.Role;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 
 import java.sql.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+/**
+ * Data Access Object for employees
+ */
 public class EmployeeDAO extends DAO {
 
-    public boolean deleteEmployee(Employee employee){
-        try (Connection connection = getConnection()) {
-            String fkc0 = "SET FOREIGN_KEY_CHECKS=0";
-            String fkc1 = "SET FOREIGN_KEY_CHECKS=1";
-            String deleteEmp = "DELETE FROM " + EmployeeConst.TABLE_NAME + " WHERE " + EmployeeConst.EMP_ID + " = ?";
-            String deleteAuth = "DELETE FROM " + AuthorizeConst.TABLE_NAME + " WHERE " + AuthorizeConst.AUTHORIZE_ID + " = ?";
-            CallableStatement callableStatement = connection.prepareCall(fkc0);
+    public EmployeeDAO() throws DatabaseException {}
+
+    /**
+     * delete current employee using transactions
+     * @param employee which you need to delete
+     * @return true if employee deleted
+     * @throws DatabaseException
+     */
+    public boolean deleteEmployee(Employee employee) throws DatabaseException {
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            connection.setAutoCommit(false);
+            CallableStatement callableStatement = connection.prepareCall(Query.FOREIGN_KEY_CHECKS_0);
             callableStatement.executeUpdate();
-            PreparedStatement empStatement = connection.prepareStatement(deleteEmp);
+            PreparedStatement empStatement = connection.prepareStatement(Query.DELETE_EMPLOYEE);
             empStatement.setInt(1, employee.getId());
-            PreparedStatement authStatement = connection.prepareStatement(deleteAuth);
+            PreparedStatement authStatement = connection.prepareStatement(Query.DELETE_AUTHORIZE);
             authStatement.setInt(1, employee.getAuthorize().getId());
             empStatement.executeUpdate();
             authStatement.executeUpdate();
-            callableStatement = connection.prepareCall(fkc1);
+            callableStatement = connection.prepareCall(Query.FOREIGN_KEY_CHECKS_1);
             callableStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            try {
+                connection.rollback();
+                return false;
+            } catch (SQLException ex) {
+                LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+                throw new DatabaseException(500);
+            }
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+                throw new DatabaseException(500);
+            }
         }
         return true;
     }
 
-    public boolean addEmployee(Employee employee) {
+    /**
+     * adding new employee
+     * @param employee
+     * @return true if employee added
+     * @throws DatabaseException
+     */
+    public boolean addEmployee(Employee employee) throws DatabaseException {
         int empId = 0;
         int authId = 0;
-        try (Connection connection = getConnection()) {
-            String insertAuthorize = "INSERT INTO " + AuthorizeConst.TABLE_NAME + " VALUES (default, ?, ?)";
-            String insertEmployee = "INSERT INTO " + EmployeeConst.TABLE_NAME +
-                    " VALUES (default, ?, ?, ?, (SELECT " + RolesConst.ROLE_ID + " FROM " + RolesConst.TABLE_NAME +
-                    " WHERE " + RolesConst.ROLE + " = ?), " + "(SELECT " + AuthorizeConst.AUTHORIZE_ID +
-                    " FROM " + AuthorizeConst.TABLE_NAME + " WHERE " + AuthorizeConst.EMAIL + " = ?))";
-            PreparedStatement authorizeStatement = connection.prepareStatement(insertAuthorize, Statement.RETURN_GENERATED_KEYS);
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            connection.setAutoCommit(false);
+            PreparedStatement authorizeStatement = connection.prepareStatement(Query.INSERT_AUTHORIZE, Statement.RETURN_GENERATED_KEYS);
             authorizeStatement.setString(1, employee.getAuthorize().getEmail());
             authorizeStatement.setString(2, employee.getAuthorize().getPassword());
             authorizeStatement.executeUpdate();
-            PreparedStatement employeeStatement = connection.prepareStatement(insertEmployee, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement employeeStatement = connection.prepareStatement(Query.INSERT_EMPLOYEE, Statement.RETURN_GENERATED_KEYS);
             employeeStatement.setString(1, employee.getPhoto());
             employeeStatement.setString(2, employee.getFirstname());
             employeeStatement.setString(3, employee.getSecondname());
@@ -65,38 +95,56 @@ public class EmployeeDAO extends DAO {
             }
             employee.setId(empId);
             employee.getAuthorize().setId(authId);
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            try {
+                connection.rollback();
+                return false;
+            } catch (SQLException ex) {
+                LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+                throw new DatabaseException(500);
+            }
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+                throw new DatabaseException(500);
+            }
         }
         return true;
     }
 
-    public boolean updatePassword(String password, Employee employee){
+    /**
+     * updated user password
+     * @param password
+     * @param employee
+     * @return true if password updated
+     * @throws DatabaseException
+     */
+    public boolean updatePassword(String password, Employee employee) throws DatabaseException {
         try (Connection connection = getConnection()){
-            String updatePassword = "UPDATE " + AuthorizeConst.TABLE_NAME + " SET "+ AuthorizeConst.PASSWORD + " = ?" +
-                    " WHERE " + AuthorizeConst.AUTHORIZE_ID + " = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(updatePassword);
+            PreparedStatement preparedStatement = connection.prepareStatement(Query.UPDATE_PASSWORD);
             preparedStatement.setString(1, password);
             preparedStatement.setInt(2, employee.getAuthorize().getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+            throw new DatabaseException(500);
         }
         return true;
     }
 
-    public Employee getEmployee(String email) {
+    /**
+     * get employee by email
+     * @param email
+     * @return employee if exist or null
+     * @throws DatabaseException
+     */
+    public Employee getEmployee(String email) throws DatabaseException {
         Employee foundEmployee = null;
         try (Connection connection = getConnection()) {
-            String selectUser = "SELECT " + EmployeeConst.EMP_ID + ", " + EmployeeConst.PHOTO + ", " + EmployeeConst.FIRSTNAME + ", " + EmployeeConst.SECONDNAME
-                    + ", " + RolesConst.ROLE + ", " + AuthorizeConst.EMAIL + ", " + AuthorizeConst.PASSWORD
-                    + " FROM " + EmployeeConst.TABLE_NAME
-                    + " INNER JOIN " + RolesConst.TABLE_NAME
-                    + " ON " + EmployeeConst.TABLE_NAME + "." + EmployeeConst.ROLE_ID + " = " + RolesConst.TABLE_NAME + "." + RolesConst.ROLE_ID
-                    + " INNER JOIN " + AuthorizeConst.TABLE_NAME
-                    + " ON " + EmployeeConst.TABLE_NAME + "." + EmployeeConst.AUTHORIZE_ID + " = " + AuthorizeConst.TABLE_NAME + "." + AuthorizeConst.AUTHORIZE_ID
-                    + " WHERE " + AuthorizeConst.TABLE_NAME + "." + AuthorizeConst.EMAIL + " = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(selectUser);
+            PreparedStatement preparedStatement = connection.prepareStatement(Query.SELECT_USER);
             preparedStatement.setString(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -105,12 +153,20 @@ public class EmployeeDAO extends DAO {
                         new AuthorizeInfo(resultSet.getString(AuthorizeConst.EMAIL), resultSet.getString(AuthorizeConst.PASSWORD)));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+            throw new DatabaseException(500);
         }
         return foundEmployee;
     }
 
-    public Set<Employee> getEmployees(int page, String search) {
+    /**
+     * get set of employees on current page
+     * @param page
+     * @param search search string or null
+     * @return list of employees
+     * @throws DatabaseException
+     */
+    public Set<Employee> getEmployees(int page, String search) throws DatabaseException {
         Set<Employee> employees = new LinkedHashSet<>();
         try (Connection connection = getConnection()) {
             String searchQuery = " WHERE " + EmployeeConst.FIRSTNAME + " LIKE '%" + search + "%' OR " +
@@ -135,53 +191,63 @@ public class EmployeeDAO extends DAO {
                         new AuthorizeInfo(resultSet.getString(AuthorizeConst.EMAIL), null)));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+            throw new DatabaseException(500);
         }
         return employees;
     }
 
-    public Set<Role> getRoles() {
+    /**
+     * get set of roles
+     * @return set of roles
+     * @throws DatabaseException
+     */
+    public Set<Role> getRoles() throws DatabaseException {
         Set<Role> roles = new LinkedHashSet<>();
         try (Connection connection = getConnection()) {
-            String selectRoles = "SELECT " + RolesConst.ROLE + " FROM " + RolesConst.TABLE_NAME;
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(selectRoles);
+            ResultSet resultSet = statement.executeQuery(Query.SELECT_ROLES);
             while (resultSet.next()) {
                 roles.add(Role.valueOf(resultSet.getString(RolesConst.ROLE)));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+            throw new DatabaseException(500);
         }
         return roles;
     }
 
-    public boolean changeRole(Role role, int empId) {
+
+    /**
+     * change employee role
+     * @param role new role
+     * @param empId user id
+     * @return true if role changed
+     * @throws DatabaseException
+     */
+    public boolean changeRole(Role role, int empId) throws DatabaseException {
         try (Connection connection = getConnection()) {
-            String change = "UPDATE " + EmployeeConst.TABLE_NAME + " SET " +
-                    EmployeeConst.ROLE_ID + " = (SELECT " + RolesConst.ROLE_ID + " FROM " +
-                    RolesConst.TABLE_NAME + " WHERE " + RolesConst.ROLE + " = ?) WHERE " + EmployeeConst.EMP_ID + " = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(change);
+            PreparedStatement preparedStatement = connection.prepareStatement(Query.CHANGE_ROLE);
             preparedStatement.setString(1, role.name());
             preparedStatement.setInt(2, empId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+            throw new DatabaseException(500);
         }
         return true;
     }
 
-    public Employee getEmployee(int id) {
+    /**
+     * get employee by id
+     * @param id
+     * @return employee if exist or null
+     * @throws DatabaseException
+     */
+    public Employee getEmployee(int id) throws DatabaseException {
         Employee employee = null;
         try (Connection connection = getConnection()) {
-            String select = "SELECT " + EmployeeConst.EMP_ID + ", " + EmployeeConst.PHOTO + ", " + EmployeeConst.FIRSTNAME + ", " + EmployeeConst.SECONDNAME
-                    + ", " + RolesConst.ROLE + ", " + AuthorizeConst.EMAIL + ", " + AuthorizeConst.AUTHORIZE_ID
-                    + " FROM " + EmployeeConst.TABLE_NAME
-                    + " INNER JOIN " + RolesConst.TABLE_NAME
-                    + " ON " + EmployeeConst.TABLE_NAME + "." + EmployeeConst.ROLE_ID + " = " + RolesConst.TABLE_NAME + "." + RolesConst.ROLE_ID
-                    + " INNER JOIN " + AuthorizeConst.TABLE_NAME
-                    + " ON " + EmployeeConst.TABLE_NAME + "." + EmployeeConst.AUTHORIZE_ID + " = " + AuthorizeConst.TABLE_NAME + "." + AuthorizeConst.AUTHORIZE_ID
-                    + " WHERE " + EmployeeConst.EMP_ID + " = ? ";
-            PreparedStatement preparedStatement = connection.prepareStatement(select);
+            PreparedStatement preparedStatement = connection.prepareStatement(Query.SELECT_EMPLOYEE);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -190,7 +256,8 @@ public class EmployeeDAO extends DAO {
                         new AuthorizeInfo(resultSet.getInt(AuthorizeConst.AUTHORIZE_ID), resultSet.getString(AuthorizeConst.EMAIL)));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+            throw new DatabaseException(500);
         }
         return employee;
     }

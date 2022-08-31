@@ -1,6 +1,7 @@
 package com.epam.cashierregister.controllers.servlets.frontController;
 
 import com.epam.cashierregister.controllers.servlets.frontController.commands.UnknownCommand;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,9 +22,16 @@ public class FrontControllerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         FrontCommand command = getCommand(req);
+        LOG.debug("Get command: {}", command.getClass());
         command.initCommand(getServletContext(), req, resp);
-        if (command.filter()){
-            command.process();
+        try {
+            if (command.filter()){
+                command.process();
+            }
+        } catch (DatabaseException e) {
+            LOG.error("Problem with filters");
+            req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
+            resp.sendRedirect("errorPage");
         }
     }
 

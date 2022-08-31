@@ -5,6 +5,7 @@ import com.epam.cashierregister.services.DAO.connection.TestDbHandler;
 import com.epam.cashierregister.services.entities.employee.AuthorizeInfo;
 import com.epam.cashierregister.services.entities.employee.Employee;
 import com.epam.cashierregister.services.entities.employee.Role;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.junit.jupiter.api.*;
 import org.mockito.MockedStatic;
@@ -39,7 +40,7 @@ class EmployeeDAOTest {
     }
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws DatabaseException {
         testDBHandler = new TestDbHandler();
         when(DBHandler.getConBuilder()).thenReturn(testDBHandler);
         employeeDAO = new EmployeeDAO();
@@ -53,7 +54,7 @@ class EmployeeDAOTest {
     }
 
     @Test
-    void testDeleteEmployee() {
+    void testDeleteEmployee() throws DatabaseException {
         AuthorizeInfo authorizeInfo = mock(AuthorizeInfo.class);
         Employee employee = mock(Employee.class);
         when(employee.getId()).thenReturn(1);
@@ -64,7 +65,19 @@ class EmployeeDAOTest {
     }
 
     @Test
-    void testAddEmployee() {
+    void test500() throws DatabaseException {
+        Employee employee = mock(Employee.class);
+        String password = "fsdfadsadsdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd"
+        + "fsdfadsadsdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasddasdasdasdasdasd";
+        AuthorizeInfo authorizeInfo = mock(AuthorizeInfo.class);
+        when(employee.getAuthorize()).thenReturn(authorizeInfo);
+        when(authorizeInfo.getId()).thenReturn(1);
+        DatabaseException e = Assertions.assertThrows(DatabaseException.class, ()-> employeeDAO.updatePassword(password, employee));
+        assertEquals(500, e.getErrorCode());
+    }
+
+    @Test
+    void testAddEmployee() throws DatabaseException {
         Employee employee = new Employee(5, "usersPhotos/nonuser.jpg", "Stepan", "Giga",
                 Role.CASHIER, new AuthorizeInfo("sgiga@gmail.com", "stepa123"));
         assertTrue(employeeDAO.addEmployee(employee));
@@ -77,33 +90,37 @@ class EmployeeDAOTest {
         Employee employee = mock(Employee.class);
         when(employee.getAuthorize()).thenReturn(authorizeInfo);
         when(authorizeInfo.getId()).thenReturn(1);
-        assertTrue(employeeDAO.updatePassword("testPassword", employee));
+        try {
+            assertTrue(employeeDAO.updatePassword("testPassword", employee));
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    void testGetEmployeeByEmail() {
+    void testGetEmployeeByEmail() throws DatabaseException {
         assertEquals(1, employeeDAO.getEmployee("tfemyak@gmail.com").getId());
     }
 
     @Test
-    void getEmployees() {
+    void getEmployees() throws DatabaseException {
         assertEquals(1, employeeDAO.getEmployees(0, null).size());
     }
 
     @Test
-    void getRoles() {
+    void getRoles() throws DatabaseException {
         assertEquals(4, employeeDAO.getRoles().size());
     }
 
     @Test
-    void changeRole() {
+    void changeRole() throws DatabaseException {
         assertEquals(Role.CASHIER, employeeDAO.getEmployee(1).getRole());
         employeeDAO.changeRole(Role.ADMIN, 1);
         assertEquals(Role.ADMIN, employeeDAO.getEmployee(1).getRole());
     }
 
     @Test
-    void testGetEmployee() {
+    void testGetEmployee() throws DatabaseException {
         assertEquals("tfemyak@gmail.com", employeeDAO.getEmployee(1).getAuthorize().getEmail());
     }
 

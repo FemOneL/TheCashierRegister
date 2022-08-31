@@ -1,38 +1,52 @@
 package com.epam.cashierregister.services.DAO;
 
-import com.epam.cashierregister.services.DAO.connection.DBHandler;
-import com.epam.cashierregister.services.DAO.connection.MainDBHandler;
+import com.epam.cashierregister.services.DAO.queries.Query;
 import com.epam.cashierregister.services.consts.ProducerConst;
 import com.epam.cashierregister.services.entities.goods.Producer;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
+import com.epam.cashierregister.services.exeptions.InvalidInputException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Data Access Object for producers
+ */
 public class ProducersDAO extends DAO {
 
-    public void addNewProducer(Producer producer) {
+    public ProducersDAO() throws DatabaseException {}
+
+    /**
+     * Adding new producer in database
+     * @param producer which need to added
+     * @throws InvalidInputException if producer are not uniq
+     */
+    public void addNewProducer(Producer producer) throws InvalidInputException {
         try (Connection connection = getConnection()) {
-            String insertCategory = "INSERT INTO " + ProducerConst.TABLE_NAME + " VALUES (default, ?)";
-            PreparedStatement statement = connection.prepareStatement(insertCategory);
+            PreparedStatement statement = connection.prepareStatement(Query.INSERT_PRODUCER);
             statement.setString(1, producer.getName());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new InvalidInputException("producer must be uniq");
         }
     }
 
-    public List<Producer> getProducerList() {
+    /**
+     * @return List of producers
+     * @throws DatabaseException if something go wrong with database
+     */
+    public List<Producer> getProducerList() throws DatabaseException {
         List<Producer> producers = new ArrayList<>();
         try (Connection connection = getConnection()) {
-            String selectCategory = "SELECT " + ProducerConst.NAME + " FROM " + ProducerConst.TABLE_NAME;
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(selectCategory);
+            ResultSet rs = statement.executeQuery(Query.SELECT_PRODUCER);
             while (rs.next()) {
                 producers.add(new Producer(rs.getString(ProducerConst.NAME)));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+            throw new DatabaseException(500);
         }
         return producers;
     }

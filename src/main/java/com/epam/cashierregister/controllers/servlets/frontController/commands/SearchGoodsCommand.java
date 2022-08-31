@@ -4,6 +4,7 @@ import com.epam.cashierregister.controllers.servlets.frontController.FrontComman
 import com.epam.cashierregister.services.DAO.GoodsDAO;
 import com.epam.cashierregister.services.entities.check.Check;
 import com.epam.cashierregister.services.entities.goods.Goods;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
@@ -25,11 +26,18 @@ public class SearchGoodsCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        LOG.info("Searching goods {} in warehouse", req.getParameter("goods"));
         HttpSession session = req.getSession();
         Check check = (Check) session.getAttribute("activeCheck");
-        Goods goods;
+        Goods goods = null;
         String value = req.getParameter("goods");
-        goods = goodsDAO.searchGood(value, false);
+        try {
+            goods = goodsDAO.searchGood(value, false);
+        } catch (DatabaseException e) {
+            LOG.error("Problem with searching goods");
+            req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
+            redirect("errorPage");
+        }
         if (goods != null) {
             goods.setTotalNumber(goods.getNumbers());
             goods.setTotalCost(goods.getCost());
@@ -52,8 +60,8 @@ public class SearchGoodsCommand extends FrontCommand {
                 }
             }
             session.setAttribute("activeCheck", check);
-            session.setAttribute("error", " ");
         } else {
+            LOG.info("Goods under this name/id is not in warehouse");
             session.setAttribute("error", "Goods under this name/id is not in warehouse");
         }
         redirect("createCheck");

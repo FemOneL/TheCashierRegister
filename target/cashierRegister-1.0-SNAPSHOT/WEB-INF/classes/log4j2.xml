@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="DEBUG">
+    <Properties>
+        <Property name="basePath">C:\Users\tfemy\Desktop\Final project\TheCashierRegister\src\main\resources\logs</Property>
+    </Properties>
     <Appenders>
         <Console name="LogToConsole" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %logger{5} - %msg%n"/>
         </Console>
-        <File name="LogToFile" fileName="src/main/resources/logs/app.txt">
+        <RollingFile name="LogToRollingFile" fileName="${basePath}/app.log"
+                     filePattern="${basePath}/$${date:yyyy-MM-dd}/app-%d{MM-dd-yyyy}-%i.log">
             <PatternLayout>
-                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+                <Pattern>%d{HH:mm:ss.SSS} %-5level %logger{5} - %msg%n</Pattern>
             </PatternLayout>
-        </File>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+        </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="com.epam.cashierregister" level="info" additivity="false">
-            <AppenderRef ref="LogToFile"/>
+        <Logger name="com.epam.cashierregister" level="all" additivity="false">
+            <AppenderRef ref="LogToRollingFile"/>
             <AppenderRef ref="LogToConsole"/>
         </Logger>
-        <Logger name="com.epam.cashierregister" level="info" additivity="false">
-            <AppenderRef ref="LogToConsole"/>
-        </Logger>
-        <Root level="debug">
-            <AppenderRef ref="LogToFile"/>
+        <Root level="warn">
             <AppenderRef ref="LogToConsole"/>
         </Root>
     </Loggers>

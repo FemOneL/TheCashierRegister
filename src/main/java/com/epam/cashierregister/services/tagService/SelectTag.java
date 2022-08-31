@@ -1,17 +1,19 @@
 package com.epam.cashierregister.services.tagService;
 
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
 
+/**
+ * Tag descriptor for selected current employee role
+ */
 public class SelectTag extends TagSupport {
     private String role;
     private String emp;
 
     @Override
-    public int doStartTag() throws JspException {
+    public int doStartTag() {
         JspWriter out = pageContext.getOut();
         try {
             if (role.equals(emp)) {

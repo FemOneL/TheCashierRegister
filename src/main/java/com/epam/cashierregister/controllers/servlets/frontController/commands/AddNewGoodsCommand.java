@@ -4,22 +4,18 @@ import com.epam.cashierregister.controllers.servlets.frontController.FrontComman
 import com.epam.cashierregister.services.DAO.CategoriesDAO;
 import com.epam.cashierregister.services.DAO.GoodsDAO;
 import com.epam.cashierregister.services.DAO.ProducersDAO;
-import com.epam.cashierregister.services.DAO.connection.MainDBHandler;
 import com.epam.cashierregister.services.UploadPhotoService;
-import com.epam.cashierregister.services.entities.employee.Employee;
 import com.epam.cashierregister.services.entities.goods.Category;
 import com.epam.cashierregister.services.entities.goods.Goods;
 import com.epam.cashierregister.services.entities.goods.Producer;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
 import com.epam.cashierregister.services.validateServices.ValidateAddGoods;
 import com.epam.cashierregister.services.validateServices.ValidateInputService;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Collection;
 
 public class AddNewGoodsCommand extends FrontCommand {
     private CategoriesDAO categoriesDAO;
@@ -34,11 +30,12 @@ public class AddNewGoodsCommand extends FrontCommand {
     }
 
     @Override
-    public boolean filter() throws ServletException, IOException {
+    public boolean filter() throws ServletException, IOException, DatabaseException {
         ValidateInputService validate = new ValidateAddGoods(req, goodsDAO);
         try {
             validate.validate();
         } catch (InvalidInputException e) {
+            LOG.warn("Invalid input: {}", e.getMessage());
             req.getSession().setAttribute("error", e.getMessage());
             redirect("addGoods");
             return false;
@@ -48,8 +45,7 @@ public class AddNewGoodsCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
-        req.setCharacterEncoding("utf-8");
-        //todo urf8
+        LOG.info("Adding new goods");
         String photo = UploadPhotoService.uploadPhoto(req, "goodsPhotos");
         if (photo == null) {
             photo = "nopicture.png";
@@ -76,16 +72,24 @@ public class AddNewGoodsCommand extends FrontCommand {
             isNewProducer = true;
         }
         Goods myGoods = new Goods(0, model, ("goodsPhotos/" + photo), numbers, cost, category, producer);
-        if (isNewCategory) {
-            categoriesDAO.addNewCategory(category);
+        try {
+            if (isNewCategory) {
+                categoriesDAO.addNewCategory(category);
+            }
+            if (isNewProducer) {
+                producersDAO.addNewProducer(producer);
+            }
+            goodsDAO.addGoods(myGoods);
+        } catch (DatabaseException e) {
+            LOG.error("Problem adding goods");
+            req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
+            redirect("errorPage");
+        } catch (InvalidInputException e) {
+            LOG.warn("Invalid input: {}", e.getMessage());
+            req.getSession().setAttribute("error", e.getMessage());
         }
-        if (isNewProducer) {
-            producersDAO.addNewProducer(producer) ;
-        }
-        goodsDAO.addGoods(myGoods);
         redirect("addGoods");
     }
-
 
 
 }

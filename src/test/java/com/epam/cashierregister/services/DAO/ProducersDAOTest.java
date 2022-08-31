@@ -4,6 +4,8 @@ import com.epam.cashierregister.services.DAO.connection.DBHandler;
 import com.epam.cashierregister.services.DAO.connection.MainDBHandler;
 import com.epam.cashierregister.services.DAO.connection.TestDbHandler;
 import com.epam.cashierregister.services.entities.goods.Producer;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
+import com.epam.cashierregister.services.exeptions.InvalidInputException;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.apache.logging.log4j.core.util.Assert;
 import org.junit.jupiter.api.*;
@@ -53,7 +55,7 @@ class ProducersDAOTest {
     }
 
     @Test
-    void testAddNewProducer() throws SQLException {
+    void testAddNewProducer() throws SQLException, DatabaseException, InvalidInputException {
         Producer producer = new Producer("apple");
         when(DBHandler.getConBuilder()).thenReturn(testDBHandler);
         producersDAO = new ProducersDAO();
@@ -62,7 +64,7 @@ class ProducersDAOTest {
     }
 
     @Test
-    void testGetProducerList() {
+    void testGetProducerList() throws DatabaseException {
         List<Producer> producerList;
         when(DBHandler.getConBuilder()).thenReturn(testDBHandler);
         producersDAO = new ProducersDAO();

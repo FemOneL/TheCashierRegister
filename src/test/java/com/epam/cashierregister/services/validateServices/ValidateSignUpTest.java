@@ -2,6 +2,7 @@ package com.epam.cashierregister.services.validateServices;
 
 import com.epam.cashierregister.services.DAO.EmployeeDAO;
 import com.epam.cashierregister.services.entities.employee.Employee;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -73,7 +74,7 @@ class ValidateSignUpTest {
     }
 
     @Test
-    void testCheckUniqLogin() {
+    void testCheckUniqLogin() throws DatabaseException {
         when(request.getParameter("firstname")).thenReturn("Taras");
         when(request.getParameter("secondname")).thenReturn("Femiak");
         when(request.getParameter("email")).thenReturn("tfemyak@gmail.com");

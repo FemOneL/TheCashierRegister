@@ -1,11 +1,11 @@
 package com.epam.cashierregister.services.DAO;
 
-import com.epam.cashierregister.services.DAO.queries.CheckQuery;
+import com.epam.cashierregister.services.DAO.queries.Query;
 import com.epam.cashierregister.services.consts.CheckConst;
 import com.epam.cashierregister.services.consts.CheckHasGoodsConst;
-import com.epam.cashierregister.services.consts.EmployeeConst;
 import com.epam.cashierregister.services.entities.check.Check;
 import com.epam.cashierregister.services.entities.goods.Goods;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -13,16 +13,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Data Access Object for checks
+ */
 public class ChecksDAO extends DAO {
 
-    public boolean deleteCheck(Check check) {
+    public ChecksDAO() throws DatabaseException {
+    }
+
+    /**
+     * delete current check using transactions
+     * @param check which you need to delete
+     * @return true if check deleted
+     * @throws DatabaseException
+     */
+    public boolean deleteCheck(Check check) throws DatabaseException {
         Connection connection = null;
         try {
             connection = getConnection();
             connection.setAutoCommit(false);
-            PreparedStatement updateGoodsStatement = connection.prepareStatement(CheckQuery.UPDATE_GOODS_NUMBER);
-            PreparedStatement deleteCheckHasGoodsStatement = connection.prepareStatement(CheckQuery.DELETE_FROM_CHECK_HAS_GOODS);
-            PreparedStatement deleteCheckStatement = connection.prepareStatement(CheckQuery.DELETE_CHECK);
+            PreparedStatement updateGoodsStatement = connection.prepareStatement(Query.UPDATE_GOODS_NUMBER);
+            PreparedStatement deleteCheckHasGoodsStatement = connection.prepareStatement(Query.DELETE_FROM_CHECK_HAS_GOODS);
+            PreparedStatement deleteCheckStatement = connection.prepareStatement(Query.DELETE_CHECK);
             for (Goods goods : check.getGoodsSet()) {
                 updateGoodsStatement.setInt(1, goods.getId());
                 updateGoodsStatement.setInt(2, check.getId());
@@ -35,130 +47,159 @@ public class ChecksDAO extends DAO {
             deleteCheckStatement.executeUpdate();
 
             connection.commit();
+            LOG.info("Transaction success!!");
         } catch (SQLException e) {
             try {
                 connection.rollback();
+                LOG.error("Transaction failed!!");
                 return false;
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                LOG.fatal("Database was thrown SQLException with message: {} {}", ex.getErrorCode() , ex.getMessage());
+                throw new DatabaseException(500);
             }
-            e.printStackTrace();
         } finally {
             if (connection != null) {
                 try {
                     connection.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+                    throw new DatabaseException(500);
                 }
             }
         }
         return true;
     }
 
-    public boolean deleteSpecificCheck(Check check, int goodsId) {
+    /**
+     * delete specific goods in check using transactions
+     * @param check which contains target goods
+     * @param goodsId id of target goods
+     * @return true if goods deleted
+     * @throws DatabaseException
+     */
+    public boolean deleteSpecificGoodsInCheck(Check check, int goodsId) throws DatabaseException {
         Connection connection = null;
         try {
             connection = getConnection();
             connection.setAutoCommit(false);
 
-            PreparedStatement removeCostStatement = connection.prepareStatement(CheckQuery.UPDATE_TOTAL_COST);
+            PreparedStatement removeCostStatement = connection.prepareStatement(Query.UPDATE_TOTAL_COST);
             removeCostStatement.setInt(1, check.getId());
             removeCostStatement.setInt(2, goodsId);
             removeCostStatement.setInt(3, goodsId);
             removeCostStatement.setInt(4, check.getId());
             removeCostStatement.executeUpdate();
 
-            PreparedStatement returnGoodsStatement = connection.prepareStatement(CheckQuery.RETURN_GOODS_IN_WAREHOUSE);
+            PreparedStatement returnGoodsStatement = connection.prepareStatement(Query.RETURN_GOODS_IN_WAREHOUSE);
             returnGoodsStatement.setInt(1, goodsId);
             returnGoodsStatement.setInt(2, check.getId());
             returnGoodsStatement.setInt(3, goodsId);
             returnGoodsStatement.executeUpdate();
 
-            PreparedStatement deleteGoodsFromCheckStatement = connection.prepareStatement(CheckQuery.DELETE_GOODS);
+            PreparedStatement deleteGoodsFromCheckStatement = connection.prepareStatement(Query.DELETE_GOODS);
             deleteGoodsFromCheckStatement.setInt(1, goodsId);
             deleteGoodsFromCheckStatement.setInt(2, check.getId());
             deleteGoodsFromCheckStatement.executeUpdate();
 
             connection.commit();
+            LOG.info("Transaction success!!");
         } catch (SQLException e) {
             try {
                 connection.rollback();
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+                throw new DatabaseException(500);
             }
-            e.printStackTrace();
         } finally {
             try {
                 if (connection != null) {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+                throw new DatabaseException(500);
             }
         }
         return true;
     }
 
-    public boolean deleteSpecificCheck(Check check, int goodsId, int diff) {
+     /**
+     * delete specific goods in check using transactions
+     * @param check which contains target goods
+     * @param goodsId id of target goods
+     * @param diff different which must be deleted
+     * @return true if goods deleted
+     * @throws DatabaseException
+     */
+    public boolean deleteSpecificGoodsInCheck(Check check, int goodsId, int diff) throws DatabaseException {
         Connection connection = null;
         try {
             connection = getConnection();
             connection.setAutoCommit(false);
 
-            PreparedStatement updateTotalCostStatement = connection.prepareStatement(CheckQuery.UPDATE_TOTAL_COST);
+            PreparedStatement updateTotalCostStatement = connection.prepareStatement(Query.UPDATE_TOTAL_COST);
             updateTotalCostStatement.setInt(1, check.getId());
             updateTotalCostStatement.setInt(2, goodsId);
             updateTotalCostStatement.setInt(3, goodsId);
             updateTotalCostStatement.setInt(4, check.getId());
             updateTotalCostStatement.executeUpdate();
 
-            PreparedStatement updateCheckStatement = connection.prepareStatement(CheckQuery.UPDATE_CHECK);
+            PreparedStatement updateCheckStatement = connection.prepareStatement(Query.UPDATE_CHECK);
             updateCheckStatement.setInt(1, diff);
             updateCheckStatement.setInt(2, goodsId);
             updateCheckStatement.setInt(3, check.getId());
             updateCheckStatement.executeUpdate();
 
-            PreparedStatement updateTotalCostAgainStatement = connection.prepareStatement(CheckQuery.UPDATE_TOTAL_COST_AGAIN);
+            PreparedStatement updateTotalCostAgainStatement = connection.prepareStatement(Query.UPDATE_TOTAL_COST_AGAIN);
             updateTotalCostAgainStatement.setInt(1, check.getId());
             updateTotalCostAgainStatement.setInt(2, goodsId);
             updateTotalCostAgainStatement.setInt(3, goodsId);
             updateTotalCostAgainStatement.setInt(4, check.getId());
             updateTotalCostAgainStatement.executeUpdate();
 
-            PreparedStatement updateGoodsStatement = connection.prepareStatement(CheckQuery.RETURN_GOODS);
+            PreparedStatement updateGoodsStatement = connection.prepareStatement(Query.RETURN_GOODS);
             updateGoodsStatement.setInt(1, diff);
             updateGoodsStatement.setInt(2, goodsId);
             updateGoodsStatement.executeUpdate();
 
             connection.commit();
+            LOG.info("Transaction success!!");
         } catch (SQLException e) {
             try {
                 connection.rollback();
+                LOG.error("Transaction failed!!");
+                return false;
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+                throw new DatabaseException(500);
             }
-            e.printStackTrace();
         } finally {
             try {
                 if (connection != null) {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+                throw new DatabaseException(500);
             }
         }
         return true;
     }
 
-
-    public Check getCheckWithGoods(int id) {
+    /**
+     * get check and all goods in check
+     * @param id of check
+     * @return check with goods
+     * @throws DatabaseException
+     */
+    public Check getCheckWithGoods(int id) throws DatabaseException {
         Check check = null;
         Goods goods;
         EmployeeDAO employeeDAO = new EmployeeDAO();
         GoodsDAO goodsDAO = new GoodsDAO();
         try (Connection connection = getConnection()) {
-            PreparedStatement checkStatement = connection.prepareStatement(CheckQuery.SELECT_CHECK);
-            PreparedStatement goodsStatement = connection.prepareStatement(CheckQuery.SELECT_GOODS);
+            PreparedStatement checkStatement = connection.prepareStatement(Query.SELECT_CHECK);
+            PreparedStatement goodsStatement = connection.prepareStatement(Query.SELECT_GOODS);
             goodsStatement.setInt(1, id);
             checkStatement.setInt(1, id);
             ResultSet goodsSet = goodsStatement.executeQuery();
@@ -176,23 +217,26 @@ public class ChecksDAO extends DAO {
                 check.getGoodsSet().add(goods);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+            throw new DatabaseException(500);
         }
         return check;
     }
 
-    public List<Check> getChecks(int page, String search) {
+    /**
+     * get list of checks
+     * @param page
+     * @param search search string or null
+     * @return list of checks
+     * @throws DatabaseException
+     */
+    public List<Check> getChecks(int page, String search) throws DatabaseException {
         EmployeeDAO employeeDAO = new EmployeeDAO();
         List<Check> checks = new ArrayList<>();
         try (Connection connection = getConnection()) {
-            String searchRes = " WHERE " + EmployeeConst.FIRSTNAME + " LIKE '%" + search + "%' OR " +
-                    CheckConst.EMP_ID + " LIKE '%" + search + "%' OR " +
-                    EmployeeConst.SECONDNAME + " LIKE '%" + search + "%' OR " +
-                    CheckConst.TIME + " LIKE '%" + search + "%' OR " + CheckConst.TIME + " LIKE '% + search + %' ";
+            String searchQuery = " WHERE " + CheckConst.TIME + " LIKE '%" + search + "%' ";
             String selectFromCheck = "SELECT * FROM " + CheckConst.TABLE_NAME +
-                    " INNER JOIN " + EmployeeConst.TABLE_NAME + " ON " + CheckConst.TABLE_NAME + "." + CheckConst.EMP_ID +
-                    " = " + EmployeeConst.TABLE_NAME + "." + EmployeeConst.EMP_ID +
-                    (search != null ? searchRes : " ") +
+                    (search != null ? searchQuery : " ") +
                     " ORDER BY " + CheckConst.TIME +
                     " DESC LIMIT ?, 21";
             PreparedStatement statement = connection.prepareStatement(selectFromCheck);
@@ -204,21 +248,29 @@ public class ChecksDAO extends DAO {
                         resultSet.getTimestamp(CheckConst.TIME), resultSet.getBigDecimal(CheckConst.TOTAL_COST)));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+            throw new DatabaseException(500);
         }
         return checks;
     }
 
 
-    public boolean addGoodsInCheck(Set<Goods> goodsSet, Check check) {
+    /**
+     * added set of goods in check by transaction
+     * @param goodsSet
+     * @param check
+     * @return true if goods added
+     * @throws DatabaseException
+     */
+    public boolean addGoodsInCheck(Set<Goods> goodsSet, Check check) throws DatabaseException {
         Connection connection = null;
         try {
             connection = getConnection();
             connection.setAutoCommit(false);
-            CallableStatement statement = connection.prepareCall(CheckQuery.SET_FOREIGN_KEY_CHECK);
+            CallableStatement statement = connection.prepareCall(Query.FOREIGN_KEY_CHECKS_0);
             statement.executeUpdate();
-            PreparedStatement insertStatement = connection.prepareStatement(CheckQuery.INSERT_GOODS);
-            PreparedStatement updateStatement = connection.prepareStatement(CheckQuery.UPDATE_GOODS);
+            PreparedStatement insertStatement = connection.prepareStatement(Query.INSERT_GOODS);
+            PreparedStatement updateStatement = connection.prepareStatement(Query.UPDATE_GOODS);
             for (Goods goods : goodsSet) {
                 insertStatement.setInt(1, check.getId());
                 insertStatement.setInt(2, goods.getId());
@@ -228,30 +280,41 @@ public class ChecksDAO extends DAO {
                 insertStatement.executeUpdate();
                 updateStatement.executeUpdate();
             }
+            statement = connection.prepareCall(Query.FOREIGN_KEY_CHECKS_1);
+            statement.executeUpdate();
             connection.commit();
+            LOG.info("Transaction success!!");
         } catch (SQLException e) {
             try {
                 connection.rollback();
+                LOG.error("Transaction failed!!");
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+                throw new DatabaseException(500);
             }
-            e.printStackTrace();
         } finally {
             try {
                 if (connection != null) {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+                throw new DatabaseException(500);
             }
         }
         return true;
     }
 
-    public int createCheck(Check check) {
+    /**
+     * creating new chck
+     * @param check
+     * @return created check id
+     * @throws DatabaseException
+     */
+    public int createCheck(Check check) throws DatabaseException {
         int id = 0;
         try (Connection connection = getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(CheckQuery.INSERT_CHECK, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(Query.INSERT_CHECK, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, check.getEmployee().getId());
             preparedStatement.setTimestamp(2, check.getTime());
             preparedStatement.setBigDecimal(3, check.getTotalCost());
@@ -261,7 +324,8 @@ public class ChecksDAO extends DAO {
                 id = key.getInt(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+            throw new DatabaseException(500);
         }
         return id;
     }

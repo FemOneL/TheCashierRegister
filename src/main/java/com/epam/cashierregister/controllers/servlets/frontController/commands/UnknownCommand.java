@@ -18,6 +18,7 @@ public class UnknownCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
-        redirect("cabinet");
+        req.getSession().setAttribute("javax.servlet.error.status_code", 500);
+        redirect("errorPage");
     }
 }

@@ -2,6 +2,7 @@ package com.epam.cashierregister.services.validateServices;
 
 import com.epam.cashierregister.services.DAO.EmployeeDAO;
 import com.epam.cashierregister.services.entities.employee.Employee;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -51,7 +52,7 @@ class ValidateSignInTest {
     }
 
     @Test
-    void testCheckData() {
+    void testCheckData() throws DatabaseException {
         when(request.getParameter("login")).thenReturn("tfemyak@gmail.com");
         when(request.getParameter("password")).thenReturn("taras123");
         when(employeeDAO.getEmployee(request.getParameter("login"))).thenReturn(null);

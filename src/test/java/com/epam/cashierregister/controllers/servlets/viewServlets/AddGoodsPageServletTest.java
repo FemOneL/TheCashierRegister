@@ -2,6 +2,7 @@ package com.epam.cashierregister.controllers.servlets.viewServlets;
 
 import com.epam.cashierregister.services.DAO.CategoriesDAO;
 import com.epam.cashierregister.services.DAO.ProducersDAO;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,7 +52,7 @@ class AddGoodsPageServletTest {
     }
 
     @Test
-    void testaddGoodsPageDoGet() throws ServletException, IOException {
+    void testaddGoodsPageDoGet() throws ServletException, IOException, DatabaseException {
         CategoriesDAO categoriesDAO = mock(CategoriesDAO.class);
         ProducersDAO producersDAO = mock(ProducersDAO.class);
         servletConfig = mock(ServletConfig.class);
@@ -68,7 +69,6 @@ class AddGoodsPageServletTest {
 
         verify(request, times(1)).getRequestDispatcher(path);
         verify(requestDispatcher).forward(request, response);
-        verify(session).setAttribute("error", " ");
         verify(request).setAttribute("categories", categoriesDAO.getCategoryList());
         verify(request).setAttribute("producers", producersDAO.getProducerList());
     }

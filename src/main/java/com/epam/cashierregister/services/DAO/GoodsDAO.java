@@ -1,21 +1,34 @@
 package com.epam.cashierregister.services.DAO;
 
+import com.epam.cashierregister.services.DAO.queries.Query;
 import com.epam.cashierregister.services.consts.CategoryConst;
-import com.epam.cashierregister.services.consts.EmployeeConst;
 import com.epam.cashierregister.services.consts.GoodsConst;
 import com.epam.cashierregister.services.consts.ProducerConst;
 import com.epam.cashierregister.services.entities.goods.Category;
 import com.epam.cashierregister.services.entities.goods.Goods;
 import com.epam.cashierregister.services.entities.goods.Producer;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 import com.epam.cashierregister.services.exeptions.GoodsExistInCheckException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Data Access Object for goods
+ */
 public class GoodsDAO extends DAO {
 
-    public Goods searchGood(String searchBy, boolean getZeroNumber) {
+    public GoodsDAO() throws DatabaseException {}
+
+    /**
+     * search goods by id or model
+     * @param searchBy id/model
+     * @param getZeroNumber if needed goods with zero numbers
+     * @return searched goods
+     * @throws DatabaseException
+     */
+    public Goods searchGood(String searchBy, boolean getZeroNumber) throws DatabaseException {
         Goods goods = null;
         try (Connection connection = getConnection()) {
             String search = "SELECT " + GoodsConst.GOODS_ID + ", " + GoodsConst.PHOTO + ", " + GoodsConst.MODEL + ", " + GoodsConst.NUMBERS + ", " + GoodsConst.COST +
@@ -37,67 +50,81 @@ public class GoodsDAO extends DAO {
                         new Category(resultSet.getString(CategoryConst.CATEGORY)), new Producer(resultSet.getString(ProducerConst.NAME)));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+            throw new DatabaseException(500);
         }
         return goods;
     }
 
+    /**
+     * delete current goods by id
+     * @param goodsId
+     * @throws GoodsExistInCheckException if current goods exist in check
+     */
     public void deleteGoods(int goodsId) throws GoodsExistInCheckException {
         try (Connection connection = getConnection()) {
-            String fkc = "SET FOREIGN_KEY_CHECKS=1";
-            String delete = "DELETE FROM " + GoodsConst.TABLE_NAME + " WHERE " + GoodsConst.GOODS_ID + " = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(delete);
-            CallableStatement callableStatement = connection.prepareCall(fkc);
+            PreparedStatement preparedStatement = connection.prepareStatement(Query.DELETE);
+            CallableStatement callableStatement = connection.prepareCall(Query.FOREIGN_KEY_CHECKS_1);
             callableStatement.executeUpdate();
             preparedStatement.setInt(1, goodsId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
             throw new GoodsExistInCheckException();
         }
     }
 
-    public boolean checkModel(String model) {
+    /**
+     * check if model exist in database
+     * @param model
+     * @return false if model exist
+     * @throws DatabaseException
+     */
+    public boolean checkModel(String model) throws DatabaseException {
         boolean result = true;
         try (Connection connection = getConnection()) {
-            String selectModel = "SELECT " + GoodsConst.MODEL + " FROM " + GoodsConst.TABLE_NAME +
-                    " WHERE " + GoodsConst.MODEL + " = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(selectModel);
+            PreparedStatement preparedStatement = connection.prepareStatement(Query.SELECT_MODEL);
             preparedStatement.setString(1, model);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 result = false;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+            throw new DatabaseException(500);
         }
         return result;
     }
 
-    public boolean updateNumber(int id, int newNumber) {
-        int result = 0;
+    /**
+     * update number in goods
+     * @param id of target goods
+     * @param newNumber new number of goods
+     * @return true if number updated
+     * @throws DatabaseException
+     */
+    public boolean updateNumber(int id, int newNumber) throws DatabaseException {
+        int result;
         try (Connection connection = getConnection()) {
-            String update = "UPDATE " + GoodsConst.TABLE_NAME +
-                    " SET " + GoodsConst.NUMBERS + " = " + " ? " +
-                    " WHERE " + GoodsConst.GOODS_ID + " = " + " ? ";
-            PreparedStatement preparedStatement = connection.prepareStatement(update);
+            PreparedStatement preparedStatement = connection.prepareStatement(Query.UPDATE);
             preparedStatement.setInt(1, newNumber);
             preparedStatement.setInt(2, id);
             result = preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+            throw new DatabaseException(500);
         }
         return result > 0;
     }
 
-    public void addGoods(Goods goods) {
+    /**
+     * added new goods
+     * @param goods
+     * @throws DatabaseException
+     */
+    public void addGoods(Goods goods) throws DatabaseException {
         try (Connection connection = getConnection()) {
-            String insertGoods = "INSERT INTO " + GoodsConst.TABLE_NAME +
-                    " VALUES (default, ?, ?, ?, ?, " +
-                    "(SELECT " + CategoryConst.CATEGORY_ID + " FROM " + CategoryConst.TABLE_NAME
-                    + " WHERE " + CategoryConst.CATEGORY + " = ?), " +
-                    "(SELECT " + ProducerConst.PRODUCER_ID + " FROM " + ProducerConst.TABLE_NAME
-                    + " WHERE " + ProducerConst.NAME + " = ?))";
-            PreparedStatement preparedStatement = connection.prepareStatement(insertGoods);
+            PreparedStatement preparedStatement = connection.prepareStatement(Query.ADD_GOODS);
             preparedStatement.setString(1, goods.getModel());
             preparedStatement.setString(2, goods.getPhoto());
             preparedStatement.setInt(3, goods.getNumbers());
@@ -106,12 +133,20 @@ public class GoodsDAO extends DAO {
             preparedStatement.setString(6, goods.getProducer().getName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+            throw new DatabaseException(500);
         }
     }
 
 
-    public List<Goods> getGoods(int page, String search) {
+    /**
+     * get list of goods in current page
+     * @param page
+     * @param search or null
+     * @return list of goods
+     * @throws DatabaseException
+     */
+    public List<Goods> getGoods(int page, String search) throws DatabaseException {
         List<Goods> goods = new ArrayList<>();
         try (Connection connection = getConnection()) {
             String searchQuery = " WHERE " + GoodsConst.GOODS_ID + " LIKE '%" + search + "%' OR " +
@@ -134,7 +169,8 @@ public class GoodsDAO extends DAO {
                         new Category(resultSet.getString(CategoryConst.CATEGORY)), new Producer(resultSet.getString(ProducerConst.NAME))));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+            throw new DatabaseException(500);
         }
         return goods;
     }

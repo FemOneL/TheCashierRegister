@@ -17,16 +17,19 @@ public class DeleteGoodsCommand extends FrontCommand {
     }
 
     @Override
-    public boolean filter() throws ServletException, IOException {return true;}
+    public boolean filter() throws ServletException, IOException {
+        return true;
+    }
 
     @Override
     public void process() throws ServletException, IOException {
+        LOG.info("Delete goods where id = {}", req.getParameter("delete"));
         HttpSession session = req.getSession();
         int id = Integer.parseInt(req.getParameter("delete"));
         try {
             goodsDAO.deleteGoods(id);
-            session.setAttribute("error", " ");
         } catch (GoodsExistInCheckException e) {
+            LOG.warn("{}", e.getMessage());
             session.setAttribute("error", e.getMessage());
         }
         redirect("goods?edit=true");

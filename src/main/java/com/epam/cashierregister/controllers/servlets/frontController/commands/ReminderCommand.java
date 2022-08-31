@@ -2,6 +2,7 @@ package com.epam.cashierregister.controllers.servlets.frontController.commands;
 
 import com.epam.cashierregister.controllers.servlets.frontController.FrontCommand;
 import com.epam.cashierregister.services.entities.check.Check;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
 import com.epam.cashierregister.services.validateServices.ValidateInputService;
 import com.epam.cashierregister.services.validateServices.ValidateRemainder;
@@ -19,13 +20,17 @@ public class ReminderCommand extends FrontCommand {
     }
 
     @Override
-    public boolean filter() throws ServletException, IOException {
+    public boolean filter() throws ServletException, IOException, DatabaseException {
         ValidateInputService validateInputService = new ValidateRemainder(req);
+        HttpSession session = req.getSession();
         try {
             validateInputService.validate();
-            req.getSession().removeAttribute("remainder");
+            session.removeAttribute("remainder");
         } catch (InvalidInputException e) {
-            req.getSession().setAttribute("error", e.getMessage());
+            LOG.warn("Invalid input: {}", e.getMessage());
+            session.setAttribute("error", e.getMessage());
+            session.setAttribute("sum", new BigDecimal(0));
+            session.setAttribute("remainder", new BigDecimal(0));
             redirect("pay");
             return false;
         }
@@ -40,9 +45,10 @@ public class ReminderCommand extends FrontCommand {
         Check check = (Check) session.getAttribute("activeCheck");
         session.setAttribute("sum", sum);
         if (sum.doubleValue() < check.getTotalCost().doubleValue()) {
-            session.setAttribute("error", "Pay another " + (check.getTotalCost().doubleValue() - sum.doubleValue()));
+            session.setAttribute("error", String.format("Pay another %.2f", check.getTotalCost().doubleValue() - sum.doubleValue()));
             redirect("pay");
         } else if (sum.doubleValue() >= check.getTotalCost().doubleValue()) {
+            session.removeAttribute("error");
             session.setAttribute("remainder", sum.subtract(check.getTotalCost()));
             redirect("pay");
         }

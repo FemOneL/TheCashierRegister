@@ -1,6 +1,7 @@
 package com.epam.cashierregister.services.validateServices;
 
 import com.epam.cashierregister.services.DAO.GoodsDAO;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -49,7 +50,7 @@ class ValidateAddGoodsTest {
     }
 
     @Test
-    void testCheckUniqValidate() {
+    void testCheckUniqValidate() throws DatabaseException {
         when(request.getParameter("model")).thenReturn("iphone 13");
         when(request.getParameter("select_category")).thenReturn("none");
         when(request.getParameter("new_category")).thenReturn("AI");

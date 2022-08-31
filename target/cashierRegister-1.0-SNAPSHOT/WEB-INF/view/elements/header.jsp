@@ -11,27 +11,27 @@
     </div>
     <div class="navigator">
         <a href="cabinet">
-            <div class="navigate_btn"><fmt:message key="cabinet.cabinet.btn.text"/></div>
+            <div class="navigate_btn"><fmt:message key="navigate.cabinet.btn.text"/></div>
         </a>
         <c:if test="${employee.role == 'SENIOR_CASHIER'}">
             <a href="checks">
-                <div class="navigate_btn"><fmt:message key="cabinet.checks.btn.text"/></div>
+                <div class="navigate_btn"><fmt:message key="navigate.checks.btn.text"/></div>
             </a>
         </c:if>
         <c:if test="${employee.role == 'COMMODITY_EXPERT'}">
             <a href="goods">
-                <div class="navigate_btn"><fmt:message key="cabinet.goods.btn.text"/></div>
+                <div class="navigate_btn"><fmt:message key="navigate.goods.btn.text"/></div>
             </a>
         </c:if>
         <c:if test="${employee.role == 'ADMIN'}">
             <a href="employees">
-                <div class="navigate_btn">Employees</div>
+                <div class="navigate_btn"><fmt:message key="navigate.employees.btn.text"/></div>
             </a>
             <a href="reports">
-                <div class="navigate_btn">Reports</div>
+                <div class="navigate_btn"><fmt:message key="navigate.reports.btn.text"/></div>
             </a>
             <a href="signup">
-                <div class="navigate_btn">Register</div>
+                <div class="navigate_btn"><fmt:message key="navigate.register.btn.text"/></div>
             </a>
         </c:if>
     </div>

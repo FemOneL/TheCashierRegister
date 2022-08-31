@@ -5,6 +5,7 @@ import com.epam.cashierregister.services.DAO.ChecksDAO;
 import com.epam.cashierregister.services.ReportService;
 import com.epam.cashierregister.services.entities.check.Check;
 import com.epam.cashierregister.services.entities.goods.Goods;
+import com.epam.cashierregister.services.exeptions.DatabaseException;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
@@ -33,6 +34,7 @@ public class DeleteGoodsFromCheckCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         Check activeCheck = (Check) req.getSession().getAttribute("activeCheck");
+        LOG.info("try to delete goods from check where id = {}", activeCheck.getId());
         int goodsId = Integer.parseInt(req.getParameter("good"));
         int value = Integer.parseInt(req.getParameter("editNumber"));
         int different = 0;
@@ -44,10 +46,16 @@ public class DeleteGoodsFromCheckCommand extends FrontCommand {
                     different = goods.getNumbers() - value;
                 }
             }
-            if (value == 0) {
-                checksDAO.deleteSpecificCheck(activeCheck, goodsId);
-            } else {
-                checksDAO.deleteSpecificCheck(activeCheck, goodsId, different);
+            try {
+                if (value == 0) {
+                    checksDAO.deleteSpecificGoodsInCheck(activeCheck, goodsId);
+                } else {
+                    checksDAO.deleteSpecificGoodsInCheck(activeCheck, goodsId, different);
+                }
+            } catch (DatabaseException e){
+                LOG.error("Problem with deleting goods from check");
+                req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
+                redirect("errorPage");
             }
             if (currentGoods != null) {
                 report.addReturned(different, currentGoods.getCost().multiply(new BigDecimal(different)));

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <head>
@@ -13,30 +14,33 @@
         <%@include file="../../css/createCheck.css" %>
     </style>
     <jsp:useBean id="activeCheck" scope="session" type="com.epam.cashierregister.services.entities.check.Check"/>
-    <jsp:useBean id="error" scope="session" type="java.lang.String"/>
+    <jsp:useBean id="error" scope="request" type="java.lang.String"/>
+    <jsp:useBean id="loc" scope="session" type="java.lang.String"/>
+    <fmt:setLocale value="${loc}"/>
+    <fmt:setBundle basename="language"/>
 </head>
 <body>
 <c:import url="elements/header.jsp"/>
 <main>
     <section class="main_section">
         <div class="title_div">
-            <h1>Create check</h1>
+            <h1><fmt:message key="createCheck.header.1"/></h1>
         </div>
         <div class="main_form">
-            <h1>add goods</h1>
+            <h1><fmt:message key="createCheck.header.2"/></h1>
             <div class="search_div">
                 <form method="post" action="frontController">
                     <input type="hidden" name="cmd" value="SearchGoods">
                     <input name="goods" class="my_text" type="text">
-                    <input type="submit" value="add">
+                    <input type="submit" value="<fmt:message key="createCheck.btn.add"/>">
                 </form>
             </div>
             <div class="cart_div">
                 <div class="goods_head">
-                    <div>photo</div>
-                    <div>model</div>
-                    <div>number</div>
-                    <div>cost</div>
+                    <div><fmt:message key="createCheck.table.photo"/></div>
+                    <div><fmt:message key="createCheck.table.model"/></div>
+                    <div><fmt:message key="createCheck.table.number"/></div>
+                    <div><fmt:message key="createCheck.table.cost"/></div>
                 </div>
                 <c:forEach var="good" items="${sessionScope.activeCheck.goodsSet}">
                     <div class="goods">
@@ -57,8 +61,8 @@
             <div class="total_cost">${activeCheck.totalCost} $</div>
             <div class="buttons_div">
                 <form method="get" action="pay">
-                    <button class="submit_btn" name="command" value="cancel">Cancel</button>
-                    <button class="submit_btn" name="command" value="pay">Pay</button>
+                    <button class="submit_btn" name="command" value="cancel"><fmt:message key="createCheck.cancel"/></button>
+                    <button class="submit_btn" name="command" value="pay"><fmt:message key="createCheck.pay"/></button>
                 </form>
             </div>
             <div class="error">${error}</div>

@@ -9,21 +9,19 @@ import java.io.IOException;
 public class ChangePageCommand extends FrontCommand {
 
     @Override
-    public void initContext() throws ServletException {
-
-    }
+    public void initContext() throws ServletException {}
 
     @Override
     public boolean filter() throws ServletException, IOException { return true; }
 
     @Override
     public void process() throws ServletException, IOException {
+        LOG.info("Changing page");
         HttpSession session = req.getSession();
         String pageName = req.getParameter("pageName");
         int size = Integer.parseInt(req.getParameter("size"));
-        int page;
         int currentPage = (Integer) session.getAttribute("page");
-        page = getPage(req.getParameter("page"), currentPage, size);
+        int page = getPage(req.getParameter("page"), currentPage, size);
         session.setAttribute("page", page);
         redirect(pageName);
     }

@@ -260,3 +260,13 @@ insert into cash_register_test.goods
 values (default, 'iphone 13', 'goodsPhotos/nopicture.png', 24, 500.34, 3, 2);
 insert into cash_register_test.goods
 values (default, 'phil232',	'goodsPhotos/nopicture.png', 12, 233.00, 2, 3);
+insert into cash_register_test.goods
+values (default, 'p40',	'goodsPhotos/nopicture.png', 123, 244.00, 2, 3);
+-- fill checks
+insert into cash_register_test.check values (default, 1, now(), 231.23);
+insert into cash_register_test.check values (default, 1, now(), 443.00);
+insert into cash_register_test.check values (default, 1, now(), 532.23);
+-- fill check_has_goods
+insert into cash_register_test.check_has_goods values (1, 2, 3);
+insert into cash_register_test.check_has_goods values (2, 1, 3);
+insert into cash_register_test.check_has_goods values (3, 2, 4);

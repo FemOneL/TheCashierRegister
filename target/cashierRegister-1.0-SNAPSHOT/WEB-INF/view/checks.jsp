@@ -21,7 +21,7 @@
 <main>
     <form method="post" action="frontController">
         <input type="hidden" name="cmd" value="Search">
-        <input type="text" name="search" placeholder="search...">
+        <input type="date" name="search">
         <button type="submit" name="view" value="checks">search</button>
     </form>
     <section class="checks_section">
