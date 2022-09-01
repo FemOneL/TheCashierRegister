@@ -31,7 +31,7 @@ public class UploadPhotoService {
         for (Part part : parts) {
             try {
                 if (part.getSubmittedFileName() != null) {
-                    if (part.getSubmittedFileName().matches("\\w+\\.(jpg|png)")) {
+                    if (part.getSubmittedFileName().matches("\\S+\\.(jpg|png)")) {
                         LOG.info("try upload image in {}", realPath);
                         part.write(realPath + "/" + emp.getId() + "_" + part.getSubmittedFileName());
                         LOG.info("upload image {}", part.getSubmittedFileName());

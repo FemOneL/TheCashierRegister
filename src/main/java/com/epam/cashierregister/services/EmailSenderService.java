@@ -16,7 +16,7 @@ import java.util.Properties;
 public class EmailSenderService {
     static Logger LOG = LogManager.getLogger(EmailSenderService.class);
     private final String email = "tfemyak@gmail.com";
-    private final String password = "your_app_password";
+    private final String password = "arywgyctnkfmypef";
 
     /**
      * send email with new password in recipient email
