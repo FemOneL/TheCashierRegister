@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="st" uri="selectOptionTag"%>
+<%@ taglib prefix="st" uri="selectOptionTag" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <head>
@@ -18,17 +19,21 @@
     </style>
     <jsp:useBean id="employees" scope="request" type="java.util.Set"/>
     <jsp:useBean id="roles" scope="request" type="java.util.Set"/>
+    <jsp:useBean id="error" scope="request" type="java.lang.String"/>
     <jsp:useBean id="currentPage" scope="session" type="java.lang.Integer"/>
+    <jsp:useBean id="loc" scope="session" type="java.lang.String"/>
+    <fmt:setLocale value="${loc}"/>
+    <fmt:setBundle basename="language"/>
 </head>
 <body>
 <c:import url="elements/header.jsp"/>
 <main>
     <div class="title_div">
-        <h1>employees</h1>
+        <h1><fmt:message key="employees.title"/></h1>
         <form method="post" action="frontController">
             <input type="hidden" name="cmd" value="Search">
             <input type="text" name="search" placeholder="search...">
-            <button type="submit" name="view" value="employees">search</button>
+            <button type="submit" name="view" value="employees"><fmt:message key="search.btn"/></button>
         </form>
     </div>
     <section class="user_section">
@@ -40,7 +45,7 @@
                 <div class="emp_title">
                     <form method="post" action="frontController">
                         <input type="hidden" name="cmd" value="DeleteEmployee">
-                        <button type="submit" name="empId" value="${employee.id}">delete</button>
+                        <button type="submit" name="empId" value="${employee.id}"><fmt:message key="delete.btn"/></button>
                     </form>
                     <h1>${employee.firstname} ${employee.secondname}</h1>
                     <h2>[${employee.role}]</h2>
@@ -54,6 +59,14 @@
                         <button name="empId" value="${employee.id}" type="submit">ok</button>
                     </form>
                     <h2>${employee.authorize.email}</h2>
+                    <p class="error"><fmt:message key="errors.${error}"/></p>
+                    <form method="post" action="frontController">
+                        <label><fmt:message key="employees.changePassword"/>:
+                            <input type="hidden" name="cmd" value="ChangePassword">
+                            <input type="text" name="newPassword">
+                            <button type="submit" name="gmail" value="${employee.authorize.email}"><fmt:message key="change.btn"/></button>
+                        </label>
+                    </form>
                 </div>
             </div>
         </c:forEach>

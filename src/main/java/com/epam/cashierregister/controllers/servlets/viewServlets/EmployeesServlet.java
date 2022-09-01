@@ -16,6 +16,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Set;
 
+/**
+ * Servlet for employees page view
+ */
 @WebServlet(name = "EmployeesServlet", value = "/employees")
 public class EmployeesServlet extends HttpServlet {
     private EmployeeDAO employeeDAO;

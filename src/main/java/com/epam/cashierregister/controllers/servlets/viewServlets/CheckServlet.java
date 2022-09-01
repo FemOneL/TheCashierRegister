@@ -8,6 +8,9 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
+/**
+ * Servlet for check page view
+ */
 @WebServlet(name = "CheckServlet", value = "/check")
 public class CheckServlet extends HttpServlet {
     static Logger LOG = LogManager.getLogger(CheckServlet.class);

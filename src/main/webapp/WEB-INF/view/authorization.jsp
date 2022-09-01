@@ -37,7 +37,7 @@
                 <div class="login_div">
                     <label class="inp_label"><fmt:message key="auth.password"/><input class="inputfield" name="password" type="password"></label>
                 </div>
-                <div class="error_div">${error}</div>
+                <div class="error_div"><fmt:message key="errors.${error}"/></div>
                 <div class="inner_div">
                     <input type="hidden" name="cmd" value="SignIn">
                     <button class="submit_btn" type="submit"><fmt:message key="auth.submit"/></button>

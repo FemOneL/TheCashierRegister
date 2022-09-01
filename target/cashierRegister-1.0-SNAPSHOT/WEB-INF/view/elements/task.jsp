@@ -6,6 +6,9 @@
 <fmt:setLocale value="${loc}"/>
 <fmt:setBundle basename="language"/>
 <section class="task_section">
+    <c:if test="${employee.role == 'BANNED'}">
+        <h1><fmt:message key="cabinet.banned.msg"/></h1>
+    </c:if>
     <c:if test="${employee.role == 'COMMODITY_EXPERT'}">
         <div class="task">
             <div class="todo">

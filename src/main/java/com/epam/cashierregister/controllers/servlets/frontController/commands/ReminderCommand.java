@@ -12,6 +12,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+/**
+ * Command for calculate remainder
+ */
 public class ReminderCommand extends FrontCommand {
 
     @Override
@@ -31,6 +34,7 @@ public class ReminderCommand extends FrontCommand {
             session.setAttribute("error", e.getMessage());
             session.setAttribute("sum", new BigDecimal(0));
             session.setAttribute("remainder", new BigDecimal(0));
+            session.setAttribute("payAnother", "0");
             redirect("pay");
             return false;
         }
@@ -45,7 +49,7 @@ public class ReminderCommand extends FrontCommand {
         Check check = (Check) session.getAttribute("activeCheck");
         session.setAttribute("sum", sum);
         if (sum.doubleValue() < check.getTotalCost().doubleValue()) {
-            session.setAttribute("error", String.format("Pay another %.2f", check.getTotalCost().doubleValue() - sum.doubleValue()));
+            session.setAttribute("payAnother", String.format("%.2f", check.getTotalCost().doubleValue() - sum.doubleValue()));
             redirect("pay");
         } else if (sum.doubleValue() >= check.getTotalCost().doubleValue()) {
             session.removeAttribute("error");

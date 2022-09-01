@@ -6,6 +6,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Command for choose payment type
+ */
 public class ChoosePaymentTypeCommand extends FrontCommand {
 
     @Override

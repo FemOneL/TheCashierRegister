@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Set;
 
+/**
+ * Command for close check command
+ */
 public class CloseCheckCommand extends FrontCommand {
     private ChecksDAO checksDAO;
     private ReportService report;

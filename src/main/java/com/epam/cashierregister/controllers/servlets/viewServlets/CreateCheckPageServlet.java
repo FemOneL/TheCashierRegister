@@ -10,6 +10,9 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+/**
+ * Servlet for create check page view
+ */
 @WebServlet(name = "CreateCheckServlet", value = "/createCheck")
 public class CreateCheckPageServlet extends HttpServlet {
     static Logger LOG = LogManager.getLogger(CreateCheckPageServlet.class);

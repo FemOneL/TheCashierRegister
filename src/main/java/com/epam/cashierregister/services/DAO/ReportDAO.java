@@ -1,9 +1,9 @@
 package com.epam.cashierregister.services.DAO;
 
-import com.epam.cashierregister.services.DAO.queries.Query;
-import com.epam.cashierregister.services.consts.ReportConst;
-import com.epam.cashierregister.services.consts.ReturnConst;
-import com.epam.cashierregister.services.consts.SellingConst;
+import com.epam.cashierregister.services.consts.queries.Query;
+import com.epam.cashierregister.services.consts.entityConsts.ReportConst;
+import com.epam.cashierregister.services.consts.entityConsts.ReturnConst;
+import com.epam.cashierregister.services.consts.entityConsts.SellingConst;
 import com.epam.cashierregister.services.entities.report.Report;
 import com.epam.cashierregister.services.entities.report.Return;
 import com.epam.cashierregister.services.entities.report.Selling;

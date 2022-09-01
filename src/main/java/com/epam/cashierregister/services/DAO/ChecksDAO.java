@@ -1,8 +1,8 @@
 package com.epam.cashierregister.services.DAO;
 
-import com.epam.cashierregister.services.DAO.queries.Query;
-import com.epam.cashierregister.services.consts.CheckConst;
-import com.epam.cashierregister.services.consts.CheckHasGoodsConst;
+import com.epam.cashierregister.services.consts.queries.Query;
+import com.epam.cashierregister.services.consts.entityConsts.CheckConst;
+import com.epam.cashierregister.services.consts.entityConsts.CheckHasGoodsConst;
 import com.epam.cashierregister.services.entities.check.Check;
 import com.epam.cashierregister.services.entities.goods.Goods;
 import com.epam.cashierregister.services.exeptions.DatabaseException;

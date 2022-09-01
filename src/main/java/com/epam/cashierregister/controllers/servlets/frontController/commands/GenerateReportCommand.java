@@ -11,6 +11,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Command for generate report
+ */
 public class GenerateReportCommand extends FrontCommand {
     private ReportService report;
     private ReportDAO reportDAO;

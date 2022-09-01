@@ -16,6 +16,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Servlet for goods page view
+ */
 @WebServlet(name = "GoodsServlet", value = "/goods")
 public class GoodsServlet extends HttpServlet {
     private GoodsDAO goodsDAO;

@@ -237,6 +237,7 @@ insert into roles values (default, 'CASHIER');
 insert into roles values (default, 'SENIOR_CASHIER');
 insert into roles values (default, 'COMMODITY_EXPERT');
 insert into roles values (default, 'ADMIN');
+
 -- fill authorize
 insert into authorize values(default, 'tfemyak@gmail.com', '4bba5971ce3b67759e2a9de07a225d715ec53fe71e51b9bf285cd97841c734eba49b71cd81568e424c17fe3944abf32d1a8300c04c42c76450a3723be216dcd6');
 insert into authorize values(default, 'vfemyak@epam.com', '1708b129d2dc66c3b53f3fa3567539b0d2fcc8e40bfde504e1c355b9fe338a8bc70689b9e0d74eded1f6bb936beda6edfc3d960553f78314d683e0de744685c9');

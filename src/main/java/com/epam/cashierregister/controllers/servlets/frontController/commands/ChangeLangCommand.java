@@ -6,7 +6,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-
+/**
+ * Command for change language
+ */
 public class ChangeLangCommand extends FrontCommand {
 
     @Override

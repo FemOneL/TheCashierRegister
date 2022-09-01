@@ -8,6 +8,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
+/**
+ * Servlet for cabinet page view
+ */
 @WebServlet(name = "cabinetServlet", value = "/cabinet")
 public class CabinetServlet extends HttpServlet {
     static Logger LOG = LogManager.getLogger(CabinetServlet.class);

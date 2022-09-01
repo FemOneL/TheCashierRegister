@@ -1,0 +1,19 @@
+package com.epam.cashierregister.services.consts;
+
+public enum Errors {
+    EMPTY,
+    CATEGORY_ERROR,
+    MODEL_UNIQ_ERROR,
+    MUST_ADD_ANY_GOODS,
+    WRONG_INPUT,
+    INVALID_EMAIL,
+    INVALID_PASSWORD,
+    EMP_NOT_FOUND,
+    DIFFERENT_PASSWORDS,
+    ALREADY_REGISTER,
+    INPUT_NAME_CORRECTLY,
+    GOODS_EXIST,
+    GOODS_NOT_IN_WAREHOUSE,
+    YOU_MUST_AUTHORIZE,
+    MODEL_ERROR;
+}

@@ -1,6 +1,7 @@
 package com.epam.cashierregister.services.validateServices;
 
 import com.epam.cashierregister.services.DAO.EmployeeDAO;
+import com.epam.cashierregister.services.consts.Errors;
 import com.epam.cashierregister.services.entities.employee.Employee;
 import com.epam.cashierregister.services.exeptions.DatabaseException;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
@@ -40,7 +41,7 @@ class ValidateSignUpTest {
         when(request.getParameter("firstname")).thenReturn("L");
         when(request.getParameter("secondname")).thenReturn("L");
         InvalidInputException exception = Assertions.assertThrows(InvalidInputException.class, () -> validateSignUp.validate());
-        Assertions.assertEquals("Please input name correctly", exception.getMessage());
+        Assertions.assertEquals(Errors.INPUT_NAME_CORRECTLY.name(), exception.getMessage());
     }
 
     @Test
@@ -49,7 +50,7 @@ class ValidateSignUpTest {
         when(request.getParameter("secondname")).thenReturn("Femiak");
         when(request.getParameter("email")).thenReturn("L");
         InvalidInputException exception = Assertions.assertThrows(InvalidInputException.class, () -> validateSignUp.validate());
-        Assertions.assertEquals("invalid email", exception.getMessage());
+        Assertions.assertEquals(Errors.INVALID_EMAIL.name(), exception.getMessage());
     }
 
     @Test
@@ -59,7 +60,7 @@ class ValidateSignUpTest {
         when(request.getParameter("email")).thenReturn("tfemyak@gmail.com");
         when(request.getParameter("password")).thenReturn("ta");
         InvalidInputException exception = Assertions.assertThrows(InvalidInputException.class, () -> validateSignUp.validate());
-        Assertions.assertEquals("invalid password", exception.getMessage());
+        Assertions.assertEquals(Errors.INVALID_PASSWORD.name(), exception.getMessage());
     }
 
     @Test
@@ -70,7 +71,7 @@ class ValidateSignUpTest {
         when(request.getParameter("password")).thenReturn("taras123");
         when(request.getParameter("secondPassword")).thenReturn("taras12");
         InvalidInputException exception = Assertions.assertThrows(InvalidInputException.class, () -> validateSignUp.validate());
-        Assertions.assertEquals("passwords are different", exception.getMessage());
+        Assertions.assertEquals(Errors.DIFFERENT_PASSWORDS.name(), exception.getMessage());
     }
 
     @Test
@@ -82,6 +83,6 @@ class ValidateSignUpTest {
         when(request.getParameter("secondPassword")).thenReturn("taras123");
         when(employeeDAO.getEmployee(request.getParameter("email"))).thenReturn(new Employee());
         InvalidInputException exception = Assertions.assertThrows(InvalidInputException.class, () -> validateSignUp.validate());
-        Assertions.assertEquals("such a user is already registered", exception.getMessage());
+        Assertions.assertEquals(Errors.ALREADY_REGISTER.name(), exception.getMessage());
     }
 }

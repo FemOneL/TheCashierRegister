@@ -15,6 +15,9 @@ import com.epam.cashierregister.services.validateServices.ValidateSignUp;
 import javax.servlet.ServletException;
 import java.io.IOException;
 
+/**
+ * Command for sign up
+ */
 public class SignUpCommand extends FrontCommand {
     private EmployeeDAO employeeDAO;
 

@@ -17,6 +17,9 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+/**
+ * Command for adding new goods
+ */
 public class AddNewGoodsCommand extends FrontCommand {
     private CategoriesDAO categoriesDAO;
     private ProducersDAO producersDAO;

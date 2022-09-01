@@ -1,13 +1,17 @@
 package com.epam.cashierregister.controllers.filters;
 
+import com.epam.cashierregister.services.consts.Errors;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "ErrorsFilter", value = {"/goods", "/addGoods", "/authorize",
-        "/createCheck", "/signup", "/pay"})
+/**
+ * Filter for clearing errors message
+ */
+@WebFilter(filterName = "ErrorsFilter", value = "/*")
 public class ErrorsFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
     }
@@ -20,7 +24,7 @@ public class ErrorsFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
         if (session.getAttribute("error") == null) {
-            req.setAttribute("error", " ");
+            req.setAttribute("error", Errors.EMPTY.name());
         } else {
             req.setAttribute("error", session.getAttribute("error"));
             session.removeAttribute("error");

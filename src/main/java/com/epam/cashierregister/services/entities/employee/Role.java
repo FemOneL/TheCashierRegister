@@ -4,7 +4,8 @@ public enum Role {
     CASHIER("cashier"),
     SENIOR_CASHIER("seniorCashier"),
     COMMODITY_EXPERT("commodityExpert"),
-    ADMIN("admin");
+    ADMIN("admin"),
+    BANNED("banned");
 
     private final String roleForTranslate;
 

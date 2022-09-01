@@ -11,6 +11,9 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+/**
+ * Command for delete goods from check
+ */
 public class DeleteGoodsFromCheckCommand extends FrontCommand {
     private ChecksDAO checksDAO;
     private ReportService report;

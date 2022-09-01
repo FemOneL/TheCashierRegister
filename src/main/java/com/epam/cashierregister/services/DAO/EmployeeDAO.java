@@ -1,9 +1,9 @@
 package com.epam.cashierregister.services.DAO;
 
-import com.epam.cashierregister.services.DAO.queries.Query;
-import com.epam.cashierregister.services.consts.AuthorizeConst;
-import com.epam.cashierregister.services.consts.EmployeeConst;
-import com.epam.cashierregister.services.consts.RolesConst;
+import com.epam.cashierregister.services.consts.queries.Query;
+import com.epam.cashierregister.services.consts.entityConsts.AuthorizeConst;
+import com.epam.cashierregister.services.consts.entityConsts.EmployeeConst;
+import com.epam.cashierregister.services.consts.entityConsts.RolesConst;
 import com.epam.cashierregister.services.entities.employee.AuthorizeInfo;
 import com.epam.cashierregister.services.entities.employee.Employee;
 import com.epam.cashierregister.services.entities.employee.Role;
@@ -113,6 +113,22 @@ public class EmployeeDAO extends DAO {
             }
         }
         return true;
+    }
+
+    public int getAuthorizeID(String email) throws DatabaseException {
+        int id = 0;
+        try (Connection connection = getConnection()){
+            PreparedStatement preparedStatement = connection.prepareStatement(Query.GET_AUTH_ID);
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                id = resultSet.getInt(1);
+            }
+        }catch (SQLException e){
+            LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
+            throw new DatabaseException(500);
+        }
+        return id;
     }
 
     /**

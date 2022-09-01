@@ -1,7 +1,7 @@
 package com.epam.cashierregister.services.DAO;
 
-import com.epam.cashierregister.services.DAO.queries.Query;
-import com.epam.cashierregister.services.consts.ProducerConst;
+import com.epam.cashierregister.services.consts.queries.Query;
+import com.epam.cashierregister.services.consts.entityConsts.ProducerConst;
 import com.epam.cashierregister.services.entities.goods.Producer;
 import com.epam.cashierregister.services.exeptions.DatabaseException;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;

@@ -8,6 +8,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Command for delete goods
+ */
 public class DeleteGoodsCommand extends FrontCommand {
     private GoodsDAO goodsDAO;
 

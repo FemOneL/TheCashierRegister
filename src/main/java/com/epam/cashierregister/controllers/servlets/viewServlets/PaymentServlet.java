@@ -8,6 +8,9 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
+/**
+ * Servlet for payment page view
+ */
 @WebServlet(name = "PaymentServlet", value = "/pay")
 public class PaymentServlet extends HttpServlet {
     static Logger LOG = LogManager.getLogger(PaymentServlet.class);

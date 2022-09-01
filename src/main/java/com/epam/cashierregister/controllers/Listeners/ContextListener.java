@@ -16,8 +16,11 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.sql.SQLException;
 
+/**
+ * Listener for initialize services
+ */
 @WebListener
-public class ContextListener implements ServletContextListener, ServletContextAttributeListener {
+public class ContextListener implements ServletContextListener {
     static Logger LOG = LogManager.getLogger(AuthorizeServlet.class);
 
     public ContextListener() {
@@ -43,10 +46,5 @@ public class ContextListener implements ServletContextListener, ServletContextAt
     public void contextDestroyed(ServletContextEvent sce) {
         LOG.info("Web application disconnected");
         AbandonedConnectionCleanupThread.checkedShutdown();
-    }
-
-    @Override
-    public void attributeAdded(ServletContextAttributeEvent event) {
-        LOG.debug("added servlet context attribute {} with value {}", event.getName(), event.getValue());
     }
 }

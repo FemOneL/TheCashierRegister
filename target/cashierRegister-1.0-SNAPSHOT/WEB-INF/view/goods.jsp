@@ -30,7 +30,7 @@
         <form method="post" action="frontController">
             <input type="hidden" name="cmd" value="Search">
             <input type="text" name="search" placeholder="search...">
-            <button type="submit" name="view" value="goods"><fmt:message key="goods.search.btn"/></button>
+            <button type="submit" name="view" value="goods"><fmt:message key="search.btn"/></button>
         </form>
     </div>
     <table class="table">
@@ -93,7 +93,7 @@
                         <button class="cancel_btn" name="edit" value="false"><fmt:message key="goods.edit.exit.btn"/></button>
                     </c:if>
                 </form>
-                <div class="error">${error}</div>
+                <div class="error"><fmt:message key="errors.${error}"/></div>
             </div>
         </div>
     </section>

@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet for error page view
+ */
 @WebServlet(name = "ErrorPageServlet", value = "/errorPage")
 public class ErrorPageServlet extends HttpServlet {
     static Logger LOG = LogManager.getLogger(ErrorPageServlet.class);

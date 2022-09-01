@@ -2,6 +2,7 @@ package com.epam.cashierregister.services.validateServices;
 
 import com.epam.cashierregister.services.DAO.EmployeeDAO;
 import com.epam.cashierregister.services.PasswordHashingService;
+import com.epam.cashierregister.services.consts.Errors;
 import com.epam.cashierregister.services.entities.employee.Employee;
 import com.epam.cashierregister.services.exeptions.DatabaseException;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
@@ -15,7 +16,7 @@ public class ValidateSignIn extends ValidateInputService {
     private EmployeeDAO employeeDAO;
 
     /**
-     * @param request     that contains parameters for validation
+     * @param request that contains parameters for validation
      * @param employeeDAO needed for check data in <code>checkData()</code>
      */
     public ValidateSignIn(HttpServletRequest request, EmployeeDAO employeeDAO) {
@@ -26,13 +27,13 @@ public class ValidateSignIn extends ValidateInputService {
     @Override
     public void validate() throws InvalidInputException, DatabaseException {
         if (!checkEmail()) {
-            throw new InvalidInputException("invalid login");
+            throw new InvalidInputException(Errors.INVALID_EMAIL.name());
         }
         if (!checkPassword()) {
-            throw new InvalidInputException("invalid password");
+            throw new InvalidInputException(Errors.INVALID_PASSWORD.name());
         }
         if (!checkData()) {
-            throw new InvalidInputException("employee not found");
+            throw new InvalidInputException(Errors.EMP_NOT_FOUND.name());
         }
         LOG.info("Validate success");
     }

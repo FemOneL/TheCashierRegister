@@ -1,5 +1,6 @@
 package com.epam.cashierregister.controllers.filters.rolesFilters;
 
+import com.epam.cashierregister.services.consts.Errors;
 import com.epam.cashierregister.services.entities.employee.Employee;
 import com.epam.cashierregister.services.entities.employee.Role;
 
@@ -10,6 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Filter for commodity expert role
+ */
 @WebFilter(filterName = "CommodityPagesFilter", value = { "/goods", "/addGoods" })
 public class CommodityPagesFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
@@ -31,7 +35,7 @@ public class CommodityPagesFilter implements Filter {
                 resp.sendRedirect("cabinet");
             }
         }else{
-            session.setAttribute("error", "you must authorize!");
+            session.setAttribute("error", Errors.YOU_MUST_AUTHORIZE.name());
             resp.sendRedirect("authorize");
         }
     }

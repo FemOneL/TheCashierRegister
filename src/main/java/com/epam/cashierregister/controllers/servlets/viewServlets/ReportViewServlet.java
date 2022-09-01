@@ -8,6 +8,9 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
+/**
+ * Servlet for report page view
+ */
 @WebServlet(name = "ReportViewServlet", value = "/report")
 public class ReportViewServlet extends HttpServlet {
     static Logger LOG = LogManager.getLogger(ReportViewServlet.class);

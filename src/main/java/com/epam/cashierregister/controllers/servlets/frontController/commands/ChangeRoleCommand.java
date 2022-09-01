@@ -8,6 +8,9 @@ import com.epam.cashierregister.services.exeptions.DatabaseException;
 import javax.servlet.ServletException;
 import java.io.IOException;
 
+/**
+ * Command for change role
+ */
 public class ChangeRoleCommand extends FrontCommand {
     private EmployeeDAO employeeDAO;
 

@@ -3,6 +3,7 @@ package com.epam.cashierregister.controllers.servlets.frontController.commands;
 import com.epam.cashierregister.controllers.servlets.frontController.FrontCommand;
 import com.epam.cashierregister.services.DAO.EmployeeDAO;
 import com.epam.cashierregister.services.ValidateService;
+import com.epam.cashierregister.services.consts.Errors;
 import com.epam.cashierregister.services.exeptions.DatabaseException;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
 import org.junit.jupiter.api.AfterEach;
@@ -38,7 +39,7 @@ class SignInCommandTest {
 
     @Test
     void testFilter() throws ServletException, IOException, DatabaseException {
-        InvalidInputException e = new InvalidInputException("invalid login");
+        InvalidInputException e = new InvalidInputException(Errors.INVALID_EMAIL.name());
         EmployeeDAO employeeDAO = mock(EmployeeDAO.class);
         ServletContext servletContext = mock(ServletContext.class);
         when(servletContext.getAttribute("EmployeeDAO")).thenReturn(employeeDAO);

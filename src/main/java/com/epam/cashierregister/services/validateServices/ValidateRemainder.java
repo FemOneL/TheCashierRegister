@@ -1,5 +1,6 @@
 package com.epam.cashierregister.services.validateServices;
 
+import com.epam.cashierregister.services.consts.Errors;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ public class ValidateRemainder extends ValidateInputService{
     @Override
     public void validate() throws InvalidInputException {
         if (!validateField.validateCostField(request.getParameter("count"))){
-            throw new InvalidInputException("wrong input");
+            throw new InvalidInputException(Errors.WRONG_INPUT.name());
         }
         LOG.info("Validate success");
     }

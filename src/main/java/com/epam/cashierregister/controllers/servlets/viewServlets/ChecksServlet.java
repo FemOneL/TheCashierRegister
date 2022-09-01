@@ -12,6 +12,9 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Servlet for checks page view
+ */
 @WebServlet(name = "ChecksServlet", value = "/checks")
 public class ChecksServlet extends HttpServlet {
     static Logger LOG = LogManager.getLogger(ChecksServlet.class);

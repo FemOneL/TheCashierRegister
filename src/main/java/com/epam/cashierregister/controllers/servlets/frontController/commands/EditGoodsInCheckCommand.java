@@ -8,6 +8,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+/**
+ * Command for edit goods in check
+ */
 public class EditGoodsInCheckCommand extends FrontCommand {
 
     @Override

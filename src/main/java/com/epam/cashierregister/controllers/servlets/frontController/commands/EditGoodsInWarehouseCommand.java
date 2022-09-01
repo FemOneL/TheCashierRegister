@@ -9,6 +9,9 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletException;
 import java.io.IOException;
 
+/**
+ * Command for edit goods in warehouse
+ */
 public class EditGoodsInWarehouseCommand extends FrontCommand {
     static Logger LOG = LogManager.getLogger(EditGoodsInWarehouseCommand.class);
     private GoodsDAO goodsDAO;

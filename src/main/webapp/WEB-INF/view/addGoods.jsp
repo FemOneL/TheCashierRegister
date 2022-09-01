@@ -82,7 +82,7 @@
             </div>
         </form>
         <div class="error_div">
-            <p class="error_p">${error}</p>
+            <p class="error_p"><fmt:message key="errors.${error}"/></p>
         </div>
     </section>
 </main>

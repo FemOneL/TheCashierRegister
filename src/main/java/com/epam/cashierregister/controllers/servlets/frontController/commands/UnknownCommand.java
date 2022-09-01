@@ -5,6 +5,9 @@ import com.epam.cashierregister.controllers.servlets.frontController.FrontComman
 import javax.servlet.ServletException;
 import java.io.IOException;
 
+/**
+ * Unknown command
+ */
 public class UnknownCommand extends FrontCommand {
     @Override
     public void initContext() throws ServletException {

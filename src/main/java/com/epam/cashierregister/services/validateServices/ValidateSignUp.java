@@ -1,6 +1,7 @@
 package com.epam.cashierregister.services.validateServices;
 
 import com.epam.cashierregister.services.DAO.EmployeeDAO;
+import com.epam.cashierregister.services.consts.Errors;
 import com.epam.cashierregister.services.exeptions.DatabaseException;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
 
@@ -25,19 +26,19 @@ public class ValidateSignUp extends ValidateInputService{
     @Override
     public void validate() throws InvalidInputException, DatabaseException {
         if (!checkName()){
-            throw new InvalidInputException("Please input name correctly");
+            throw new InvalidInputException(Errors.INPUT_NAME_CORRECTLY.name());
         }
         if (!checkEmail()){
-            throw new InvalidInputException("invalid email");
+            throw new InvalidInputException(Errors.INVALID_EMAIL.name());
         }
         if (!checkValidPassword()){
-            throw new InvalidInputException("invalid password");
+            throw new InvalidInputException(Errors.INVALID_PASSWORD.name());
         }
         if (!checkPassword()){
-            throw new InvalidInputException("passwords are different");
+            throw new InvalidInputException(Errors.DIFFERENT_PASSWORDS.name());
         }
         if (!checkUniqLogin()){
-            throw new InvalidInputException("such a user is already registered");
+            throw new InvalidInputException(Errors.ALREADY_REGISTER.name());
         }
         LOG.info("Validate success");
     }

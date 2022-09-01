@@ -6,6 +6,9 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 
+/**
+ * Command for change page
+ */
 public class ChangePageCommand extends FrontCommand {
 
     @Override

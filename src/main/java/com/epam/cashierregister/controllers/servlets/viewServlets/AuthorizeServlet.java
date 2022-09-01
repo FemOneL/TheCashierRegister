@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet for authorize page view
+ */
 @WebServlet(name = "AuthorizeServlet", value = "/authorize")
 public class AuthorizeServlet extends HttpServlet {
     static Logger LOG = LogManager.getLogger(AuthorizeServlet.class);

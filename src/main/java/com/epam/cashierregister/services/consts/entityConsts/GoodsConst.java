@@ -1,4 +1,4 @@
-package com.epam.cashierregister.services.consts;
+package com.epam.cashierregister.services.consts.entityConsts;
 
 public class GoodsConst {
     public static final String TABLE_NAME = "goods";

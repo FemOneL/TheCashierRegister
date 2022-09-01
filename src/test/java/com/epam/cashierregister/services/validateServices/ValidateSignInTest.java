@@ -1,6 +1,7 @@
 package com.epam.cashierregister.services.validateServices;
 
 import com.epam.cashierregister.services.DAO.EmployeeDAO;
+import com.epam.cashierregister.services.consts.Errors;
 import com.epam.cashierregister.services.entities.employee.Employee;
 import com.epam.cashierregister.services.exeptions.DatabaseException;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
@@ -40,7 +41,7 @@ class ValidateSignInTest {
     void testCheckEmail() {
         when(request.getParameter("login")).thenReturn("tfemyak@gmail");
         InvalidInputException exception = Assertions.assertThrows(InvalidInputException.class, () -> validateSignIn.validate());
-        Assertions.assertEquals("invalid login", exception.getMessage());
+        Assertions.assertEquals(Errors.INVALID_EMAIL.name(), exception.getMessage());
     }
 
     @Test
@@ -48,7 +49,7 @@ class ValidateSignInTest {
         when(request.getParameter("login")).thenReturn("tfemyak@gmail.com");
         when(request.getParameter("password")).thenReturn("tar");
         InvalidInputException exception = Assertions.assertThrows(InvalidInputException.class, () -> validateSignIn.validate());
-        Assertions.assertEquals("invalid password", exception.getMessage());
+        Assertions.assertEquals(Errors.INVALID_PASSWORD.name(), exception.getMessage());
     }
 
     @Test
@@ -57,6 +58,6 @@ class ValidateSignInTest {
         when(request.getParameter("password")).thenReturn("taras123");
         when(employeeDAO.getEmployee(request.getParameter("login"))).thenReturn(null);
         InvalidInputException exception = Assertions.assertThrows(InvalidInputException.class, () -> validateSignIn.validate());
-        Assertions.assertEquals("employee not found", exception.getMessage());
+        Assertions.assertEquals(Errors.EMP_NOT_FOUND.name(), exception.getMessage());
     }
 }

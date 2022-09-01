@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,6 +15,10 @@
     <jsp:useBean id="error" scope="request" type="java.lang.String"/>
     <jsp:useBean id="activeCheck" scope="session" type="com.epam.cashierregister.services.entities.check.Check"/>
     <jsp:useBean id="sum" scope="session" type="java.math.BigDecimal"/>
+    <jsp:useBean id="loc" scope="session" type="java.lang.String"/>
+    <fmt:setLocale value="${loc}"/>
+    <fmt:setBundle basename="language"/>
+    <jsp:useBean id="payAnother" scope="session" type="java.lang.String"/>
 </head>
 <body>
 <c:import url="elements/header.jsp"/>
@@ -40,7 +45,8 @@
         <input type="submit" value="ok">
     </form>
     <p>total: ${activeCheck.totalCost}</p>
-    <p class="error">${error}</p>
+    <p class="error"><fmt:message key="errors.${error}"/></p>
+    <p>pay another: ${payAnother} $</p>
     <p>remaining: ${remainder} $</p>
     <c:if test="${sum.doubleValue() >= activeCheck.totalCost}">
     <form method="post" action="frontController">

@@ -1,5 +1,6 @@
 package com.epam.cashierregister.services.validateServices;
 
+import com.epam.cashierregister.services.consts.Errors;
 import com.epam.cashierregister.services.entities.check.Check;
 import com.epam.cashierregister.services.entities.goods.Goods;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
@@ -43,6 +44,6 @@ class ValidateCloseCheckTest {
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("activeCheck")).thenReturn(check);
         InvalidInputException exception = Assertions.assertThrows(InvalidInputException.class, () -> validateCloseCheck.validate());
-        Assertions.assertEquals("you must add any goods!!", exception.getMessage());
+        Assertions.assertEquals(Errors.MUST_ADD_ANY_GOODS.name(), exception.getMessage());
     }
 }

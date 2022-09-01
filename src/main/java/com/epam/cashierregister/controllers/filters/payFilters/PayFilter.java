@@ -7,6 +7,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+/**
+ * Filter for clearing not needed attributes before /pay
+ */
 @WebFilter(filterName = "PayFilter", value = "/pay")
 public class PayFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
@@ -24,6 +27,9 @@ public class PayFilter implements Filter {
         }
         if (session.getAttribute("remainder") == null) {
             session.setAttribute("remainder", new BigDecimal(0));
+        }
+        if (session.getAttribute("payAnother") == null) {
+            session.setAttribute("payAnother", "0");
         }
         if (session.getAttribute("sum") == null) {
             session.setAttribute("sum", new BigDecimal(0));

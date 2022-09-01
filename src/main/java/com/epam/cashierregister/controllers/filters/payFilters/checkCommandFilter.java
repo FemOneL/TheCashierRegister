@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Filter for removing active check
+ */
 @WebFilter(filterName = "checkCommandFilter", value = "/pay")
 public class checkCommandFilter implements Filter {
 

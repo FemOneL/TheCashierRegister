@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Filter for admin role
+ */
 @WebFilter(filterName = "AdminFilter", value = { "/employees", "/reports", "/signup" })
 public class AdminFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {

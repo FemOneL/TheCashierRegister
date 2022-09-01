@@ -10,6 +10,9 @@ import com.epam.cashierregister.services.exeptions.DatabaseException;
 import javax.servlet.*;
 import java.io.IOException;
 
+/**
+ * Command for delete check
+ */
 public class DeleteCheckCommand extends FrontCommand {
     private ChecksDAO checksDAO;
     private ReportService report;

@@ -1,4 +1,4 @@
-package com.epam.cashierregister.services.consts;
+package com.epam.cashierregister.services.consts.entityConsts;
 
 public class CheckConst {
     public static final String TABLE_NAME = "cash_register.check";

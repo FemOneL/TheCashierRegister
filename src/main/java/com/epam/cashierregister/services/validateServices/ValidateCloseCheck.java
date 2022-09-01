@@ -1,5 +1,6 @@
 package com.epam.cashierregister.services.validateServices;
 
+import com.epam.cashierregister.services.consts.Errors;
 import com.epam.cashierregister.services.entities.check.Check;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
 
@@ -20,7 +21,7 @@ public class ValidateCloseCheck extends ValidateInputService{
         HttpSession session = request.getSession();
         Check check = (Check) session.getAttribute("activeCheck");
         if (check.getGoodsSet().size() == 0){
-            throw new InvalidInputException("you must add any goods!!");
+            throw new InvalidInputException(Errors.MUST_ADD_ANY_GOODS.name());
         }
         LOG.info("Validate success");
     }

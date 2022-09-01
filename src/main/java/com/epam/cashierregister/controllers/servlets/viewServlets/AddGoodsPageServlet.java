@@ -1,18 +1,22 @@
 package com.epam.cashierregister.controllers.servlets.viewServlets;
 
-import com.epam.cashierregister.controllers.servlets.frontController.FrontCommand;
 import com.epam.cashierregister.services.DAO.CategoriesDAO;
-import com.epam.cashierregister.services.DAO.GoodsDAO;
 import com.epam.cashierregister.services.DAO.ProducersDAO;
 import com.epam.cashierregister.services.exeptions.DatabaseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet for add goods page view
+ */
 @WebServlet(name = "AddGoodsPageServlet", value = "/addGoods")
 public class AddGoodsPageServlet extends HttpServlet {
     static Logger LOG = LogManager.getLogger(AddGoodsPageServlet.class);

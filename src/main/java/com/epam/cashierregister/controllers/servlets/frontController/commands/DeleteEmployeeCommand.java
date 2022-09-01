@@ -7,6 +7,9 @@ import com.epam.cashierregister.services.exeptions.DatabaseException;
 import javax.servlet.ServletException;
 import java.io.IOException;
 
+/**
+ * Command for delete employee
+ */
 public class DeleteEmployeeCommand extends FrontCommand {
     private EmployeeDAO employeeDAO;
 

@@ -1,6 +1,6 @@
-package com.epam.cashierregister.services.DAO.queries;
+package com.epam.cashierregister.services.consts.queries;
 
-import com.epam.cashierregister.services.consts.*;
+import com.epam.cashierregister.services.consts.entityConsts.*;
 
 public class Query {
 
@@ -43,8 +43,10 @@ public class Query {
             + " WHERE " + ProducerConst.NAME + " = ?))";
 
     //EMPLOYEES
+    //getAuthorizeID
+    public static final String GET_AUTH_ID = "SELECT " + AuthorizeConst.AUTHORIZE_ID + " FROM "+ AuthorizeConst.TABLE_NAME +
+            " WHERE " + AuthorizeConst.EMAIL + " = ?";
     //deleteEmployee
-
     public static final String DELETE_EMPLOYEE = "DELETE FROM " + EmployeeConst.TABLE_NAME + " WHERE " + EmployeeConst.EMP_ID + " = ?";
     public static final String DELETE_AUTHORIZE = "DELETE FROM " + AuthorizeConst.TABLE_NAME + " WHERE " + AuthorizeConst.AUTHORIZE_ID + " = ?";
     //addEmployee

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,6 +16,9 @@
     </style>
     <jsp:useBean id="roles" scope="request" type="java.util.Set"/>
     <jsp:useBean id="error" scope="request" type="java.lang.String"/>
+    <jsp:useBean id="loc" scope="session" type="java.lang.String"/>
+    <fmt:setLocale value="${loc}"/>
+    <fmt:setBundle basename="language"/>
 </head>
 <body>
 <c:import url="elements/header.jsp"/>
@@ -22,26 +26,26 @@
     <section class="register_section">
         <form method="post" action="frontController" enctype="multipart/form-data">
             <div class="title_div">
-                <h1>Sign up</h1>
+                <h1><fmt:message key="signup.title"/></h1>
             </div>
             <div class="main_form">
                 <div class="name">
                     <input type="file" name="photo">
-                    <label>FIRSTNAME: <input name="firstname" type="text"></label>
-                    <label>SECONDNAME: <input name="secondname" type="text"></label>
+                    <label><fmt:message key="signup.firstname"/>: <input name="firstname" type="text"></label>
+                    <label><fmt:message key="signup.secondname"/>: <input name="secondname" type="text"></label>
                 </div>
                 <div class="other_fields">
                     <div class="text_div">
-                        <label>EMAIL: <input name="email" type="text"></label>
+                        <label><fmt:message key="signup.email"/>: <input name="email" type="text"></label>
                     </div>
                     <div class="text_div">
-                        <label>PASSWORD: <input name="password" type="text"></label>
+                        <label><fmt:message key="signup.password"/>: <input name="password" type="text"></label>
                     </div>
                     <div class="text_div">
-                        <label>PASSWORD: <input name="secondPassword" type="text"></label>
+                        <label><fmt:message key="signup.password.repeat"/>: <input name="secondPassword" type="text"></label>
                     </div>
                     <div class="text_div">
-                        <label>ROLE:
+                        <label><fmt:message key="signup.role"/>:
                             <select name="role">
                                 <c:forEach var="role" items="${requestScope.roles}">
                                     <option>${role}</option>
@@ -49,8 +53,8 @@
                             </select>
                         </label>
                     </div>
-                    <p class="error">${error}</p>
-                    <button name="cmd" value="SignUp" type="submit">SIGN UP</button>
+                    <p class="error"><fmt:message key="errors.${error}"/></p>
+                    <button name="cmd" value="SignUp" type="submit"><fmt:message key="signup.signup"/></button>
                 </div>
             </div>
         </form>

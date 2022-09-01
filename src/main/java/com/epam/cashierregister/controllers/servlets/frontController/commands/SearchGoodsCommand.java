@@ -2,6 +2,7 @@ package com.epam.cashierregister.controllers.servlets.frontController.commands;
 
 import com.epam.cashierregister.controllers.servlets.frontController.FrontCommand;
 import com.epam.cashierregister.services.DAO.GoodsDAO;
+import com.epam.cashierregister.services.consts.Errors;
 import com.epam.cashierregister.services.entities.check.Check;
 import com.epam.cashierregister.services.entities.goods.Goods;
 import com.epam.cashierregister.services.exeptions.DatabaseException;
@@ -11,6 +12,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+/**
+ * Command for searching goods
+ */
 public class SearchGoodsCommand extends FrontCommand {
     private GoodsDAO goodsDAO;
 
@@ -62,7 +66,7 @@ public class SearchGoodsCommand extends FrontCommand {
             session.setAttribute("activeCheck", check);
         } else {
             LOG.info("Goods under this name/id is not in warehouse");
-            session.setAttribute("error", "Goods under this name/id is not in warehouse");
+            session.setAttribute("error", Errors.GOODS_NOT_IN_WAREHOUSE.name());
         }
         redirect("createCheck");
     }

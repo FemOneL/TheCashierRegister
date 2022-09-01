@@ -1,6 +1,7 @@
 package com.epam.cashierregister.services.validateServices;
 
 import com.epam.cashierregister.services.DAO.GoodsDAO;
+import com.epam.cashierregister.services.consts.Errors;
 import com.epam.cashierregister.services.exeptions.DatabaseException;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
 import org.junit.jupiter.api.AfterEach;
@@ -37,7 +38,7 @@ class ValidateAddGoodsTest {
     void testCheckModelValidate() {
         when(request.getParameter("model")).thenReturn(" ");
         InvalidInputException exception = Assertions.assertThrows(InvalidInputException.class, () -> validateAddGoods.validate());
-        Assertions.assertEquals("Model field cannot be empty!", exception.getMessage());
+        Assertions.assertEquals(Errors.MODEL_ERROR.name(), exception.getMessage());
     }
 
     @Test
@@ -46,7 +47,7 @@ class ValidateAddGoodsTest {
         when(request.getParameter("select_category")).thenReturn("none");
         when(request.getParameter("new_category")).thenReturn(" ");
         InvalidInputException exception = Assertions.assertThrows(InvalidInputException.class, () -> validateAddGoods.validate());
-        Assertions.assertEquals("Please, select or write new category/producer", exception.getMessage());
+        Assertions.assertEquals(Errors.CATEGORY_ERROR.name(), exception.getMessage());
     }
 
     @Test
@@ -58,7 +59,7 @@ class ValidateAddGoodsTest {
         when(request.getParameter("new_producer")).thenReturn("huawei");
         when(goodsDAO.checkModel(request.getParameter("model"))).thenReturn(false);
         InvalidInputException exception = Assertions.assertThrows(InvalidInputException.class, () -> validateAddGoods.validate());
-        Assertions.assertEquals("Model must be unique!!", exception.getMessage());
+        Assertions.assertEquals(Errors.MODEL_UNIQ_ERROR.name(), exception.getMessage());
     }
 
 

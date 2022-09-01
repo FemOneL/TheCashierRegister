@@ -1,6 +1,7 @@
 package com.epam.cashierregister.services.validateServices;
 
 import com.epam.cashierregister.services.DAO.GoodsDAO;
+import com.epam.cashierregister.services.consts.Errors;
 import com.epam.cashierregister.services.exeptions.DatabaseException;
 import com.epam.cashierregister.services.exeptions.InvalidInputException;
 
@@ -25,13 +26,13 @@ public class ValidateAddGoods extends ValidateInputService{
     @Override
     public void validate() throws InvalidInputException, DatabaseException {
         if (!checkModel()){
-            throw new InvalidInputException("Model field cannot be empty!");
+            throw new InvalidInputException(Errors.MODEL_ERROR.name());
         }
         if (!checkSelect()){
-            throw new InvalidInputException("Please, select or write new category/producer");
+            throw new InvalidInputException(Errors.CATEGORY_ERROR.name());
         }
         if (!checkUniq()){
-            throw new InvalidInputException("Model must be unique!!");
+            throw new InvalidInputException(Errors.MODEL_UNIQ_ERROR.name());
         }
         LOG.info("Validate success");
     }

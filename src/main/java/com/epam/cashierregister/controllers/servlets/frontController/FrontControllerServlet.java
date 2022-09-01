@@ -10,6 +10,9 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
+/**
+ * Main controller for choose command by parameter and execute it
+ */
 @WebServlet(name = "FrontControllerServlet", value = "/frontController")
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
@@ -35,6 +38,11 @@ public class FrontControllerServlet extends HttpServlet {
         }
     }
 
+    /**
+     * choose command by request parameter
+     * @param req with command
+     * @return object of target command
+     */
     protected FrontCommand getCommand(HttpServletRequest req) {
         try {
             Class type = Class.forName(String.format("com.epam.cashierregister.controllers.servlets.frontController.commands.%sCommand",

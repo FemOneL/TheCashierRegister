@@ -11,6 +11,9 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 
+/**
+ * Command for sign in
+ */
 public class SignInCommand extends FrontCommand {
     private EmployeeDAO employeeDAO;
 

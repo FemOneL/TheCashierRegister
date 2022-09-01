@@ -5,6 +5,9 @@ import com.epam.cashierregister.controllers.servlets.frontController.FrontComman
 import javax.servlet.ServletException;
 import java.io.IOException;
 
+/**
+ * Command for searching
+ */
 public class SearchCommand extends FrontCommand {
     @Override
     public void initContext() throws ServletException {

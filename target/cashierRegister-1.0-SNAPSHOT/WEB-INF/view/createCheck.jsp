@@ -65,7 +65,7 @@
                     <button class="submit_btn" name="command" value="pay"><fmt:message key="createCheck.pay"/></button>
                 </form>
             </div>
-            <div class="error">${error}</div>
+            <div class="error"><fmt:message key="errors.${error}"/></div>
         </div>
     </section>
 </main>
