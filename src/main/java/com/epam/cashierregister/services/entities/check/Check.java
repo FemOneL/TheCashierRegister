@@ -1,5 +1,6 @@
 package com.epam.cashierregister.services.entities.check;
 
+import com.epam.cashierregister.services.entities.Entity;
 import com.epam.cashierregister.services.entities.employee.Employee;
 import com.epam.cashierregister.services.entities.goods.Goods;
 
@@ -11,7 +12,7 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Check {
+public class Check implements Entity {
     private int id;
     private Employee employee;
     private Timestamp time;

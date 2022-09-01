@@ -1,9 +1,11 @@
 package com.epam.cashierregister.services.entities.goods;
 
+import com.epam.cashierregister.services.entities.Entity;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class Goods {
+public class Goods implements Entity {
     private int id;
     private String model;
     private String photo;

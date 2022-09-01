@@ -1,8 +1,10 @@
 package com.epam.cashierregister.services.entities.report;
 
+import com.epam.cashierregister.services.entities.Entity;
+
 import java.math.BigDecimal;
 
-public class Return {
+public class Return implements Entity {
     private int id;
     private int numberOfReturningGoods;
     private BigDecimal returnedSum;

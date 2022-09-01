@@ -1,8 +1,10 @@
 package com.epam.cashierregister.services.entities.report;
 
+import com.epam.cashierregister.services.entities.Entity;
+
 import java.math.BigDecimal;
 
-public class Selling {
+public class Selling implements Entity {
     private int id;
     private int numberOfSellingChecks;
     private BigDecimal sellingSum;

@@ -1,11 +1,12 @@
 package com.epam.cashierregister.services.entities.report;
 
+import com.epam.cashierregister.services.entities.Entity;
 import com.epam.cashierregister.services.entities.employee.Employee;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-public class Report {
+public class Report implements Entity {
     private Employee seniorCashier;
     private Timestamp createdDate;
     private Timestamp date;

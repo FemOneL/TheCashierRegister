@@ -1,8 +1,10 @@
 package com.epam.cashierregister.services.entities.goods;
 
+import com.epam.cashierregister.services.entities.Entity;
+
 import java.util.Objects;
 
-public class Producer {
+public class Producer implements Entity {
     private String name;
 
     public Producer(String name) {

@@ -1,6 +1,8 @@
 package com.epam.cashierregister.services.entities.employee;
 
-public class AuthorizeInfo {
+import com.epam.cashierregister.services.entities.Entity;
+
+public class AuthorizeInfo implements Entity {
     private int id;
     private String email;
     private String password;

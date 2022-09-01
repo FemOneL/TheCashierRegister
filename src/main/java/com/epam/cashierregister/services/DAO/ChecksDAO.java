@@ -52,7 +52,7 @@ public class ChecksDAO extends DAO {
             try {
                 connection.rollback();
                 LOG.error("Transaction failed!!");
-                return false;
+                throw new DatabaseException(500);
             } catch (SQLException ex) {
                 LOG.fatal("Database was thrown SQLException with message: {} {}", ex.getErrorCode() , ex.getMessage());
                 throw new DatabaseException(500);
@@ -106,6 +106,7 @@ public class ChecksDAO extends DAO {
         } catch (SQLException e) {
             try {
                 connection.rollback();
+                throw new DatabaseException(500);
             } catch (SQLException ex) {
                 LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
                 throw new DatabaseException(500);
@@ -168,7 +169,7 @@ public class ChecksDAO extends DAO {
             try {
                 connection.rollback();
                 LOG.error("Transaction failed!!");
-                return false;
+                throw new DatabaseException(500);
             } catch (SQLException ex) {
                 LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
                 throw new DatabaseException(500);
@@ -288,6 +289,7 @@ public class ChecksDAO extends DAO {
             try {
                 connection.rollback();
                 LOG.error("Transaction failed!!");
+                throw new DatabaseException(500);
             } catch (SQLException ex) {
                 LOG.fatal("Database was thrown SQLException with message: {} {}", e.getErrorCode() , e.getMessage());
                 throw new DatabaseException(500);

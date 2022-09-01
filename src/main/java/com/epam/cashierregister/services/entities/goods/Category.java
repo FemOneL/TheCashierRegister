@@ -1,8 +1,10 @@
 package com.epam.cashierregister.services.entities.goods;
 
+import com.epam.cashierregister.services.entities.Entity;
+
 import java.util.Objects;
 
-public class Category {
+public class Category implements Entity {
     private String category;
 
     public Category(String category) {

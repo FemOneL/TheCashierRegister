@@ -1,6 +1,8 @@
 package com.epam.cashierregister.services.entities.employee;
 
-public enum Role {
+import com.epam.cashierregister.services.entities.Entity;
+
+public enum Role implements Entity {
     CASHIER("cashier"),
     SENIOR_CASHIER("seniorCashier"),
     COMMODITY_EXPERT("commodityExpert"),

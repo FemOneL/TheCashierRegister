@@ -1,6 +1,8 @@
 package com.epam.cashierregister.services.entities.employee;
 
-public class Employee {
+import com.epam.cashierregister.services.entities.Entity;
+
+public class Employee implements Entity {
     private int id;
     private String photo;
     private String firstname;
