@@ -54,6 +54,7 @@ public class EmployeesServlet extends HttpServlet {
             LOG.error("Problem with employees page");
             req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
             resp.sendRedirect("errorPage");
+            return;
         }
         LOG.info("Opened employees page (employees.jsp)");
         req.getRequestDispatcher("WEB-INF/view/employees.jsp").forward(req, resp);

@@ -40,6 +40,7 @@ public class EditGoodsInWarehouseCommand extends FrontCommand {
         } catch (DatabaseException e) {
             req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
             redirect("errorPage");
+            return;
         }
         redirect("goods?edit=true");
     }

@@ -33,6 +33,7 @@ public class ChangeRoleCommand extends FrontCommand {
             LOG.error("Problem with changing role");
             req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
             redirect("errorPage");
+            return;
         }
         redirect("employees");
     }

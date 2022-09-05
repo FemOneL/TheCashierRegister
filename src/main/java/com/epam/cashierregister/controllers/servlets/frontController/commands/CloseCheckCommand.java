@@ -60,6 +60,7 @@ public class CloseCheckCommand extends FrontCommand {
             LOG.error("Problem with closing check");
             req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
             redirect("errorPage");
+            return;
         }
         report.addSelling(1, newCheck.getTotalCost());
         session.removeAttribute("activeCheck");

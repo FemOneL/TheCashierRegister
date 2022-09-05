@@ -31,6 +31,7 @@ public class DeleteEmployeeCommand extends FrontCommand {
             LOG.error("Problem with delete employee");
             req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
             redirect("errorPage");
+            return;
         }
         redirect("employees");
     }

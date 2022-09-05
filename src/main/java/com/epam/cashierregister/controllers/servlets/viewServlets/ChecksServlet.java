@@ -49,6 +49,7 @@ public class ChecksServlet extends HttpServlet {
             LOG.error("Problem with checks page");
             req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
             resp.sendRedirect("errorPage");
+            return;
         }
         LOG.info("Opened checks page (checks.jsp)");
         req.getRequestDispatcher("WEB-INF/view/checks.jsp").forward(req, resp);

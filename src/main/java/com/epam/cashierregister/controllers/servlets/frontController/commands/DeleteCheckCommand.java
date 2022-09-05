@@ -36,6 +36,7 @@ public class DeleteCheckCommand extends FrontCommand {
             LOG.error("Problem with deleting check");
             req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
             redirect("errorPage");
+            return;
         }
         int goodsNumber = check.getGoodsSet().stream().mapToInt(Goods::getNumbers).reduce(0, Integer::sum);
         report.addReturned(goodsNumber, check.getTotalCost());

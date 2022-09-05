@@ -34,6 +34,7 @@ public class DeleteGoodsCommand extends FrontCommand {
         } catch (GoodsExistInCheckException e) {
             LOG.warn("{}", e.getMessage());
             session.setAttribute("error", e.getMessage());
+            return;
         }
         redirect("goods?edit=true");
     }

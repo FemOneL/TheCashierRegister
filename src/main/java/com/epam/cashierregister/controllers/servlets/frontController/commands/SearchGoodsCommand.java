@@ -41,6 +41,7 @@ public class SearchGoodsCommand extends FrontCommand {
             LOG.error("Problem with searching goods");
             req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
             redirect("errorPage");
+            return;
         }
         if (goods != null) {
             goods.setTotalNumber(goods.getNumbers());

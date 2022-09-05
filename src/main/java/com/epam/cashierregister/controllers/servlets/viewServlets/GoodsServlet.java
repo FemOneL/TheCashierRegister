@@ -62,6 +62,7 @@ public class GoodsServlet extends HttpServlet {
             LOG.error("Problem with goods page");
             req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
             resp.sendRedirect("errorPage");
+            return;
         }
         LOG.info("Opened goods page (goods.jsp)");
         req.getRequestDispatcher("WEB-INF/view/goods.jsp").forward(req, resp);

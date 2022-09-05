@@ -33,6 +33,7 @@ public class SignUpServlet extends HttpServlet {
             LOG.error("Problem with sign up");
             req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
             resp.sendRedirect("errorPage");
+            return;
         }
         LOG.info("Opened sign up page (registration.jsp)");
         req.getRequestDispatcher("WEB-INF/view/registration.jsp").forward(req, resp);

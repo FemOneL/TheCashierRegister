@@ -59,6 +59,7 @@ public class DeleteGoodsFromCheckCommand extends FrontCommand {
                 LOG.error("Problem with deleting goods from check");
                 req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
                 redirect("errorPage");
+                return;
             }
             if (currentGoods != null) {
                 report.addReturned(different, currentGoods.getCost().multiply(new BigDecimal(different)));

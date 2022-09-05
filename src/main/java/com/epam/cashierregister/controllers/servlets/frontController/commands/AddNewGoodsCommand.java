@@ -87,9 +87,11 @@ public class AddNewGoodsCommand extends FrontCommand {
             LOG.error("Problem adding goods");
             req.getSession().setAttribute("javax.servlet.error.status_code", e.getErrorCode());
             redirect("errorPage");
+            return;
         } catch (InvalidInputException e) {
             LOG.warn("Invalid input: {}", e.getMessage());
             req.getSession().setAttribute("error", e.getMessage());
+            return;
         }
         redirect("addGoods");
     }
