@@ -44,10 +44,6 @@ public class Check implements Entity {
         return employee;
     }
 
-    public void setEmployee(Employee employeeId) {
-        this.employee = employee;
-    }
-
     public Timestamp getTime() {
         return time;
     }

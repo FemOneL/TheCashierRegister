@@ -1,6 +1,6 @@
 package com.epam.cashierregister.services.consts.queries;
 
-import com.epam.cashierregister.services.consts.entityConsts.*;
+import com.epam.cashierregister.services.consts.entityconsts.*;
 
 public class Query {
 
@@ -118,9 +118,6 @@ public class Query {
     public static final String SELECT_GOODS = "SELECT * FROM " + CheckHasGoodsConst.TABLE_NAME +
             " WHERE " + CheckHasGoodsConst.CHECK_ID + " = ? ORDER BY " + CheckHasGoodsConst.GOODS_ID;
     public static final String SELECT_CHECK = "SELECT * FROM " + CheckConst.TABLE_NAME + " WHERE " + CheckConst.CHECK_ID + " = ?";
-    //getChecks
-    public static final String SELECT_FROM_CHECK = "SELECT * FROM " + CheckConst.TABLE_NAME + " ORDER BY " + CheckConst.TIME +
-            " DESC LIMIT ?, 21";
     //addGoodsInCheck
     public static final String INSERT_GOODS = "INSERT INTO " + CheckHasGoodsConst.TABLE_NAME +
             " VALUES (?, ?, ?)";

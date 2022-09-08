@@ -13,6 +13,9 @@ import java.security.NoSuchAlgorithmException;
 public class PasswordHashingService {
     static Logger LOG = LogManager.getLogger(PasswordHashingService.class);
 
+
+    private PasswordHashingService() {}
+
     /**
      * @param password needed to hashing
      * @param key user id for generating salt
@@ -22,15 +25,15 @@ public class PasswordHashingService {
         LOG.info("Start hashing password");
         StringBuilder sb = new StringBuilder();
         byte[] salt = getSalt(key);
-        MessageDigest md = null;
+        MessageDigest md;
         try {
             md = MessageDigest.getInstance("SHA-512");
             if (md != null) {
                 md.update(salt);
-            }
-            byte[] bytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
-            for(int i=0; i< bytes.length ;i++){
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+                byte[] bytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
+                for (byte aByte : bytes) {
+                    sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
+                }
             }
         } catch (NoSuchAlgorithmException e) {
             LOG.error(e);

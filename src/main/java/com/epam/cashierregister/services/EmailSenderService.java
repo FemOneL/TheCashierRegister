@@ -5,9 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 
 /**
@@ -15,15 +13,11 @@ import java.util.Properties;
  */
 public class EmailSenderService {
     static Logger LOG = LogManager.getLogger(EmailSenderService.class);
-    private final String email = "tfemyak@gmail.com";
-    private final String password = "arywgyctnkfmypef";
+    private static final String EMAIL = "tfemyak@gmail.com";
+    private static final String PASSWORD = "arywgyctnkfmypef";
 
     /**
      * send email with new password in recipient email
-     *
-     * @param recipientEmail
-     * @param newPassword
-     * @throws MessagingException
      */
     public void sendPassword(String recipientEmail, String newPassword) throws MessagingException {
         Properties prop = new Properties();
@@ -36,13 +30,14 @@ public class EmailSenderService {
         prop.put("mail.pop3s.ssl.protocols", "TLSv1.2");
 
         Session session = Session.getInstance(prop,
-                new javax.mail.Authenticator() {
+                new Authenticator() {
+                    @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(email, password);
+                        return new PasswordAuthentication(EMAIL, PASSWORD);
                     }
                 });
         Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(email));
+        message.setFrom(new InternetAddress(EMAIL));
 
         message.setRecipients(
                 Message.RecipientType.TO, InternetAddress.parse(recipientEmail));

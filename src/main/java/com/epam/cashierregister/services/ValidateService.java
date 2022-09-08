@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 /**
  * Service for validation by regex
+ *
  * @see Pattern
  * @see Matcher
  */
@@ -13,7 +14,6 @@ public class ValidateService {
     private Matcher matcher;
 
     /**
-     * @param email
      * @return true if email correct and != null
      */
     public boolean validateEmail(String email) {
@@ -26,7 +26,6 @@ public class ValidateService {
     }
 
     /**
-     * @param password
      * @return true if password correct and != null
      */
     public boolean validatePassword(String password) {
@@ -39,7 +38,7 @@ public class ValidateService {
     }
 
     /**
-     * @param select selected item
+     * @param select     selected item
      * @param newElement new item
      */
     public boolean validateSelect(String select, String newElement) {
@@ -51,8 +50,6 @@ public class ValidateService {
     }
 
     /**
-     * @param firstName
-     * @param secondName
      * @return true if name correct and != null
      */
     public boolean validateName(String firstName, String secondName) {
@@ -64,7 +61,6 @@ public class ValidateService {
     }
 
     /**
-     * @param input
      * @return true if cost field correct and != null
      */
     public boolean validateCostField(String input) {
@@ -77,7 +73,6 @@ public class ValidateService {
     }
 
     /**
-     * @param model
      * @return true if model correct and != null
      */
     public boolean validateModel(String model) {

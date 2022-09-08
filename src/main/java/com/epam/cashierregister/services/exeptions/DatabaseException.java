@@ -6,7 +6,7 @@ package com.epam.cashierregister.services.exeptions;
  */
 public class DatabaseException extends Exception{
 
-    private int errorCode;
+    private final int errorCode;
 
     public DatabaseException(int errorCode) {
         this.errorCode = errorCode;

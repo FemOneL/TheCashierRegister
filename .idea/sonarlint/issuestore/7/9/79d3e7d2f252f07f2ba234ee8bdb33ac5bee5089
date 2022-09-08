@@ -1,8 +1,0 @@
-
-t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(¢Âóûÿÿÿÿ
-b
-java:S2095<"GUse try-with-resources or close this "Statement" in a "finally" clause.(é°Áµşÿÿÿÿ
-e
-java:S2095'"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ğÂ¶
-A
-java:S11722"+Remove this unused method parameter "page".(ÌüÛÜ

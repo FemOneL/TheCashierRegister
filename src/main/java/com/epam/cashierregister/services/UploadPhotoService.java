@@ -16,12 +16,13 @@ import java.util.Collection;
 public class UploadPhotoService {
     protected static Logger LOG = LogManager.getLogger(UploadPhotoService.class);
 
+    private UploadPhotoService() {
+    }
+
     /**
-     * @param req request which have зрщещ
+     * @param req    request which have зрщещ
      * @param folder target folder
      * @return photo name if exist or null
-     * @throws ServletException
-     * @throws IOException
      */
     public static String uploadPhoto(HttpServletRequest req, String folder) throws ServletException, IOException {
         String name = null;
@@ -30,13 +31,11 @@ public class UploadPhotoService {
         String realPath = req.getServletContext().getRealPath("images/" + folder);
         for (Part part : parts) {
             try {
-                if (part.getSubmittedFileName() != null) {
-                    if (part.getSubmittedFileName().matches("\\S+\\.(jpg|png)")) {
-                        LOG.info("try upload image in {}", realPath);
-                        part.write(realPath + "/" + emp.getId() + "_" + part.getSubmittedFileName());
-                        LOG.info("upload image {}", part.getSubmittedFileName());
-                        name = emp.getId() + "_" + part.getSubmittedFileName();
-                    }
+                if (part.getSubmittedFileName() != null && part.getSubmittedFileName().matches("\\S+\\.(jpg|png)")) {
+                    LOG.info("try upload image in {}", realPath);
+                    part.write(realPath + "/" + emp.getId() + "_" + part.getSubmittedFileName());
+                    LOG.info("upload image {}", part.getSubmittedFileName());
+                    name = emp.getId() + "_" + part.getSubmittedFileName();
                 }
             } catch (IOException e) {
                 LOG.error("Can not upload image {} ", part.getSubmittedFileName());

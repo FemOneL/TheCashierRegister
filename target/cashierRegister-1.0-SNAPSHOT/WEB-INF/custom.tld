@@ -10,7 +10,7 @@
 
     <tag>
         <name>SelectTag</name>
-        <tag-class>com.epam.cashierregister.services.tagService.SelectTag</tag-class>
+        <tag-class>com.epam.cashierregister.services.tagservices.SelectTag</tag-class>
         <body-content>empty</body-content>
 
         <attribute>

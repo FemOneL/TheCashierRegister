@@ -43,24 +43,12 @@ public class Report implements Entity {
         return profit;
     }
 
-    public void setProfit(BigDecimal benefit) {
-        this.profit = benefit;
-    }
-
     public Employee getSeniorCashier() {
         return seniorCashier;
     }
 
-    public void setSeniorCashier(Employee seniorCashier) {
-        this.seniorCashier = seniorCashier;
-    }
-
     public Timestamp getCreatedDate() {
         return createdDate;
-    }
-
-    public void setCreatedDate(Timestamp createdDate) {
-        this.createdDate = createdDate;
     }
 
     public Timestamp getDate() {

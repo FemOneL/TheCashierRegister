@@ -15,5 +15,5 @@ public enum Errors {
     GOODS_EXIST,
     GOODS_NOT_IN_WAREHOUSE,
     YOU_MUST_AUTHORIZE,
-    MODEL_ERROR;
+    MODEL_ERROR
 }
