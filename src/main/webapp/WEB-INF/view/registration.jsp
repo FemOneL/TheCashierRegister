@@ -30,11 +30,13 @@
             </div>
             <div class="main_form">
                 <div class="name">
-                    <input type="file" name="photo">
                     <label><fmt:message key="signup.firstname"/>: <input name="firstname" type="text"></label>
                     <label><fmt:message key="signup.secondname"/>: <input name="secondname" type="text"></label>
                 </div>
                 <div class="other_fields">
+                    <div class="text_div">
+                        <input type="file" name="photo">
+                    </div>
                     <div class="text_div">
                         <label><fmt:message key="signup.email"/>: <input name="email" type="text"></label>
                     </div>
@@ -54,7 +56,7 @@
                         </label>
                     </div>
                     <p class="error"><fmt:message key="errors.${error}"/></p>
-                    <button name="cmd" value="SignUp" type="submit"><fmt:message key="signup.signup"/></button>
+                    <button name="cmd" value="SignUp" class="submit_btn" type="submit"><fmt:message key="signup.signup"/></button>
                 </div>
             </div>
         </form>

@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="welcome_div">
-            <img class="emp_image" src="images/${employee.photo}">
+            <img class="emp_image" src="images/${employee.photo}" alt="images/usersPhotos/nonuser.jpg">
             <h1 class="welcome"><fmt:message key="cabinet.welcome.text"/> ${employee.firstname} ${employee.secondname}</h1>
         </div>
         <div class="role_div">

@@ -53,6 +53,7 @@ public class ReminderCommand extends FrontCommand {
             redirect("pay");
         } else if (sum.doubleValue() >= check.getTotalCost().doubleValue()) {
             session.removeAttribute("error");
+            session.setAttribute("payAnother", "0");
             session.setAttribute("remainder", sum.subtract(check.getTotalCost()));
             redirect("pay");
         }

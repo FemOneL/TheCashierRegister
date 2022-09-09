@@ -29,7 +29,7 @@
 <c:import url="elements/header.jsp"/>
 <main>
     <div class="title_div">
-        <h1><fmt:message key="employees.title"/></h1>
+        <h1 style="margin-bottom: 10px"><fmt:message key="employees.title"/></h1>
         <form method="post" action="frontController">
             <input type="hidden" name="cmd" value="Search">
             <input type="text" name="search" placeholder="search...">
@@ -40,7 +40,7 @@
         <c:forEach var="employee" items="${requestScope.employees}">
             <div class="emp_form">
                 <div class="photo_div">
-                    <img class="emp_img" src="images/${employee.photo}">
+                    <img class="emp_img" src="images/${employee.photo}" alt="images/usersPhotos/nonuser.jpg">
                 </div>
                 <div class="emp_title">
                     <form method="post" action="frontController">

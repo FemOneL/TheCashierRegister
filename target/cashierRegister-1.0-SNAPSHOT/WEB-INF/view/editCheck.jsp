@@ -31,7 +31,7 @@
                 <input type="hidden" name="cmd" value="DeleteCheck">
                 <button type="submit"><fmt:message key="delete.btn"/></button>
             </form>
-            <div class="cart_div">
+            <div class="edit_cart_div">
                 <div class="goods_head">
                     <div><fmt:message key="createCheck.table.photo"/></div>
                     <div><fmt:message key="createCheck.table.model"/></div>

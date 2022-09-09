@@ -15,8 +15,16 @@
 }
 
 .cart_div{
+    overflow: auto;
     width: 100%;
     height: 250px;
+    background-color: white;
+}
+
+.edit_cart_div{
+    overflow: auto;
+    width: 100%;
+    height: 330px;
     background-color: white;
 }
 
@@ -33,7 +41,7 @@
 }
 
 .goods{
-    width: 500px;
+    width: 498px;
     height: 50px;
     display: flex;
     justify-content: space-around;

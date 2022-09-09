@@ -50,10 +50,8 @@
                         <button class="delete_btn" name="delete" value="${good.id}" type="submit">X</button>
                     </form>
                 </c:if>
-                <div class="id_div">
-                        <img src="images/${good.photo}" width="30px" height="30px">
-                        ${good.id}
-                </div>
+                <img class="image" src="images/${good.photo}" alt="not found" >
+                <div class="id_div">${good.id}</div>
                 <div class="model_div">${good.model}</div>
                 <div class="category_div">${good.category.category}</div>
                 <div class="producer_div">${good.producer.name}</div>

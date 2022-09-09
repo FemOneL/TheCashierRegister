@@ -44,7 +44,7 @@
                 </div>
                 <c:forEach var="good" items="${sessionScope.activeCheck.goodsSet}">
                     <div class="goods">
-                        <div class="photo_div"><img src="images/${good.photo}" width="40px" height="40px"/></div>
+                        <div class="photo_div"><img src="images/${good.photo}" alt="not found" width="40px" height="40px"/></div>
                         <div class="model_div">${good.model}</div>
                         <div class="number_div">
                             <form method="post" action="frontController">

@@ -10,6 +10,9 @@
     <style>
         <%@include file="../../css/main.css" %>
     </style>
+    <style>
+        <%@include file="../../css/pay.css" %>
+    </style>
     <jsp:useBean id="type" scope="session" type="java.lang.String"/>
     <jsp:useBean id="remainder" scope="session" type="java.math.BigDecimal"/>
     <jsp:useBean id="error" scope="request" type="java.lang.String"/>
@@ -25,35 +28,41 @@
 <div class="pay_type">
     <form method="post" action="frontController">
         <input type="hidden" name="cmd" value="ChoosePaymentType">
-        <button type="submit" value="cash" name="type">CASH</button>
-        <button type="submit" value="card" name="type">CARD</button>
+        <button type="submit" class="submit_btn" value="cash" name="type"><fmt:message key="pay.cash"/></button>
+        <button type="submit" class="submit_btn" value="card" name="type"><fmt:message key="pay.card"/></button>
     </form>
 </div>
 <c:if test="${type == 'card'}">
-    <h1>wait</h1>
-    <img src="images/goodsPhotos/cat.jpg" width="200px" height="200px">
-    <form method="post" action="frontController">
-        <input type="hidden" name="cmd" value="CloseCheck">
-        <input type="submit" value="print">
-    </form>
+    <div class="card_div">
+        <h1><fmt:message key="pay.card.title"/></h1>
+        <img class="image" src="images/term.png">
+        <form method="post" action="frontController">
+            <input type="hidden" name="cmd" value="CloseCheck">
+            <input class="submit_btn" type="submit" value="<fmt:message key="print.btn"/>">
+        </form>
+    </div>
 </c:if>
 <c:if test="${type == 'cash'}">
-    <h1>enter</h1>
-    <form method="post" action="frontController">
-        <input type="hidden" name="cmd" value="Reminder">
-        <input name="count" type="text">
-        <input type="submit" value="ok">
-    </form>
-    <p>total: ${activeCheck.totalCost}</p>
-    <p class="error"><fmt:message key="errors.${error}"/></p>
-    <p>pay another: ${payAnother} $</p>
-    <p>remaining: ${remainder} $</p>
-    <c:if test="${sum.doubleValue() >= activeCheck.totalCost}">
-    <form method="post" action="frontController">
-        <input type="hidden" name="cmd" value="CloseCheck">
-        <input type="submit" value="print">
-    </form>
-    </c:if>
+    <div class="cash_div">
+        <h1><fmt:message key="pay.cash.title"/></h1>
+        <form method="post" action="frontController">
+            <input type="hidden" name="cmd" value="Reminder">
+            <input class="cost_field" name="count" type="text">
+            <input class="ok_btn" type="submit" value="OK">
+        </form>
+        <p class="error"><fmt:message key="errors.${error}"/></p>
+        <div class="title">
+            <p><fmt:message key="pay.cash.total"/>: ${activeCheck.totalCost} $</p>
+            <p><fmt:message key="pay.cash.another"/>: ${payAnother} $</p>
+            <p><fmt:message key="pay.cash.remaining"/>: ${remainder} $</p>
+        </div>
+        <c:if test="${sum.doubleValue() >= activeCheck.totalCost}">
+            <form method="post" action="frontController">
+                <input type="hidden" name="cmd" value="CloseCheck">
+                <input class="submit_btn" type="submit" value="<fmt:message key="print.btn"/>">
+            </form>
+        </c:if>
+    </div>
 </c:if>
 </body>
 </html>
